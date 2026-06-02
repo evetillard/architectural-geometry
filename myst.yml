@@ -1,0 +1,23 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: 9130343f-52c4-468f-a1e2-8e22e68201d5
+  title: Architectural Geometry
+  description: Website of the Working Group 22 of the International Association for Shell ans Spatial Structures. The objective is to spread knowledge on architectural geometry in the structural engineering community.
+  keywords:
+    - Architectural Geometry
+    - Constructive Geometry
+  authors: 
+    - name : Cyril DOUTHE
+    - name : Toby MITCHELL
+    - name : Eike SCHLING
+  # github:
+  # license:
+  # To autogenerate a Table of Contents, run "jupyter book init --write-toc"
+  toc:
+    - file: intro.md
+site:
+  template: book-theme
+  options:
+    favicon: images/favicon-iass.ico
+    logo: images/logo-iass.png
