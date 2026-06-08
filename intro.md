@@ -1,4 +1,4 @@
-# Introduction
+# Case studies in Architectural Geometry
 
 I am a book about ... something! Wikipedia has [information about books](wiki:book): hover over the link for more information.
 
