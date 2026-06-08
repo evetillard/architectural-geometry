@@ -18,7 +18,7 @@ x \times y = z
 
 Sometimes when reading it is helpful to foster a _tranquil_ environment. The image in [](#fig:mountains) would be a perfect spot!
 
-My first test live!
+My first test live! My first correction ! 
 
 % A figure of a photograph of some mountains, followed by a caption
 :::{figure} https://github.com/rowanc1/pics/blob/main/mountains.png?raw=true
