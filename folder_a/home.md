@@ -1,7 +1,5 @@
 ---
-title: Something
-authors:
-    - Nicolas Montagne
+title: Something Else than Folder A
 ---
 
 

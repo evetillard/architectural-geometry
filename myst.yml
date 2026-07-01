@@ -21,3 +21,19 @@ site:
   options:
     favicon: images/favicon-iass.ico
     logo: images/logo-iass.png
+    hide_footer_links: true
+    folders: true
+  nav:
+    - title: Page CA1
+      url: /folder-c/folder-ca/page-ca1
+    - title: Dropdown Menu
+      children:
+      - title: B1
+        url: /folder-b/page-b1
+      - title: B2
+        url: /folder-b/page-b2
+      - title: B3
+        url: /folder-b/page-b3
+  actions:
+    - title: IASS
+      url: https://iass-structures.org/
