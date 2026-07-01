@@ -1,0 +1,27 @@
+version: 1
+project:
+  toc:
+   - file: index.md
+   - title: Folder A
+     file: folder_a/home.md
+     children:
+       - pattern: 'folder_a/!(home)*.md'
+   - title: Folder B
+     children:
+      - file: folder_b/page_b1.md
+      - file: folder_b/page_b2.md
+      - file: folder_b/page_b3.md
+      - file: folder_b/page_b4.md
+      - file: folder_b/page_b5.md
+        hidden: true
+   - title: Folder C
+     children:
+       - title: Folder CA
+         children:
+          - pattern: 'folder_c/folder_ca/*.md'
+       - title: Folder CB
+         children:
+          - pattern: 'folder_c/folder_cb/*.md'
+   - title: Contributing
+     children : 
+      - pattern: 'contributing/*.md'

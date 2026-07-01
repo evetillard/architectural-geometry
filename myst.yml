@@ -7,30 +7,15 @@ project:
   keywords:
     - Architectural Geometry
     - Constructive Geometry
-  authors:
-    - name : Cyril DOUTHE
-      id: cyril_douthe
-    - name : Toby MITCHELL
-    - name : Eike SCHLING
   github: iass-wg22/architectural-geometry
   license: CC-BY-SA-4.0
-  # To autogenerate a Table of Contents, run "jupyter book init --write-toc"
   exclude:
     - 'env/*' 
-  toc:
-   - file: index.md
-   - title: Folder A
-     file: folder_a/home.md
-     children:
-       - pattern: 'folder_a/!(home)*.md'
-   - title: Folder B
-     children:
-      - file: folder_b/page_b1.md
-      - file: folder_b/page_b2.md
-   - title: Contributing
-     children : 
-      - pattern: 'contributing/*.md'
-    
+  
+extends:
+  - ./authors.yml
+  - ./toc.yml
+
 site:
   template: book-theme
   options:

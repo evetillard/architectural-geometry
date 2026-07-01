@@ -1,0 +1,25 @@
+version: 1
+project:
+  contributors:
+    - id: cyril_douthe
+      name: Cyril DOUTHE
+      orcid: 0000-0001-5824-2879
+      affiliations:
+        - id: navier_paris
+    - id: toby_mitchell
+      name: Toby MITCHELL
+      orcid: 0009-0000-9102-9893
+      affiliations:
+        - id: thornton_tomasetti
+    - id: eike_schling
+      name: Eike SCHLING
+      orcid: 0000-0002-6612-7894
+      affiliations:
+        - id: leibniz_hannover
+  affiliations:
+    - id: leibniz_hannover
+      name: Leibniz University Hannover
+    - id: navier_paris
+      name: Navier
+    - id: thornton_tomasetti
+      name: Thornton Tomasetti
