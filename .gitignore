@@ -1,3 +1,6 @@
 # Jupyter Book (via myst) build outputs
 _build
 .venv
+
+# VSCode settings
+.vscode
