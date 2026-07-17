@@ -9,6 +9,10 @@ project:
     - Constructive Geometry
   github: iass-wg22/architectural-geometry
   license: CC-BY-SA-4.0
+
+  bibliography:
+    - surfaces/hyperbolic_paraboloid/references.bib
+
   exclude:
     - 'env/*' 
   
@@ -18,11 +22,13 @@ extends:
 
 site:
   template: book-theme
+  style: css/style.css
   options:
     favicon: images/favicon-iass.ico
     logo: images/logo-iass.png
     hide_footer_links: true
     folders: true
+    numbered_references: true
   nav:
     - title: Page CA1
       url: /folder-c/folder-ca/page-ca1
