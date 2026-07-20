@@ -1,0 +1,184 @@
+.identity-card {
+
+    background: #1c4e89; /*couleur de l'arrère plan*/
+    border-radius:18px; /*rayon de l'arrondi de la boîte*/
+    padding:25px; /*marge au sein de la boîte*/
+    maxwidth:1200px; /*limiter la largeur de la boîte*/
+    border:2px solid #6e9ed8; /*donner un contour d'épaisseur 2px trait plein*/
+    margin: 30px 0; /*marge entre l'extérieur de la boîte et le texte environnant*/
+
+}
+
+/* badges */
+.tag {
+  display: inline-block;
+  background: #c5d8ef;
+  color: #1f3f66;
+  border: 1px solid #8ab6f0;
+  border-radius: 999px;
+  padding: 4px 10px;
+  margin: 3px 4px 3px 0;
+  font-size: 0.9em;
+  font-weight: 600;
+
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.tag:visited {
+  color: #1f3f66;
+}
+
+.tag:hover {
+  background: #d9e7f7;
+  border-color: #6fa5e8;
+  color: #163452;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.tag:focus-visible {
+  outline: 2px solid #8ab6f0;
+  outline-offset: 2px;
+}
+
+/* ===================================================== */
+/* Figure type 1: three images + centered caption          */
+/* ===================================================== */
+
+.figure-1 {
+  margin: 20px 0;
+}
+
+.figure-1-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: nowrap;
+}
+
+.figure-1-slot {
+  width: 31%;
+  min-width: 150px;
+}
+
+.figure-1-slot img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: none !important;
+}
+
+.figure-1-caption {
+  width: 100%;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+/* ===================================================== */
+/* Figure type 2: single image + centered caption        */
+/* ===================================================== */
+
+.figure-2 {
+  margin: 20px 0;
+}
+
+.figure-2-image {
+  display: flex;
+  justify-content: center;
+}
+
+.figure-2-image img {
+  width: 70%;
+  max-width: 700px;
+  height: auto;
+  display: block;
+}
+
+.figure-2-caption {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+.figure-2-caption p {
+  margin: 0;
+}
+
+/* ===================================================== */
+/* Figure type 3: two images + centered caption          */
+/* ===================================================== */
+
+.figure-3 {
+  margin: 20px 0; /* espace avant et après la figure */
+}
+
+.figure-3-row {
+  display: flex;              /* organise les images sur une ligne */
+  justify-content: center;    /* centre les deux images */
+  align-items: center;        /* aligne leurs centres verticalement */
+  gap: 20px;                  /* espace entre les deux images */
+  flex-wrap: nowrap;          /* ne passe pas automatiquement à la ligne */
+}
+
+.figure-3-slot {
+  width: 48%;                 /* chaque image occupe environ la moitié */
+  min-width: 220px;           /* largeur minimale pour rester lisible */
+}
+
+.figure-3-slot img {
+  width: 100%;                /* remplit complètement son emplacement */
+  height: auto;               /* conserve les proportions */
+  display: block;             /* supprime l'espace sous l'image */
+  max-height: none !important;/* neutralise la règle du thème MyST */
+}
+
+.figure-3-caption {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+.figure-3-caption p {
+  margin: 0;
+}
+
+/* =========================================================
+   VIDEO FIGURE
+   ========================================================= */
+
+.video-figure {
+  width: min(100%, 900px);
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.video-figure video {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+
+  border-radius: 12px;
+  background-color: #f4f4f4;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.video-figure figcaption,
+.video-figure .caption {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #666;
+  font-style: italic;
+}

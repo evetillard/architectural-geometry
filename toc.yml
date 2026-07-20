@@ -23,5 +23,23 @@ project:
          children:
           - pattern: 'folder_c/folder_cb/*.md'
    - title: Contributing
-     children : 
+     children: 
       - pattern: 'contributing/*.md'
+   - title: Surfaces
+     children: 
+      - file: surfaces/hyperbolic_paraboloid/home.md
+      - file: surfaces/moulding_surface/home.md
+   - title: Surface Families
+     children: 
+      - file: surface_families/catalan/home.md
+      - file: surface_families/conoids/home.md
+      - file: surface_families/quadrics/home.md
+      - file: surface_families/ruled_surfaces/home.md
+      - file: surface_families/translation_surfaces/home.md
+   - title: Geometric Properties
+     children: 
+      - file: geometric_properties/developability/home.md
+      - file: geometric_properties/gaussian_curvature/home.md
+      - file: geometric_properties/mean_curvature/home.md
+      - file: geometric_properties/surface_boundaries/home.md
+
