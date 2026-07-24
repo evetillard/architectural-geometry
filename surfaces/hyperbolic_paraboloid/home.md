@@ -18,41 +18,41 @@ $$
 
 **Surface family** : 
 <a class="tag"
-   href="../../surface_families/conoids/home">
+   href="../../portals/form/surface-families/conoids/home">
   Conoid
 </a>
 <a class="tag"
-   href="../../surface_families/quadrics/home">
+   href="../../portals/form/surface_families/quadrics/home">
   Quadric
 </a>
 <a class="tag"
-   href="../../surface_families/ruled_surfaces/home">
+   href="../../portals/form/surface-families/ruled-surfaces/home">
   Ruled
 </a>
 <a class="tag"
-   href="../../surface_families/catalan/home">
+   href="../../portals/form/surface-families/catalan/home">
   Catalan
 </a>
 <a class="tag"
-   href="../../surface_families/translation_surfaces/home">
+   href="../../portals/form/surface-families/translation-surfaces/home">
   Translation
 </a>
 
 **Geometric properties** : 
 <a class="tag"
-   href="../../geometric_properties/developability/home">
+   href="../../portals/form/geometric-properties/developability/home">
   non-developable
 </a>
 <a class="tag"
-   href="../../geometric_properties/gaussian_curvature/home">
+   href="../../portals/form/geometric-properties/gaussian-curvature/home">
   negative Gaussian curvature (anticlastic)
 </a>
 <a class="tag"
-   href="../../geometric_properties/mean_curvature/home">
+   href="../../portals/form/geometric-properties/mean-curvature/home">
   non-null mean curvature (non-minimal)
 </a>
 <a class="tag"
-   href="../../geometric_properties/surface_boundaries/home">
+   href="../../portals/form/geometric-properties/surface-boundaries/home">
   open
 </a>
 

@@ -1,42 +1,85 @@
----
-authors:
-  - cyril_douthe
-  - toby_mitchell
-  - eike_schling
----
-# Case studies in Architectural Geometry
+# Title – Still to be defined
 
-I am a book about ... something! Wikipedia has [information about books](wiki:book): hover over the link for more information.
+<!-- BANDEAU D’INTRODUCTION DE LA PAGE D’ACCUEIL -->
 
-% An admonition containing a note
-:::{note}
-Books are usually written on paper ... But Jupyter Book can create _websites_!
-:::
+<!-- BANDEAU D’INTRODUCTION DE LA PAGE D’ACCUEIL -->
+<div class="home-intro">
+  <p class="home-intro__text">
+    <i>Short introductory paragraph about the encyclopedia.</i>
+  </p>
+  <a class="home-intro__link" href="/portals/about">
+    Learn more about it
+  </a>
+</div>
 
-If you sold 100 books at \$10 per book, you'd have \$1000 dollars according to [](#eq:book). If instead you publish your Jupyter Book to the web for free, you'd have \$0 dollars!
+<!-- SECTION DES PORTAILS THÉMATIQUES -->
+<h2 class="home-section-title">Thematic Portals</h2>
+<!-- FORM -->
+<div class="portal-card portal-card--form">
+  <div class="portal-card__header">
+    <h3 class="portal-card__title">Form</h3>
+    <p class="portal-card__description">An introduction to the geometric and mathematical concepts used to describe, understand and classify shapes</p>
+  </div>
+  <details class="subportal-menu"><summary>Surface Families</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/surface-families/catalan/home">Catalan</a><a class="subportal-badge" href="/portals/form/surface-families/conoids/home">Conoid</a><a class="subportal-badge" href="/portals/form/surface-families/quadrics/home">Quadric</a><a class="subportal-badge" href="/portals/form/surface-families/ruled-surfaces/home">Ruled</a><a class="subportal-badge" href="/portals/form/surface-families/translation-surfaces/home">Translation</a></div></div></details>
+  <details class="subportal-menu"><summary>Geometric Properties</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/geometric-properties/developability/home">Developability</a><a class="subportal-badge" href="/portals/form/geometric-properties/gaussian-curvature/home">Gaussian Curvature</a><a class="subportal-badge" href="/portals/form/geometric-properties/mean-curvature/home">Mean Curvature</a><a class="subportal-badge" href="/portals/form/geometric-properties/surface-boundaries/home">Surface Boudaries</a></div></div></details>
+  <details class="subportal-menu"><summary>Transformations</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><i>content coming soon</i></div></div></details>
+</div>
+<!-- FORM STRUCTURE -->
+<div class="portal-card portal-card--form">
+  <div class="portal-card__header">
+    <h3 class="portal-card__title">Form - Structure</h3>
+    <p class="portal-card__description"><i>Short description of the portal in just a few words</i></p>
+  </div>
+</div>
+<!-- FORM FORCE -->
+<div class="portal-card portal-card--form">
+  <div class="portal-card__header">
+    <h3 class="portal-card__title">Form - Force</h3>
+    <p class="portal-card__description">Geometry considered through forces, equilibrium and structural performance</p>
+  </div>
+  <details class="subportal-menu"><summary><i>Subportal Title</i></summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-force/funicular/home">Funicular</a><a class="subportal-badge" href="/portals/form-force/pre-stressed/home">Pre-stressed</a><a class="subportal-badge" href="/portals/form-force/uniform-pressure/home">Uniform Pressure</a></div></div></details>
+</div>
+<!-- FORM TECHNOLOGY -->
+<div class="portal-card portal-card--form">
+  <div class="portal-card__header">
+    <h3 class="portal-card__title">Form - Technology</h3>
+    <p class="portal-card__description">From geometric form to construction systems, elements and fabrication methods</p>
+  </div>
+  <details class="subportal-menu"><summary>Linear Elements</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-technology/linear-elements/cables/home">Cables</a><a class="subportal-badge" href="/portals/form-technology/linear-elements/straight-beams/home">Straight Beams</a></div></div></details>
+  <details class="subportal-menu"><summary>Surface-Forming Systems</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-technology/surface-forming-systems/flat-panels/home">Flat Panels</a><a class="subportal-badge" href="/portals/form-technology/surface-forming-systems/formwork/home">Formwork</a></div></div></details>
+</div>
+<!-- BUILT EXAMPLES -->
+<!-- ======================================================
+     PORTAIL BUILT EXAMPLES
+     ====================================================== -->
 
-If a have dollar math, does it work : $ y=4x$
+<div class="built-examples-card">
+  <div class="built-examples-card__header">
+    <h3>Built Examples</h3>
+    <p class="built-examples-card__description">
+      Case studies illustrating how geometry is translated into constructed works
+    </p>
+  </div>
+  <details class="built-examples-menu"><summary>Designers</summary><div class="built-examples-menu__content"><div class="built-examples-badge-list"><a class="built-examples-badge" href="/built-examples/designers/candela-felix/home">Candela F.</a><a class="built-examples-badge" href="/built-examples/designers/sarger-rene/home">Sarger R.</a></div></div></details>
+  <details class="built-examples-menu"><summary>Locations</summary><div class="built-examples-menu__content"><div class="built-examples-badge-list"><a class="built-examples-badge" href="/built-examples/locations/africa/home">Africa</a><a class="built-examples-badge" href="/built-examples/locations/asia/home">Asia</a><a class="built-examples-badge" href="/built-examples/locations/central-america/home">Central America</a><a class="built-examples-badge" href="/built-examples/locations/europe/home">Europe</a><a class="built-examples-badge" href="/built-examples/locations/north-america/home">North America</a><a class="built-examples-badge" href="/built-examples/locations/oceania/home">Oceania</a><a class="built-examples-badge" href="/built-examples/locations/south-america/home">South America</a></div></div></details>
+  <details class="built-examples-menu"><summary>Programs</summary><div class="built-examples-menu__content"><div class="built-examples-badge-list"><i>content coming soon</i></div></div></details>
+  <details class="built-examples-menu"><summary>Index</summary><div class="built-examples-menu__content"><div class="built-examples-badge-list"><i>content coming soon</i></div></div></details>
+</div>
 
-% An arbitrary math equation
-
-:::{math}
-:name: eq:book
-
-x \times y = z
-:::
-
-Sometimes when reading it is helpful to foster a _tranquil_ environment. The image in [](#fig:mountains) would be a perfect spot!
-
-My first test live! My first correction ! 
-
-
-% A figure of a photograph of some mountains, followed by a caption
-```{figure} https://github.com/rowanc1/pics/blob/main/mountains.png?raw=true
-:width: 40%
-:label: fig:mountains
-```
+<!-- SECTION DES INDEX -->
+<h2 class="home-section-title">Index</h2>
+<div class="index-card">
+  <div class="index-card__header">
+    <h3>Surfaces</h3>
+  </div>
+  <details class="index-menu"><summary>Browse by surface</summary><div class="index-menu__content"><div class="index-badge-list"><a class="index-badge" href="/surfaces/hyperbolic-paraboloid/home">Hyperbolic Paraboloid</a><a class="index-badge" href="/surfaces/moulding-surface/home">Moulding Surface</a></div></div></details>
+</div>
 
 
 ## Contribute
-
-If you want to contribute, follow the dedicated [guide](./contribute.md)
+<div class="home-about">
+  <p>
+    If you want to contribute, follow the dedicated
+    <a class="home-about__link" href="/contributing/contribute">guide</a>.
+  </p>
+</div>

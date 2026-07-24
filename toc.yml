@@ -29,17 +29,109 @@ project:
      children: 
       - file: surfaces/hyperbolic_paraboloid/home.md
       - file: surfaces/moulding_surface/home.md
-   - title: Surface Families
-     children: 
-      - file: surface_families/catalan/home.md
-      - file: surface_families/conoids/home.md
-      - file: surface_families/quadrics/home.md
-      - file: surface_families/ruled_surfaces/home.md
-      - file: surface_families/translation_surfaces/home.md
-   - title: Geometric Properties
-     children: 
-      - file: geometric_properties/developability/home.md
-      - file: geometric_properties/gaussian_curvature/home.md
-      - file: geometric_properties/mean_curvature/home.md
-      - file: geometric_properties/surface_boundaries/home.md
+
+   - title: Thematic Portals
+     file: portals/about.md
+     children:
+
+       - title: Form
+         file: portals/form/home_portal.md
+         children:
+
+           - title: Surface Families
+             children:
+               - file: portals/form/surface_families/catalan/home.md
+               - file: portals/form/surface_families/conoids/home.md
+               - file: portals/form/surface_families/quadrics/home.md
+               - file: portals/form/surface_families/ruled_surfaces/home.md
+               - file: portals/form/surface_families/translation_surfaces/home.md
+
+           - title: Geometric Properties
+             children:
+               - file: portals/form/geometric_properties/developability/home.md
+               - file: portals/form/geometric_properties/gaussian_curvature/home.md
+               - file: portals/form/geometric_properties/mean_curvature/home.md
+               - file: portals/form/geometric_properties/surface_boundaries/home.md
+
+           - title: Transformations
+             children:
+               - file: portals/form/transformations/combescure/home.md
+
+       - title: Form - Structure
+         file: portals/form_structure/home_portal.md
+
+       - title: Form - Force
+         file: portals/form_force/home_portal.md
+         children:
+           - title: Funicular
+             file: portals/form_force/funicular/home.md
+           - title: Pre-Stressed
+             file: portals/form_force/pre_stressed/home.md
+           - title: Uniform Pressure
+             file: portals/form_force/uniform_pressure/home.md
+
+       - title: Form - Technology
+         file: portals/form_technology/home_portal.md
+         children:
+           - title: Straight Beams
+             file: portals/form_technology/straight_beams/home.md
+           - title: Flat Panels
+             file: portals/form_technology/flat_panels/home.md
+           - title: Cables
+             file: portals/form_technology/cables/home.md
+           - title: Formwork
+             file: portals/form_technology/formwork/home.md
+
+   - title: Built Examples
+     file: built_examples/home_portal.md
+     children:
+
+       - title: Designers
+         file: built_examples/designers/home.md
+         children:
+           - title: Felix Candela
+             file: built_examples/designers/candela_felix/home.md
+           - title: René Sarger
+             file: built_examples/designers/sarger_rene/home.md
+       - title: Locations
+         file: built_examples/locations/home.md
+         children:
+           - title: Africa
+             file: built_examples/locations/africa/home.md
+           - title: Asia
+             file: built_examples/locations/asia/home.md
+           - title: Central America
+             file: built_examples/locations/central_america/home.md
+           - title: Europe
+             file: built_examples/locations/europe/home.md
+           - title: North America
+             file: built_examples/locations/north_america/home.md
+           - title: Oceania
+             file: built_examples/locations/oceania/home.md
+           - title: South America
+             file: built_examples/locations/south_america/home.md
+       - title: Programs
+         file: built_examples/program/home.md
+       - title: Index
+         file: built_examples/index/home.md
+
+   - title: Index
+     children:
+
+       - title: Surfaces
+         file: indexes/surfaces/home.md
+
+
+
+
+
+
+
+
+
+
+
+          
+
+
 

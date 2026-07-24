@@ -1,51 +1,108 @@
+/* =========================================================
+   FICHE D’IDENTITÉ D’UNE SURFACE
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   MODE CLAIR
+   --------------------------------------------------------- */
+
+/* Boîte générale de la fiche */
 .identity-card {
+  background: #e9f1f9; /* fond gris-bleu très clair */
 
-    background: #1c4e89; /*couleur de l'arrère plan*/
-    border-radius:18px; /*rayon de l'arrondi de la boîte*/
-    padding:25px; /*marge au sein de la boîte*/
-    maxwidth:1200px; /*limiter la largeur de la boîte*/
-    border:2px solid #6e9ed8; /*donner un contour d'épaisseur 2px trait plein*/
-    margin: 30px 0; /*marge entre l'extérieur de la boîte et le texte environnant*/
+  border-radius: 18px; /* rayon de l’arrondi de la boîte */
+  padding: 25px; /* marge intérieure */
+  max-width: 1200px; /* largeur maximale de la boîte */
+  border: 2px solid #9bbde2; /* contour bleu clair */
+  margin: 30px 0; /* espace autour de la boîte */
 
+  color: #243f5b; /* couleur générale du texte */
 }
 
-/* badges */
+
+/* =========================================================
+   BADGES EN MODE CLAIR
+   ========================================================= */
+
 .tag {
   display: inline-block;
-  background: #c5d8ef;
-  color: #1f3f66;
-  border: 1px solid #8ab6f0;
+
+  background: #dceafb; /* fond bleu très clair */
+  color: #244d78; /* texte bleu soutenu */
+  border: 1px solid #9ebfe3;
+
   border-radius: 999px;
   padding: 4px 10px;
   margin: 3px 4px 3px 0;
+
   font-size: 0.9em;
   font-weight: 600;
 
   text-decoration: none;
   cursor: pointer;
+
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,
+    color 0.15s ease,
     transform 0.15s ease;
 }
 
+/* Les liens déjà visités gardent la même couleur */
 .tag:visited {
-  color: #1f3f66;
+  color: #244d78;
 }
 
+/* Effet au survol */
 .tag:hover {
-  background: #d9e7f7;
-  border-color: #6fa5e8;
-  color: #163452;
+  background: #c9def5;
+  border-color: #6f9ed1;
+  color: #183b60;
   text-decoration: none;
   transform: translateY(-1px);
 }
 
+/* Contour visible lors de la navigation au clavier */
 .tag:focus-visible {
-  outline: 2px solid #8ab6f0;
+  outline: 2px solid #6f9ed1;
   outline-offset: 2px;
 }
 
+
+/* =========================================================
+   MODE SOMBRE
+   ========================================================= */
+
+/* Fiche en mode sombre */
+.dark .identity-card {
+  background: #1c4e89;
+  border-color: #6e9ed8;
+  color: #f1f6fb;
+}
+
+/* Badges en mode sombre */
+.dark .tag {
+  background: #c5d8ef;
+  color: #1f3f66;
+  border-color: #8ab6f0;
+}
+
+/* Liens visités en mode sombre */
+.dark .tag:visited {
+  color: #1f3f66;
+}
+
+/* Survol en mode sombre */
+.dark .tag:hover {
+  background: #d9e7f7;
+  border-color: #6fa5e8;
+  color: #163452;
+}
+
+/* Focus en mode sombre */
+.dark .tag:focus-visible {
+  outline-color: #8ab6f0;
+}
 /* ===================================================== */
 /* Figure type 1: three images + centered caption          */
 /* ===================================================== */
@@ -181,4 +238,891 @@
   line-height: 1.4;
   color: #666;
   font-style: italic;
+}
+
+/* =========================================================
+   HOMEPAGE
+   ========================================================= */
+
+/* BANDEAU D’INTRODUCTION DE LA PAGE D’ACCUEIL */
+
+/* mode clair */
+
+/*conteneur général du bandeau*/
+.home-intro { 
+  padding: 2.2rem 2.5rem; /*marge intérieure du bandeau*/
+  margin: 1rem 0 3rem; /*marge extérieure du bandeau*/
+
+  /*dégradé clair dans les gris-bleus*/
+  background: linear-gradient( /*dégradé de couleur*/
+    120deg,
+    #dfe7ef 0%, /*gris-bleu clair*/
+    #edf2f6 55%, /*gris-bleu moyen*/
+    #f7f9fb 100% /*gris-bleu très clair*/
+  );
+
+  border: 1px solid #c9d4df; /*contour du bandeau*/
+  border-radius: 16px; /*arrondi des angles du bandeau*/
+}
+
+/*titre principal*/
+.home-intro__title {
+  margin: 0 0 0.8rem; /*marge en bas du titre*/
+  font-size: clamp(2rem, 4vw, 3rem); /*taille du titre qui s’adapte à la largeur de l’écran*/
+  line-height: 1.1; /*hauteur de ligne du titre*/
+
+  /*couleur adaptée au fond clair*/
+  color: #2f4f6b; /*bleu foncé*/
+}
+
+/*paragraphe introductif*/
+.home-intro__text {
+  max-width: 760px; /*limite la largeur du texte pour une meilleure lisibilité*/
+  margin: 0; /*marge nulle autour du texte*/
+  font-size: 1.05rem; /*  taille du texte légèrement supérieure à la normale*/
+  line-height: 1.6; /*hauteur de ligne du texte pour un meilleur confort de lecture*/
+
+  /*couleur plus douce que celle du titre*/
+  color: #4f6477; /*gris-bleu moyen*/
+}
+
+
+/* mode sombre */
+
+/*lorsque le thème sombre est actif, on assombrit le bandeau et on éclaircit le texte*/
+.dark .home-intro {
+  background: linear-gradient( /*dégradé de couleur pour le mode sombre*/
+    120deg, /*angle du dégradé*/
+    #243443 0%, /*gris-bleu très foncé*/
+    #2c3f50 55%, /*gris-bleu foncé*/
+    #34495b 100% /*gris-bleu moyen*/
+  );
+
+  border-color: #50697f; /*contour du bandeau en mode sombre*/
+}
+
+/* Titre en mode sombre */
+.dark .home-intro__title {
+  color: #edf4fa; /*couleur claire pour le titre en mode sombre*/
+}
+
+/* Paragraphe en mode sombre */
+.dark .home-intro__text {
+  color: #c7d4df; /*couleur claire pour le texte en mode sombre*/
+}
+
+
+/*petits écrans*/
+
+@media (max-width: 700px) {
+  .home-intro {
+    padding: 1.6rem 1.4rem; /*marge intérieure réduite pour les petits écrans*/
+    border-radius: 12px; /*arrondi des angles légèrement réduit pour les petits écrans*/
+  }
+
+  .home-intro__title {
+    font-size: 2rem; /*taille du titre réduite pour les petits écrans*/
+  }
+
+  .home-intro__text {
+    font-size: 1rem; /*taille du texte réduite pour les petits écrans*/
+  }
+}
+
+/* =========================================================
+   SECTION DES PORTAILS THÉMATIQUES
+   ========================================================= */
+
+/* Titre général de la section */
+.home-section-title {
+  margin: 0 0 1.4rem; /* espace sous le titre */
+  font-size: 1.8rem; /* taille du titre */
+  font-weight: 700; /* graisse du titre */
+  line-height: 1.2; /* hauteur de ligne compacte */
+  color: #2f4f6b; /* couleur en mode clair */
+}
+
+
+/* =========================================================
+   CARTE d'UN PORTAIL THÉMATIQUE
+   ========================================================= */
+
+/* Boîte générale du portail */
+.portal-card {
+  width: 100%; /* largeur complète */
+  margin: 0 0 3rem; /* espace sous la carte */
+  overflow: hidden; /* conserve les angles arrondis */
+  background: #ffffff; /* fond en mode clair */
+  border: 1px solid #c9d4df; /* contour gris-bleu */
+  border-radius: 14px; /* angles arrondis */
+}
+
+/* Bande colorée propre au portail Form */
+.portal-card--form {
+  border-top: 5px solid #6e9ed8;
+}
+
+/* En-tête du portail */
+.portal-card__header {
+  padding: 1.9rem 2rem 1.7rem; /* marges intérieures */
+  background: linear-gradient(
+    100deg,
+    #dfeaf5 0%,
+    #edf3f8 55%,
+    #ffffff 100%
+  ); /* dégradé gris-bleu */
+  border-bottom: 1px solid #c9d4df; /* séparation avec le menu */
+}
+
+/* Nom du portail */
+/* Titre du portail
+   MyST retire la classe écrite sur le h3.
+   On cible donc directement le h3 situé dans l’en-tête de la carte. */
+.portal-card__header > h3 {
+  margin: 0 0 0.75rem; /* espace sous le titre */
+  font-size: 2.1rem !important; /* titre plus grand */
+  font-weight: 800 !important; /* titre plus affirmé */
+  line-height: 1.2;
+  color: #284d70 !important; /* couleur du titre en mode clair */
+}
+
+/* MyST place le texte du titre dans un span.heading-text.
+   On lui transmet explicitement la taille et la graisse souhaitées. */
+.portal-card__header > h3 > .heading-text {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+}
+
+/* Description du portail */
+.portal-card__description {
+  max-width: 760px; /* limite la longueur des lignes */
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #53697d;
+}
+
+
+/* =========================================================
+   SOUS-PORTAIL DÉROULANT
+   ========================================================= */
+
+/* Conteneur du sous-portail */
+.subportal-menu {
+  margin: 0 1.6rem; /* retrait horizontal dans la carte */
+  border: none; /* suppression du contour natif */
+  background: transparent; /* fond transparent */
+}
+
+/* Barre cliquable du sous-portail */
+.subportal-menu > summary {
+  position: relative; /* permet de placer le symbole à droite */
+  display: block; /* occupe toute la largeur */
+  padding: 0.95rem 2.5rem 0.75rem 0.8rem;
+
+  background: transparent !important; /* neutralise le fond du thème */
+  border: none !important; /* neutralise le contour du thème */
+  border-bottom: 1px solid #bdcbd8 !important;
+  border-radius: 0 !important;
+
+  color: #245f9e !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3;
+
+  cursor: pointer;
+  list-style: none;
+}
+
+/* Suppression du triangle natif */
+.subportal-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.subportal-menu > summary::marker {
+  content: "";
+}
+
+/* Symbole lorsque le menu est fermé */
+.subportal-menu > summary::after {
+  content: "+";
+  position: absolute;
+  right: 0.3rem;
+  top: 50%;
+  transform: translateY(-50%);
+
+  color: #647b90;
+  font-size: 1.15rem;
+}
+
+/* Symbole lorsque le menu est ouvert */
+.subportal-menu[open] > summary::after {
+  content: "−";
+}
+
+/* Contenu déroulé */
+.subportal-menu__content {
+  padding: 0.9rem 0 1rem;
+}
+
+
+/* Mode sombre */
+.dark .subportal-menu > summary {
+  color: #a9cff2 !important;
+  border-bottom-color: #50677a !important;
+}
+
+.dark .subportal-menu > summary::after {
+  color: #a8bac9;
+}
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+/* Conteneur des badges */
+.subportal-badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Badge individuel */
+.subportal-badge {
+  display: inline-block;
+  padding: 0.34rem 0.72rem;
+
+  background: #edf5fd;
+  border: 1px solid #aac5e4;
+  border-radius: 999px;
+
+  color: #205b95 !important;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none !important;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+/* Survol du badge */
+.subportal-badge:hover {
+  background: #dcecfb;
+  border-color: #6e9ed8;
+  color: #173f68 !important;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   MODE SOMBRE
+   ========================================================= */
+
+.dark .home-section-title {
+  color: #dbe8f3;
+}
+
+.dark .portal-card {
+  background: #202b35;
+  border-color: #465b6d;
+}
+
+.dark .portal-card__header {
+  background: linear-gradient(
+    100deg,
+    #293b4c 0%,
+    #304555 55%,
+    #344957 100%
+  );
+  border-bottom-color: #465b6d;
+}
+
+/* Titre du portail en mode sombre */
+.dark .portal-card__header > h3 {
+  color: #edf4fa !important;
+}
+.dark .portal-card__description {
+  color: #c5d2dd;
+}
+
+.dark .subportal-badge {
+  background: #31495e;
+  border-color: #5d7d99;
+  color: #d5e9fa !important;
+}
+
+.dark .subportal-badge:hover {
+  background: #3d5a72;
+  border-color: #87add0;
+  color: #ffffff !important;
+}
+
+
+/* =========================================================
+   PETITS ÉCRANS
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .portal-card__header {
+    padding: 1.4rem;
+  }
+
+  .subportal-menu {
+    margin: 0 1.2rem;
+  }
+
+  .portal-card__header > h3 {
+  font-size: 1.7rem !important;
+}
+}
+
+/* =========================================================
+   CARTE DU PORTAIL BUILT EXAMPLES
+   ========================================================= */
+
+/* Boîte générale du portail */
+.built-examples-card {
+  width: 100%; /* largeur complète */
+  margin: 0 0 3rem; /* espace sous la carte */
+  overflow: hidden; /* conserve les angles arrondis */
+
+  background: #fffdfb; /* fond très légèrement chaud */
+  border: 1px solid #ddc7bb; /* contour terracotta clair */
+  border-top: 5px solid #c97857; /* bande supérieure terracotta */
+  border-radius: 14px; /* angles arrondis */
+}
+
+
+/* =========================================================
+   EN-TÊTE DU PORTAIL
+   ========================================================= */
+
+/* Zone contenant le titre et la description */
+.built-examples-card__header {
+  padding: 1.9rem 2rem 1.7rem; /* marges intérieures */
+
+  /* Dégradé clair de même intensité que celui des portails bleus */
+  background: linear-gradient(
+    100deg,
+    #f1dfd6 0%,
+    #f7ece6 55%,
+    #fffaf7 100%
+  );
+
+  border-bottom: 1px solid #ddc7bb; /* séparation avec les menus */
+}
+
+/* Titre du portail
+   MyST transforme le h3 et retire parfois ses classes.
+   On cible donc directement le h3 placé dans l’en-tête. */
+.built-examples-card__header > h3 {
+  margin: 0 0 0.75rem; /* espace sous le titre */
+  font-size: 2.1rem !important; /* taille du titre */
+  font-weight: 800 !important; /* titre affirmé */
+  line-height: 1.2;
+
+  color: #7a3f29 !important; /* terracotta foncé */
+}
+
+/* MyST place le texte du titre dans un span.heading-text */
+.built-examples-card__header > h3 > .heading-text {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+}
+
+/* Description du portail */
+.built-examples-card__description {
+  max-width: 760px; /* limite la longueur des lignes */
+  margin: 0;
+
+  font-size: 1rem;
+  line-height: 1.55;
+
+  color: #765c50; /* brun-gris doux */
+}
+
+
+/* =========================================================
+   MENU DÉROULANT DU PORTAIL
+   ========================================================= */
+
+/* Conteneur du menu */
+.built-examples-menu {
+  margin: 0 1.6rem; /* retrait horizontal */
+  border: none;
+  background: transparent;
+}
+
+/* Barre cliquable */
+.built-examples-menu > summary {
+  position: relative;
+  display: block;
+
+  padding: 0.95rem 2.5rem 0.75rem 0.8rem;
+
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid #d9bfb2 !important;
+  border-radius: 0 !important;
+
+  color: #a45132 !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3;
+
+  cursor: pointer;
+  list-style: none;
+}
+
+/* Suppression du triangle natif */
+.built-examples-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.built-examples-menu > summary::marker {
+  content: "";
+}
+
+/* Symbole lorsque le menu est fermé */
+.built-examples-menu > summary::after {
+  content: "+";
+
+  position: absolute;
+  right: 0.3rem;
+  top: 50%;
+  transform: translateY(-50%);
+
+  color: #9b6955;
+  font-size: 1.15rem;
+}
+
+/* Symbole lorsque le menu est ouvert */
+.built-examples-menu[open] > summary::after {
+  content: "−";
+}
+
+/* Effet au survol */
+.built-examples-menu > summary:hover {
+  color: #783b27 !important;
+  border-bottom-color: #c97857 !important;
+}
+
+/* Contenu déroulé */
+.built-examples-menu__content {
+  padding: 0.9rem 0 1rem;
+}
+
+
+/* =========================================================
+   BADGES DU PORTAIL BUILT EXAMPLES
+   ========================================================= */
+
+/* Conteneur des badges */
+.built-examples-badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Badge individuel */
+.built-examples-badge {
+  display: inline-block;
+  padding: 0.34rem 0.72rem;
+
+  background: #fbefe9;
+  border: 1px solid #dda98f;
+  border-radius: 999px;
+
+  color: #93482e !important;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none !important;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+/* Survol du badge */
+.built-examples-badge:hover {
+  background: #f5ddd1;
+  border-color: #c97857;
+  color: #71351f !important;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   MODE SOMBRE
+   ========================================================= */
+
+/* Carte du portail */
+.dark .built-examples-card {
+  background: #302824;
+  border-color: #6f5144;
+  border-top-color: #d58a68;
+}
+
+/* En-tête du portail */
+.dark .built-examples-card__header {
+  background: linear-gradient(
+    100deg,
+    #49362e 0%,
+    #573e34 55%,
+    #61463a 100%
+  );
+
+  border-bottom-color: #6f5144;
+}
+
+/* Titre du portail */
+.dark .built-examples-card__header > h3 {
+  color: #ffe9df !important;
+}
+
+/* Description du portail */
+.dark .built-examples-card__description {
+  color: #dec8bd;
+}
+
+/* Barre du menu */
+.dark .built-examples-menu > summary {
+  color: #f1b59c !important;
+  border-bottom-color: #7b5b4e !important;
+}
+
+/* Survol du menu */
+.dark .built-examples-menu > summary:hover {
+  color: #ffe1d3 !important;
+  border-bottom-color: #d58a68 !important;
+}
+
+/* Symbole du menu */
+.dark .built-examples-menu > summary::after {
+  color: #d6a793;
+}
+
+/* Badge */
+.dark .built-examples-badge {
+  background: #5a3f34;
+  border-color: #8f6654;
+  color: #ffd9c8 !important;
+}
+
+/* Survol du badge */
+.dark .built-examples-badge:hover {
+  background: #6b4a3d;
+  border-color: #c18468;
+  color: #ffffff !important;
+}
+
+
+/* =========================================================
+   PETITS ÉCRANS
+   ========================================================= */
+
+@media (max-width: 700px) {
+  /* Réduction des marges intérieures */
+  .built-examples-card__header {
+    padding: 1.4rem;
+  }
+
+  /* Réduction du retrait du menu */
+  .built-examples-menu {
+    margin: 0 1.2rem;
+  }
+
+  /* Réduction du titre */
+  .built-examples-card__header > h3 {
+    font-size: 1.7rem !important;
+  }
+}
+/* =========================================================
+   SECTION INDEX
+   ========================================================= */
+
+/* Titre général de la section */
+.index-section-title {
+  margin: 0 0 1.4rem; /* espace sous le titre */
+  font-size: 1.8rem; /* taille cohérente avec les autres sections */
+  font-weight: 700; /* titre bien identifiable */
+  line-height: 1.2;
+  color: #514d49; /* gris chaud foncé */
+}
+
+
+/* =========================================================
+   CARTE DE L’INDEX
+   ========================================================= */
+
+/* Boîte générale */
+.index-card {
+  width: 100%; /* largeur complète */
+  margin: 0 0 3rem; /* espace sous la carte */
+  overflow: hidden; /* préserve les angles arrondis */
+
+  background: #fdfcfb; /* fond presque blanc, légèrement chaud */
+  border: 1px solid #d5d0ca; /* contour gris chaud */
+  border-top: 5px solid #9b948c; /* bande supérieure neutre */
+  border-radius: 14px; /* angles arrondis */
+}
+
+
+/* =========================================================
+   EN-TÊTE DE L’INDEX
+   ========================================================= */
+
+/* Zone contenant uniquement le titre */
+.index-card__header {
+  padding: 1.7rem 2rem; /* marges intérieures */
+
+  /* Dégradé chaud et clair, de même vigueur que les autres cartes */
+  background: linear-gradient(
+    100deg,
+    #e5e1dc 0%,
+    #efede9 55%,
+    #faf9f7 100%
+  );
+
+  border-bottom: 1px solid #d5d0ca; /* séparation avec les menus */
+}
+
+/* Titre de la carte
+   MyST modifie le h3, on le cible donc par sa position */
+.index-card__header > h3 {
+  margin: 0; /* aucune description sous le titre */
+  font-size: 2.1rem !important;
+  font-weight: 800 !important;
+  line-height: 1.2;
+
+  color: #57514b !important; /* gris brun soutenu */
+}
+
+/* MyST place le texte dans un span.heading-text */
+.index-card__header > h3 > .heading-text {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+}
+
+
+/* =========================================================
+   MENU DÉROULANT DE L’INDEX
+   ========================================================= */
+
+/* Conteneur du menu */
+.index-menu {
+  margin: 0 1.6rem; /* retrait horizontal */
+  border: none;
+  background: transparent;
+}
+
+/* Barre cliquable */
+.index-menu > summary {
+  position: relative;
+  display: block;
+
+  padding: 0.95rem 2.5rem 0.75rem 0.8rem;
+
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid #d0cbc5 !important;
+  border-radius: 0 !important;
+
+  color: #625c55 !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3;
+
+  cursor: pointer;
+  list-style: none;
+}
+
+/* Suppression du triangle natif */
+.index-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.index-menu > summary::marker {
+  content: "";
+}
+
+/* Symbole lorsque le menu est fermé */
+.index-menu > summary::after {
+  content: "+";
+
+  position: absolute;
+  right: 0.3rem;
+  top: 50%;
+  transform: translateY(-50%);
+
+  color: #817970;
+  font-size: 1.15rem;
+}
+
+/* Symbole lorsque le menu est ouvert */
+.index-menu[open] > summary::after {
+  content: "−";
+}
+
+/* Effet au survol */
+.index-menu > summary:hover {
+  color: #403c38 !important;
+  border-bottom-color: #9b948c !important;
+}
+
+/* Contenu déroulé */
+.index-menu__content {
+  padding: 0.9rem 0 1rem;
+}
+
+
+/* =========================================================
+   BADGES DE L’INDEX
+   ========================================================= */
+
+/* Conteneur des badges */
+.index-badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Badge individuel */
+.index-badge {
+  display: inline-block;
+  padding: 0.34rem 0.72rem;
+
+  background: #f1efec;
+  border: 1px solid #c8c2bb;
+  border-radius: 999px;
+
+  color: #5b554f !important;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none !important;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+/* Survol du badge */
+.index-badge:hover {
+  background: #e3dfda;
+  border-color: #9b948c;
+  color: #393531 !important;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   MODE SOMBRE
+   ========================================================= */
+
+/* Titre général de la section */
+.dark .index-section-title {
+  color: #ded9d3;
+}
+
+/* Carte */
+.dark .index-card {
+  background: #292725;
+  border-color: #5d5852;
+  border-top-color: #a59d94;
+}
+
+/* En-tête */
+.dark .index-card__header {
+  background: linear-gradient(
+    100deg,
+    #393633 0%,
+    #44403c 55%,
+    #4d4843 100%
+  );
+
+  border-bottom-color: #5d5852;
+}
+
+/* Titre */
+.dark .index-card__header > h3 {
+  color: #f1ede8 !important;
+}
+
+/* Barre du menu */
+.dark .index-menu > summary {
+  color: #d4cec7 !important;
+  border-bottom-color: #625d57 !important;
+}
+
+/* Survol de la barre */
+.dark .index-menu > summary:hover {
+  color: #ffffff !important;
+  border-bottom-color: #aaa198 !important;
+}
+
+/* Symbole + ou − */
+.dark .index-menu > summary::after {
+  color: #b9b1a8;
+}
+
+/* Badge */
+.dark .index-badge {
+  background: #46413c;
+  border-color: #706960;
+  color: #e8e1da !important;
+}
+
+/* Survol du badge */
+.dark .index-badge:hover {
+  background: #56504a;
+  border-color: #a0988f;
+  color: #ffffff !important;
+}
+
+
+/* =========================================================
+   PETITS ÉCRANS
+   ========================================================= */
+
+@media (max-width: 700px) {
+  /* Réduction des marges de l’en-tête */
+  .index-card__header {
+    padding: 1.4rem;
+  }
+
+  /* Réduction du retrait du menu */
+  .index-menu {
+    margin: 0 1.2rem;
+  }
+
+  /* Réduction du titre */
+  .index-card__header > h3 {
+    font-size: 1.7rem !important;
+  }
+}
+/* Lien de la section Contribute */
+.home-about__link {
+  color: #2f5f8b !important;
+  font-weight: 700;
+  text-decoration: none !important;
+}
+
+/* Survol du lien */
+.home-about__link:hover {
+  text-decoration: underline !important;
+}
+
+/* Mode sombre */
+.dark .home-about__link {
+  color: #a9cff2 !important;
 }
