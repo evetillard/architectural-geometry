@@ -29,6 +29,7 @@ project:
      children: 
       - file: surfaces/hyperbolic_paraboloid/home.md
       - file: surfaces/moulding_surface/home.md
+      - file: surfaces/monge_surface/home.md
 
    - title: Thematic Portals
      file: portals/about.md
@@ -45,6 +46,13 @@ project:
                - file: portals/form/surface_families/quadrics/home.md
                - file: portals/form/surface_families/ruled_surfaces/home.md
                - file: portals/form/surface_families/translation_surfaces/home.md
+               
+           - title: Curve Families
+             children:
+                - file: portals/form/curve_families/asymptotic/home.md
+                - file: portals/form/curve_families/curvature/home.md
+                - file: portals/form/curve_families/geodesic/home.md
+                - file: portals/form/curve_families/parabola/home.md
 
            - title: Geometric Properties
              children:

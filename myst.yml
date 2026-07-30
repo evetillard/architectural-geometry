@@ -12,6 +12,7 @@ project:
 
   bibliography:
     - surfaces/hyperbolic_paraboloid/references.bib
+    - surfaces/moulding_surface/references.bib
 
   exclude:
     - 'env/*' 

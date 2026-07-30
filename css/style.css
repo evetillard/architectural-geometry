@@ -209,6 +209,55 @@
   margin: 0;
 }
 
+/* ===================================================== */
+/* Figure type 4: single small image + centered caption  */
+/* ===================================================== */
+
+.figure-4-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0 0;
+}
+
+.figure-4-slot {
+  width: 48%;
+  max-width: 350px;
+  min-width: 220px;
+}
+
+.figure-4-slot img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto;
+  display: block;
+}
+
+.figure-4-caption {
+  width: 100%;
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.figure-4-caption p {
+  margin: 0;
+}
+
+/* =========================================================
+   VIDEO + IMAGE
+   ========================================================= */
+
+.click-animation {
+  display: block;
+  width: 48%;
+  max-width: 700px;
+  height: auto;
+  margin: 20px auto;
+  cursor: pointer;
+}
+
 /* =========================================================
    VIDEO FIGURE
    ========================================================= */
