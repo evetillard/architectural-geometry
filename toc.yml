@@ -44,6 +44,7 @@ project:
                - file: portals/form/surface_families/catalan/home.md
                - file: portals/form/surface_families/conoids/home.md
                - file: portals/form/surface_families/quadrics/home.md
+               - file: portals/form/surface_families/revolution_surfaces/home.md
                - file: portals/form/surface_families/ruled_surfaces/home.md
                - file: portals/form/surface_families/translation_surfaces/home.md
                
@@ -82,13 +83,13 @@ project:
          file: portals/form_technology/home_portal.md
          children:
            - title: Straight Beams
-             file: portals/form_technology/straight_beams/home.md
+             file: portals/form_technology/linear_elements/straight_beams/home.md
            - title: Flat Panels
-             file: portals/form_technology/flat_panels/home.md
+             file: portals/form_technology/surface_forming_systems/flat_panels/home.md
            - title: Cables
-             file: portals/form_technology/cables/home.md
+             file: portals/form_technology/linear_elements/cables/home.md
            - title: Formwork
-             file: portals/form_technology/formwork/home.md
+             file: portals/form_technology/surface_forming_systems/formwork/home.md
 
    - title: Built Examples
      file: built_examples/home_portal.md

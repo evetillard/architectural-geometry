@@ -49,7 +49,7 @@ Moulding surfaces with a straight <span style="color: rgb(0, 112, 192);">generat
 
 :::
 
-explanatory text
+When the profile is a straight line, the moulding surface is ruled. Because the profile is transported without twisting, the tangent plane remains constant along each ruling, the resulting surface is therefore developable[@brandergravesen2018monge].
 
 :::{div}
 :class: figure-4-row
@@ -85,7 +85,7 @@ Moulding surface with a straight <span style="color: rgb(255, 158, 0);">directri
 
 :::
 
-explanatory text
+When the directrix is a straight line, its normal plane retains a constant orientation, so the sweeping motion reduces to a pure translation of the profile. The resulting surface is a generalized cylinder and is therefore developable [@brandergravesen2018monge].
 
 :::{div}
 :class: figure-4-row
@@ -102,6 +102,8 @@ explanatory text
 Moulding surface with a circular <span style="color: rgb(255, 158, 0);">directrix</span>
 
 :::
+
+When the directrix is a circle, all its normal planes are concurrent at an axis perpendicular to the plane of the circle. The sweeping process is therefore reduced to a rotation of the profile around this fixed axis, and the resulting mold surface is a [revolution surface](../../portals/form/surface_families/revolution_surfaces/home.md).
 
 
 ## Surface index
