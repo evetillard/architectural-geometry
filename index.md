@@ -38,7 +38,7 @@
     <h3 class="portal-card__title">Form - Force</h3>
     <p class="portal-card__description">Geometry considered through forces, equilibrium and structural performance</p>
   </div>
-  <details class="subportal-menu"><summary><i>Subportal Title</i></summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-force/funicular/home">Funicular</a><a class="subportal-badge" href="/portals/form-force/pre-stressed/home">Pre-stressed</a><a class="subportal-badge" href="/portals/form-force/uniform-pressure/home">Uniform Pressure</a></div></div></details>
+  <details class="subportal-menu"><summary><i>Subportal Title</i></summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-force/funicular/home">Funicular</a><a class="subportal-badge" href="/portals/form-force/pre-stressed/home">Self prestressed</a><a class="subportal-badge" href="/portals/form-force/uniform-pressure/home">Uniform Pressure</a></div></div></details>
 </div>
 <!-- FORM TECHNOLOGY -->
 <div class="portal-card portal-card--form">
