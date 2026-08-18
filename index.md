@@ -32,14 +32,6 @@
     <p class="portal-card__description"><i>Short description of the portal in just a few words</i></p>
   </div>
 </div>
-<!-- FORM FORCE -->
-<div class="portal-card portal-card--form">
-  <div class="portal-card__header">
-    <h3 class="portal-card__title">Form - Force</h3>
-    <p class="portal-card__description">Geometry considered through forces, equilibrium and structural performance</p>
-  </div>
-  <details class="subportal-menu"><summary><i>Subportal Title</i></summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-force/funicular/home">Funicular</a><a class="subportal-badge" href="/portals/form-force/pre-stressed/home">Self prestressed</a><a class="subportal-badge" href="/portals/form-force/uniform-pressure/home">Uniform Pressure</a></div></div></details>
-</div>
 <!-- FORM TECHNOLOGY -->
 <div class="portal-card portal-card--form">
   <div class="portal-card__header">
@@ -48,6 +40,14 @@
   </div>
   <details class="subportal-menu"><summary>Linear Elements</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-technology/linear-elements/cables/home">Cables</a><a class="subportal-badge" href="/portals/form-technology/linear-elements/straight-beams/home">Straight Beams</a></div></div></details>
   <details class="subportal-menu"><summary>Surface-Forming Systems</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-technology/surface-forming-systems/flat-panels/home">Flat Panels</a><a class="subportal-badge" href="/portals/form-technology/surface-forming-systems/formwork/home">Formwork</a></div></div></details>
+</div>
+<!-- FORM FORCE -->
+<div class="portal-card portal-card--form">
+  <div class="portal-card__header">
+    <h3 class="portal-card__title">Form - Force</h3>
+    <p class="portal-card__description">Geometry considered through forces, equilibrium and structural performance</p>
+  </div>
+  <details class="subportal-menu"><summary><i>Subportal Title</i></summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-force/funicular/home">Funicular</a><a class="subportal-badge" href="/portals/form-force/pre-stressed/home">Self prestressed</a><a class="subportal-badge" href="/portals/form-force/uniform-pressure/home">Uniform Pressure</a></div></div></details>
 </div>
 <!-- BUILT EXAMPLES -->
 <!-- ======================================================
