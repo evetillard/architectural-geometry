@@ -6,6 +6,33 @@ title: Hyperbolic Paraboloid
 <!-- Title of the page -->
 
 :::{div}
+:class: figure-1
+
+:::{div}
+:class: figure-1-row
+
+<div class="figure-1-slot">
+<img src="images/intro_schema1.svg">
+</div>
+
+<div class="figure-1-slot">
+<img src="images/intro_schema2.svg">
+</div>
+
+<div class="figure-1-slot">
+<img src="images/intro_schema3.svg">
+</div>
+
+:::
+
+:::{div}
+:class: figure-1-caption
+
+Hyperbolic Paraboloids
+
+:::
+
+:::{div}
 :class: identity-card
 
 
@@ -57,34 +84,6 @@ $$
 </a>
 
 :::
-
-:::{div}
-:class: figure-1
-
-:::{div}
-:class: figure-1-row
-
-<div class="figure-1-slot">
-<img src="images/intro_schema1.svg">
-</div>
-
-<div class="figure-1-slot">
-<img src="images/intro_schema2.svg">
-</div>
-
-<div class="figure-1-slot">
-<img src="images/intro_schema3.svg">
-</div>
-
-:::
-
-:::{div}
-:class: figure-1-caption
-
-Hyperbolic Paraboloids
-
-:::
-
 
 
 ## Built from straight elements
@@ -292,14 +291,51 @@ A mesh of planar quadrilaterals
 
 When materialized as a cable net following its two families of parabolic sections, the hyperbolic paraboloid can sustain a [self-equilibrated state of prestress](../../portals/form_force/pre_stressed/home.md)
 
+:::{div}
+:class: figure-2-row
+
+<div class="figure-2-slot">
+<img src="images/translation_pucher_global_sch.jpg">
+</div>
+
+:::
+
+:::{div}
+:class: figure-2-caption
+
+Global geometric parameters
+
+:::
+
+:::{div}
+:class: figure-2-row
+
+<div class="figure-2-slot">
+<img src="images/translation_pucher_local_sch.jpg">
+</div>
+
+:::
+
+:::{div}
+:class: figure-2-caption
+
+Local geometric parameters at node $P_{i,j}$
+
+:::
+
+For the discretized hyperbolic paraboloid described above, the equiblibrium condition at an interior node can be expressed through four ratios between the tensions magnitudes ($T_u^+ , T_u^- , T_v^+ , T_v^-$) in the incident $u$ and $v$ segments. Each ratio can be decomposed into a node-independant <span style="color: rgb(149, 98, 125);">global equilibrium factor</span> and a <span style="color: rgb(93, 143, 114);">position-dependent local factor</span>. 
 
 $$
-\frac{q_u}{q_v} = \frac{Bk^2}{Ah^2}
+\Large{\frac{T_u^{\pm_u}}{T_v^{\pm_v}} = \textcolor{95627d}{\Omega} \cdot \textcolor{5d8f72}{\lambda^{\pm_u \pm_v} (u_i,v_j)}}
 $$
 
-**Geometric parameters**
-- $A$ : 
-- $B$ :
+
+$\large{\Omega = \frac{f_1 (kL_2)^2}{f_2 (hL_1)^2}}$ : <span style="color: rgb(149, 98, 125);">global equilibrium factor</span>. It is a node-independent term determined by the overall geometry of the two generating parabolas and the discretization steps; it remains constant throughout the network.  
+$\large{\lambda^{\pm_u \pm_v} (u_i,v_j) = \frac{l_u^{\pm_u}}{l_v^{\pm_v}} = \frac{\sqrt{h^2 + (\frac{4f_2}{L_2^2}(\pm_u 2u_ih+h^2))^2}}{ \sqrt{k^2 + (\frac{4f_1}{L_1^2}(\pm_v 2v_j k + k^2))^2}}}$ : <span style="color: rgb(93, 143, 114);">local geometric factor</span>. It is a position-dependent term determined by the relative lengths of the incident segments being compared; it varies from node to node.
+
+**Global geometric parameters**  
+The global geometry of the hyperbolic paraboloid is here described by the horizontal projected spans and vertical rises of its two generating parabolas. Under the convention adopted here, the $u$-parabola is characterized by $L_2$ and $f_2$, while the $v$-parabola is characterized by $L_1$ and $f_1$.
+Unlike the local coordinates $u_i$ and $v_j$, these quantities are global parameters and remain constant throughout the network.
 
 **Discretization parameters**  
 Here, $i$ and $j$ are node indices, while $u_i$ and $v_j$ are the cartesian coordinates of their horizontal projections along the $u$ and $v$ directions. $P_{ij}$ denotes the spatial node formed by the intersection of two parabolas, and $(u_i,v_j)$ its projection onto the horizontal plane. These coordinates are not curvilinear coordinates measured along the parabolic cables. The network is uniformly discretized in the horizontal projection, using constant steps $h$ and $k$, consequently, the spatial lengths of the cable segments are generally not constant.

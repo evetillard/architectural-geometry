@@ -20,9 +20,9 @@
     <h3 class="portal-card__title">Form</h3>
     <p class="portal-card__description">An introduction to the geometric and mathematical concepts used to describe, understand and classify shapes</p>
   </div>
+  <details class="subportal-menu"><summary>Geometric Properties</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/geometric-properties/developability/home">Developability</a><a class="subportal-badge" href="/portals/form/geometric-properties/gaussian-curvature/home">Gaussian Curvature</a><a class="subportal-badge" href="/portals/form/geometric-properties/mean-curvature/home">Mean Curvature</a><a class="subportal-badge" href="/portals/form/geometric-properties/surface-boundaries/home">Surface Boudaries</a></div></div></details>
   <details class="subportal-menu"><summary>Surface Families</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/surface-families/catalan/home">Catalan</a><a class="subportal-badge" href="/portals/form/surface-families/conoids/home">Conoid</a><a class="subportal-badge" href="/surfaces/monge-surface/home">Monge</a><a class="subportal-badge" href="/surfaces/moulding-surface/home">Moulding</a><a class="subportal-badge" href="/portals/form/surface-families/quadrics/home">Quadric</a><a class="subportal-badge" href="/portals/form/surface-families/revolution-surfaces/home">Revolution</a><a class="subportal-badge" href="/portals/form/surface-families/ruled-surfaces/home">Ruled</a><a class="subportal-badge" href="/portals/form/surface-families/translation-surfaces/home">Translation</a></div></div></details>
    <details class="subportal-menu"><summary>Curve Families</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/curve-families/asymptotic/home">Asymptotic</a><a class="subportal-badge" href="/portals/form/curve-families/curvature/home">Curvature</a><a class="subportal-badge" href="/portals/form/curve-families/geodesic/home">Geodesic</a><a class="subportal-badge" href="/portals/form/curve-families/parabola/home">Parabola</a></div></div></details>
-  <details class="subportal-menu"><summary>Geometric Properties</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/geometric-properties/developability/home">Developability</a><a class="subportal-badge" href="/portals/form/geometric-properties/gaussian-curvature/home">Gaussian Curvature</a><a class="subportal-badge" href="/portals/form/geometric-properties/mean-curvature/home">Mean Curvature</a><a class="subportal-badge" href="/portals/form/geometric-properties/surface-boundaries/home">Surface Boudaries</a></div></div></details>
   <details class="subportal-menu"><summary>Transformations</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><i>content coming soon</i></div></div></details>
 </div>
 <!-- FORM STRUCTURE -->
@@ -73,7 +73,7 @@
   <div class="index-card__header">
     <h3>Surfaces</h3>
   </div>
-  <details class="index-menu"><summary>Browse by surface</summary><div class="index-menu__content"><div class="index-badge-list"><a class="index-badge" href="/surfaces/hyperbolic-paraboloid/home">Hyperbolic Paraboloid</a><a class="index-badge" href="/surfaces/moulding-surface/home">Moulding Surface</a></div></div></details>
+  <details class="index-menu"><summary>Browse by surface</summary><div class="index-menu__content"><div class="index-badge-list"><a class="index-badge" href="/surfaces/hyperbolic-paraboloid/home">Hyperbolic Paraboloid</a></div></div></details>
 </div>
 
 
