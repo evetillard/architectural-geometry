@@ -31,8 +31,9 @@ site:
     folders: true
     numbered_references: true
   nav:
-    - title: Page CA1
-      url: /folder-c/folder-ca/page-ca1
+    - title: Home
+      url: /index
+
     - title: Dropdown Menu
       children:
       - title: B1

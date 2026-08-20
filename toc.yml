@@ -2,26 +2,6 @@ version: 1
 project:
   toc:
    - file: index.md
-   - title: Folder A
-     file: folder_a/home.md
-     children:
-       - pattern: 'folder_a/!(home)*.md'
-   - title: Folder B
-     children:
-      - file: folder_b/page_b1.md
-      - file: folder_b/page_b2.md
-      - file: folder_b/page_b3.md
-      - file: folder_b/page_b4.md
-      - file: folder_b/page_b5.md
-        hidden: true
-   - title: Folder C
-     children:
-       - title: Folder CA
-         children:
-          - pattern: 'folder_c/folder_ca/*.md'
-       - title: Folder CB
-         children:
-          - pattern: 'folder_c/folder_cb/*.md'
    - title: Contributing
      children: 
       - pattern: 'contributing/*.md'
@@ -38,6 +18,16 @@ project:
        - title: Form
          file: portals/form/home_portal.md
          children:
+           - title: Geometric Properties
+             children:
+               - file: portals/form/geometric_properties/developability/home.md
+               - file: portals/form/geometric_properties/gaussian_curvature/home.md
+               - file: portals/form/geometric_properties/mean_curvature/home.md
+               - file: portals/form/geometric_properties/surface_boundaries/home.md
+
+           - title: Transformations
+             children:
+               - file: portals/form/transformations/combescure/home.md
 
            - title: Surface Families
              children:
@@ -54,17 +44,6 @@ project:
                 - file: portals/form/curve_families/curvature/home.md
                 - file: portals/form/curve_families/geodesic/home.md
                 - file: portals/form/curve_families/parabola/home.md
-
-           - title: Geometric Properties
-             children:
-               - file: portals/form/geometric_properties/developability/home.md
-               - file: portals/form/geometric_properties/gaussian_curvature/home.md
-               - file: portals/form/geometric_properties/mean_curvature/home.md
-               - file: portals/form/geometric_properties/surface_boundaries/home.md
-
-           - title: Transformations
-             children:
-               - file: portals/form/transformations/combescure/home.md
 
        - title: Form - Structure
          file: portals/form_structure/home_portal.md
