@@ -18,11 +18,11 @@ When designing a shape, one generally has some architectural intent
     <i> This web-site is a collaborative project driven by Working Group 22 of the International Association for Shell and Spatial Structures [IASS](https://iass-structures.org/WG22-Public). It aims at spreading the knowledge of Architectural Geometry within the community interested in architectural design of surfaces. To this end, it focuses on design issues and approaches them through structural morphology. Within the IASS, the design process of a structure is often described as a compromise between parameters of five different categories: form, force, structure, material and technology. </i>
   </p><p>
     <i>
-    * The Form category regroups all parameters used to define the shape;
-    * The Force category regroups all parameters used to define the forces applied to the shape and the forces within it;
-    * The Structure category regroups all parameters used to define the topology of the members constituting the shape, their nature and their relation;
-    * The Material category regroups all parameters used to define the material of the various members;
-    * The Technology category regroups all parameters used to define technological aspects of the construction, from assembly to erection process.      
+    * The Form category regroups all parameters used to define the shape;  
+    * The Force category regroups all parameters used to define the forces applied to the shape and the forces within it;  
+    * The Structure category regroups all parameters used to define the topology of the members constituting the shape, their nature and their relation;  
+    * The Material category regroups all parameters used to define the material of the various members;  
+    * The Technology category regroups all parameters used to define technological aspects of the construction, from assembly to erection process.        
     When designing a shape, one generally has some architectural intent </i>
   </p>
   <a class="home-intro__link" href="/portals/about">
