@@ -10,8 +10,7 @@
     + The Force category regroups all parameters used to define the forces applied to the shape and the forces within it;
     + The Structure category regroups all parameters used to define the topology of the members constituting the shape, their nature and their relation;
     + The Material category regroups all parameters used to define the material of the various members;
-    + The Technology category regroups all parameters used to define technological aspects of the construction, from assembly to erection process.
-      
+    + The Technology category regroups all parameters used to define technological aspects of the construction, from assembly to erection process.      
     </i>
   </p>
   <a class="home-intro__link" href="/portals/about">
