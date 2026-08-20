@@ -5,7 +5,14 @@
 <!-- BANDEAU D’INTRODUCTION DE LA PAGE D’ACCUEIL -->
 <div class="home-intro">
   <p class="home-intro__text">
-    <i> This web-site is a collaborative project driven by Working Group 22 of the International Association for Shell and Spatial Structures [IASS](https://iass-structures.org/WG22-Public). It aims at spreading the knowledge of Architectural Geometry within the community interested in architectural design of surfaces. To this end, it focuses on design issues and approaches them through structural morphology. Within the IASS, the design process of a structure is often described as a compromise between parameters of five different natures: form, force, structure, material and technology. </i>
+    <i> This web-site is a collaborative project driven by Working Group 22 of the International Association for Shell and Spatial Structures [IASS](https://iass-structures.org/WG22-Public). It aims at spreading the knowledge of Architectural Geometry within the community interested in architectural design of surfaces. To this end, it focuses on design issues and approaches them through structural morphology. Within the IASS, the design process of a structure is often described as a compromise between parameters of five different categories: form, force, structure, material and technology. 
+    + The Form category regroups all parameters used to define the shape;
+    + The Force category regroups all parameters used to define the forces applied to the shape and the forces within it;
+    + The Structure category regroups all parameters used to define the topology of the members constituting the shape, their nature and their relation;
+    + The Material category regroups all parameters used to define the material of the various members;
+    + The Technology category regroups all parameters used to define technological aspects of the construction, from assembly to erection process.
+      
+    </i>
   </p>
   <a class="home-intro__link" href="/portals/about">
     Learn more about it
@@ -21,9 +28,9 @@
     <p class="portal-card__description">An introduction to the geometric and mathematical concepts used to describe, understand and classify shapes</p>
   </div>
   <details class="subportal-menu"><summary>Geometric Properties</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/geometric-properties/developability/home">Developability</a><a class="subportal-badge" href="/portals/form/geometric-properties/gaussian-curvature/home">Gaussian Curvature</a><a class="subportal-badge" href="/portals/form/geometric-properties/mean-curvature/home">Mean Curvature</a><a class="subportal-badge" href="/portals/form/geometric-properties/surface-boundaries/home">Surface Boudaries</a></div></div></details>
+  <details class="subportal-menu"><summary>Transformations</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><i>content coming soon</i></div></div></details>
   <details class="subportal-menu"><summary>Surface Families</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/surface-families/catalan/home">Catalan</a><a class="subportal-badge" href="/portals/form/surface-families/conoids/home">Conoid</a><a class="subportal-badge" href="/surfaces/monge-surface/home">Monge</a><a class="subportal-badge" href="/surfaces/moulding-surface/home">Moulding</a><a class="subportal-badge" href="/portals/form/surface-families/quadrics/home">Quadric</a><a class="subportal-badge" href="/portals/form/surface-families/revolution-surfaces/home">Revolution</a><a class="subportal-badge" href="/portals/form/surface-families/ruled-surfaces/home">Ruled</a><a class="subportal-badge" href="/portals/form/surface-families/translation-surfaces/home">Translation</a></div></div></details>
    <details class="subportal-menu"><summary>Curve Families</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/curve-families/asymptotic/home">Asymptotic</a><a class="subportal-badge" href="/portals/form/curve-families/curvature/home">Curvature</a><a class="subportal-badge" href="/portals/form/curve-families/geodesic/home">Geodesic</a><a class="subportal-badge" href="/portals/form/curve-families/parabola/home">Parabola</a></div></div></details>
-  <details class="subportal-menu"><summary>Transformations</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><i>content coming soon</i></div></div></details>
 </div>
 <!-- FORM STRUCTURE -->
 <div class="portal-card portal-card--form">
