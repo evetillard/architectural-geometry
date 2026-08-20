@@ -1,11 +1,11 @@
-# Title – IASS Design Guide for Architectural Engineering of surfaces
+# IASS Design Guide for Architectural Engineering of surfaces
 
 <!-- BANDEAU D’INTRODUCTION DE LA PAGE D’ACCUEIL -->
 
 <!-- BANDEAU D’INTRODUCTION DE LA PAGE D’ACCUEIL -->
 <div class="home-intro">
   <p class="home-intro__text">
-    <i>Short introductory paragraph about the encyclopedia.</i>
+    <i> This web-site is a collaborative project driven by Working Group 22 of the International Association for Shell and Spatial Structures [IASS](https://iass-structures.org/WG22-Public). It aims at spreading the knowledge of Architectural Geometry within the community interested in architectural design of surfaces. To this end, it focuses on design issues and approaches them through structural morphology. Within the IASS, the design process of a structure is often described as a compromise between parameters of five different natures: form, force, structure, material and technology. </i>
   </p>
   <a class="home-intro__link" href="/portals/about">
     Learn more about it
