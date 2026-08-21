@@ -6,10 +6,9 @@ project:
      children: 
       - pattern: 'contributing/*.md'
    - title: Surfaces
-     children: 
-      - file: surfaces/hyperbolic_paraboloid/home.md
-      - file: surfaces/moulding_surface/home.md
-      - file: surfaces/monge_surface/home.md
+     children:
+      - pattern: 'surfaces/*/home.md'
+        sort: ascending
 
    - title: Thematic Portals
      file: portals/about.md
