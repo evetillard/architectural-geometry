@@ -19,30 +19,23 @@ project:
          children:
            - title: Geometric Properties
              children:
-               - file: portals/form/geometric_properties/developability/home.md
-               - file: portals/form/geometric_properties/gaussian_curvature/home.md
-               - file: portals/form/geometric_properties/mean_curvature/home.md
-               - file: portals/form/geometric_properties/surface_boundaries/home.md
+              - pattern: 'portals/form/geometric_properties/*/home.md'
+                sort: ascending
 
            - title: Transformations
              children:
-               - file: portals/form/transformations/combescure/home.md
+              - pattern: 'portals/form/transformations/*/home.md'
+                sort: ascending
 
            - title: Surface Families
              children:
-               - file: portals/form/surface_families/catalan/home.md
-               - file: portals/form/surface_families/conoids/home.md
-               - file: portals/form/surface_families/quadrics/home.md
-               - file: portals/form/surface_families/revolution_surfaces/home.md
-               - file: portals/form/surface_families/ruled_surfaces/home.md
-               - file: portals/form/surface_families/translation_surfaces/home.md
-               
+              - pattern: 'portals/form/surface_families/*/home.md'
+                sort: ascending
+
            - title: Curve Families
              children:
-                - file: portals/form/curve_families/asymptotic/home.md
-                - file: portals/form/curve_families/curvature/home.md
-                - file: portals/form/curve_families/geodesic/home.md
-                - file: portals/form/curve_families/parabola/home.md
+              - pattern: 'portals/form/curve_families/*/home.md'
+                sort: ascending
 
        - title: Form - Structure
          file: portals/form_structure/home_portal.md
@@ -50,12 +43,8 @@ project:
        - title: Form - Force
          file: portals/form_force/home_portal.md
          children:
-           - title: Funicular
-             file: portals/form_force/funicular/home.md
-           - title: Pre-Stressed
-             file: portals/form_force/pre_stressed/home.md
-           - title: Uniform Pressure
-             file: portals/form_force/uniform_pressure/home.md
+          - pattern: 'portals/form_force/*/home.md'
+            sort: ascending
 
        - title: Form - Technology
          file: portals/form_technology/home_portal.md
@@ -76,10 +65,9 @@ project:
        - title: Designers
          file: built_examples/designers/home.md
          children:
-           - title: Felix Candela
-             file: built_examples/designers/candela_felix/home.md
-           - title: René Sarger
-             file: built_examples/designers/sarger_rene/home.md
+          - pattern: 'built_examples/designers/*/home.md'
+            sort: ascending
+
        - title: Locations
          file: built_examples/locations/home.md
          children:

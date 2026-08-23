@@ -1,5 +1,5 @@
 ---
-title: Catalan Surface
+title: Parabola
 ---
 
 <!-- Title of the page -->

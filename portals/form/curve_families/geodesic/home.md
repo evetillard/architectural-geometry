@@ -1,5 +1,5 @@
 ---
-title: Catalan Surface
+title: Geodesics
 ---
 
 <!-- Title of the page -->

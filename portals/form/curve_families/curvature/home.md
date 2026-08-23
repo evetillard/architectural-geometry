@@ -1,5 +1,5 @@
 ---
-title: Catalan Surface
+title: Curvature Lines
 ---
 
 <!-- Title of the page -->
