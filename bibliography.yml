@@ -1,0 +1,10 @@
+# This file is generated automatically.
+# Do not edit it manually.
+# Run: npm run sync:bibliography
+
+version: 1
+
+project:
+  bibliography:
+    - "surfaces/hyperbolic_paraboloid/references.bib"
+    - "surfaces/moulding_surface/references.bib"

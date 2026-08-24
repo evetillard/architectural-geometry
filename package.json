@@ -3,7 +3,10 @@
   "private": true,
   "scripts": {
     "start": "jupyter-book start",
-    "build": "jupyter-book build --html"
+    "build": "npm run check:bibliography && jupyter-book build --html",
+    "new:surface": "node scripts/new-surface.mjs",
+    "sync:bibliography": "node scripts/sync-bibliography.mjs",
+    "check:bibliography": "node scripts/sync-bibliography.mjs --check"
   },
   "devDependencies": {
     "jupyter-book": "2.1.6"

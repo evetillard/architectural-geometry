@@ -10,15 +10,13 @@ project:
   github: iass-wg22/architectural-geometry
   license: CC-BY-SA-4.0
 
-  bibliography:
-    - surfaces/hyperbolic_paraboloid/references.bib
-    - surfaces/moulding_surface/references.bib
-
   exclude:
     - 'env/*' 
+    - 'gabarit/**'
   
 extends:
   - ./authors.yml
+  - ./bibliography.yml
   - ./toc.yml
 
 site:
