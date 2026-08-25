@@ -6,9 +6,11 @@
     "build": "npm run check:bibliography && jupyter-book build --html",
     "new:surface": "node scripts/new-surface.mjs",
     "sync:bibliography": "node scripts/sync-bibliography.mjs",
-    "check:bibliography": "node scripts/sync-bibliography.mjs --check"
+    "check:bibliography": "node scripts/sync-bibliography.mjs --check",
+    "test:suggestions": "node scripts/check-suggestion-schema.mjs"
   },
   "devDependencies": {
+    "ajv": "^8.20.0",
     "jupyter-book": "2.1.6"
   },
   "engines": {
