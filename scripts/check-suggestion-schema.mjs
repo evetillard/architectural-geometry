@@ -58,7 +58,7 @@ const validAddition = {
       pageUrl:
         "http://localhost:3000/surfaces/hyperbolic-paraboloid/home",
       sourcePath: "surfaces/hyperbolic_paraboloid/home.md",
-      siteRevision: null,
+      pageRevision: "a".repeat(64),
     },
     section: {
       title: "Geometric property and form generation",
@@ -139,6 +139,20 @@ const testCases = [
       body: {
         ...validAddition.body,
         rationale: "",
+      },
+    },
+  },
+  {
+    name: "Invalid suggestion with a malformed page revision",
+    expectedValidity: false,
+    candidate: {
+      ...validAddition,
+      target: {
+        ...validAddition.target,
+        source: {
+          ...validAddition.target.source,
+          pageRevision: "not-a-sha256-fingerprint",
+        },
       },
     },
   },

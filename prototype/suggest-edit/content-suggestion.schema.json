@@ -51,6 +51,24 @@
       "minLength": 1,
       "maxLength": 160
     },
+    "contributor": {
+      "type": "object",
+      "description": "Optional public identity supplied by the contributor.",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "affiliation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      }
+    },
     "target": {
       "type": "object",
       "additionalProperties": false,
@@ -67,7 +85,7 @@
             "pageTitle",
             "pageUrl",
             "sourcePath",
-            "siteRevision"
+            "pageRevision"
           ],
           "properties": {
             "pageTitle": {
@@ -82,12 +100,10 @@
               "type": "string",
               "pattern": "^(?!.*\\\\).+\\.md$"
             },
-            "siteRevision": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "minLength": 1
+            "pageRevision": {
+              "type": "string",
+              "description": "SHA-256 fingerprint of the MyST source page when the suggestion was prepared.",
+              "pattern": "^[a-f0-9]{64}$"
             }
           }
         },

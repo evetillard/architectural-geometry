@@ -120,7 +120,7 @@ function initializeSuggestEdit() {
             type="text"
             maxlength="160"
             autocomplete="off"
-            placeholder="Give a short title for this suggestion."
+            placeholder="Give a short title for your suggestion"
             required
           >
         </div>
@@ -157,21 +157,71 @@ function initializeSuggestEdit() {
           ></textarea>
         </div>
 
+        <div class="suggest-edit-field">
+          <label for="suggest-edit-contributor-name">
+            Name or pseudonym <span>(optional)</span>
+          </label>
+          <input
+            id="suggest-edit-contributor-name"
+            name="contributorName"
+            type="text"
+            maxlength="160"
+            autocomplete="off"
+            placeholder="Your name or preferred pseudonym"
+          >
+          <small>
+            If provided, this information may be displayed publicly with your
+            suggestion.
+          </small>
+        </div>
+
+        <div class="suggest-edit-field">
+          <label for="suggest-edit-contributor-affiliation">
+            Affiliation <span>(optional)</span>
+          </label>
+          <input
+            id="suggest-edit-contributor-affiliation"
+            name="contributorAffiliation"
+            type="text"
+            maxlength="200"
+            autocomplete="organization"
+            placeholder="University, practice, company or independent contributor"
+          >
+        </div>
+
+        <p
+          class="suggest-edit-form-error"
+          id="suggest-edit-form-error"
+          role="alert"
+          hidden
+        ></p>
+
         <div class="suggest-edit-actions">
           <button id="suggest-edit-cancel" type="button">Cancel</button>
-          <button class="suggest-edit-primary" type="submit">
+          <button
+            class="suggest-edit-primary"
+            id="suggest-edit-preview-button"
+            type="submit"
+          >
             Preview suggestion
           </button>
         </div>
       </form>
 
-      <section id="suggest-edit-preview-section" hidden>
-        <h3>Structured preview</h3>
-        <p>
-          This prototype does not send or modify anything. It only prepares the
-          proposal shown below.
-        </p>
-        <pre id="suggest-edit-preview"></pre>
+      <section
+        id="suggest-edit-preview-section"
+        aria-labelledby="suggest-edit-preview-heading"
+        hidden
+      >
+        <p class="suggest-edit-dialog__eyebrow">Review</p>
+        <h3 id="suggest-edit-preview-heading">Suggestion preview</h3>
+
+        <div class="suggest-edit-preview-notice" role="status">
+          <strong>Preview ready.</strong>
+          This suggestion has not been submitted.
+        </div>
+
+        <div id="suggest-edit-preview"></div>
       </section>
     </div>
   `;
@@ -352,6 +402,16 @@ function initializeSuggestEdit() {
       gap: 8px;
     }
 
+    .suggest-edit-form-error {
+      margin: 0;
+      padding: 12px 14px;
+      border: 1px solid #dc2626;
+      border-radius: 8px;
+      background: color-mix(in srgb, #dc2626 10%, Canvas);
+      color: #dc2626;
+      font-weight: 600;
+    }
+
     .suggest-edit-actions {
       display: flex;
       justify-content: flex-end;
@@ -381,16 +441,81 @@ function initializeSuggestEdit() {
       border-top: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
     }
 
-    #suggest-edit-preview {
-      max-height: 340px;
-      overflow: auto;
-      padding: 14px;
+    #suggest-edit-preview-section h3 {
+      margin: 2px 0 14px;
+    }
+
+    .suggest-edit-preview-notice {
+      margin-bottom: 16px;
+      padding: 12px 14px;
+      border: 1px solid #60a5fa;
       border-radius: 10px;
-      background: #111827;
-      color: #e5e7eb;
-      white-space: pre-wrap;
+      background: color-mix(in srgb, #3b82f6 10%, Canvas);
+    }
+
+    .suggest-edit-preview-notice strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    #suggest-edit-preview {
+      display: grid;
+      gap: 16px;
+      padding: 18px;
+      border: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
+      border-radius: 10px;
+      background: color-mix(in srgb, CanvasText 4%, Canvas);
+    }
+
+    .suggest-edit-preview__title {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .suggest-edit-preview__metadata {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0;
+    }
+
+    .suggest-edit-preview__metadata div,
+    .suggest-edit-preview__field {
+      min-width: 0;
+    }
+
+    .suggest-edit-preview__metadata dt,
+    .suggest-edit-preview__label {
+      margin: 0 0 4px;
+      color: #64748b;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .suggest-edit-preview__metadata dd,
+    .suggest-edit-preview__value {
+      margin: 0;
       overflow-wrap: anywhere;
-      font-size: 12px;
+      white-space: pre-wrap;
+    }
+
+    #suggest-edit-preview blockquote {
+      margin: 0;
+      padding-left: 12px;
+      border-left: 4px solid #3b82f6;
+      font-style: italic;
+      white-space: pre-wrap;
+    }
+
+    .suggest-edit-preview__sources {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .suggest-edit-preview__sources li + li {
+      margin-top: 5px;
     }
 
     @media (max-width: 560px) {
@@ -399,6 +524,10 @@ function initializeSuggestEdit() {
       }
 
       .suggest-edit-context__metadata {
+        grid-template-columns: 1fr;
+      }
+
+      .suggest-edit-preview__metadata {
         grid-template-columns: 1fr;
       }
 
@@ -422,6 +551,8 @@ function initializeSuggestEdit() {
   const form = dialog.querySelector("#suggest-edit-form");
   const closeButton = dialog.querySelector("#suggest-edit-dialog-close");
   const cancelButton = dialog.querySelector("#suggest-edit-cancel");
+  const previewButton = dialog.querySelector("#suggest-edit-preview-button");
+  const formError = dialog.querySelector("#suggest-edit-form-error");
   const pageTitleOutput = dialog.querySelector("#suggest-edit-page-title");
   const sectionTitleOutput = dialog.querySelector(
     "#suggest-edit-section-title",
@@ -436,6 +567,12 @@ function initializeSuggestEdit() {
   const suggestedTextInput = dialog.querySelector("#suggest-edit-text");
   const rationaleInput = dialog.querySelector("#suggest-edit-rationale");
   const sourcesInput = dialog.querySelector("#suggest-edit-sources");
+  const contributorNameInput = dialog.querySelector(
+    "#suggest-edit-contributor-name",
+  );
+  const contributorAffiliationInput = dialog.querySelector(
+    "#suggest-edit-contributor-affiliation",
+  );
   const previewSection = dialog.querySelector(
     "#suggest-edit-preview-section",
   );
@@ -516,10 +653,29 @@ function initializeSuggestEdit() {
   }
 
   function getCurrentRemixPage() {
-    return (
-      window.__remixContext?.state?.loaderData?.["routes/_index"]?.page ??
-      null
-    );
+    const loaderData = window.__remixContext?.state?.loaderData;
+
+    if (!loaderData || typeof loaderData !== "object") {
+      return null;
+    }
+
+    const currentRoute = normalizeRoutePath(window.location.pathname);
+
+    for (const routeData of Object.values(loaderData)) {
+      const page = routeData?.page;
+
+      if (
+        typeof page?.slug === "string" &&
+        routeMatchesCurrentPage(
+          createSlugRouteCandidates(page.slug),
+          currentRoute,
+        )
+      ) {
+        return page;
+      }
+    }
+
+    return null;
   }
 
   function getExpandedTableOfContents() {
@@ -616,6 +772,112 @@ function initializeSuggestEdit() {
     );
   }
 
+  function normalizeSourceFilePath(sourcePath) {
+    return String(sourcePath || "")
+      .replace(/\\/g, "/")
+      .replace(/^\/+/, "");
+  }
+
+  function pageMatchesSourcePath(page, sourcePath) {
+    return (
+      typeof page?.location === "string" &&
+      normalizeSourceFilePath(page.location) ===
+        normalizeSourceFilePath(sourcePath)
+    );
+  }
+
+  function extractPageRevision(page, sourcePath) {
+    if (!pageMatchesSourcePath(page, sourcePath)) {
+      return null;
+    }
+
+    if (
+      typeof page.sha256 !== "string" ||
+      !/^[a-f0-9]{64}$/i.test(page.sha256)
+    ) {
+      return null;
+    }
+
+    return page.sha256.toLowerCase();
+  }
+
+  /**
+   * Ask the current MyST/Remix route for its page data.
+   *
+   * This remains reliable after client-side navigation, even when the global
+   * Remix bootstrap object still describes the page that initially loaded the
+   * application.
+   */
+  async function fetchCurrentRoutePage(sourcePath) {
+    const currentRoute = normalizeRoutePath(window.location.pathname);
+    const routeIds =
+      currentRoute === "/"
+        ? ["routes/_index", "routes/$"]
+        : ["routes/$", "routes/_index"];
+
+    for (const routeId of routeIds) {
+      const routeDataUrl = new URL(window.location.href);
+      routeDataUrl.hash = "";
+      routeDataUrl.searchParams.set("_data", routeId);
+
+      let response;
+
+      try {
+        response = await fetch(routeDataUrl, {
+          credentials: "same-origin",
+          cache: "no-store",
+          headers: {
+            Accept: "application/json",
+          },
+        });
+      } catch {
+        continue;
+      }
+
+      if (!response.ok) {
+        continue;
+      }
+
+      let routeData;
+
+      try {
+        routeData = await response.json();
+      } catch {
+        continue;
+      }
+
+      const page = routeData?.page ?? routeData?.data?.page ?? null;
+
+      if (pageMatchesSourcePath(page, sourcePath)) {
+        return page;
+      }
+    }
+
+    return null;
+  }
+
+  async function resolvePageRevision(sourcePath) {
+    const revisionFromLoadedPage = extractPageRevision(
+      getCurrentRemixPage(),
+      sourcePath,
+    );
+
+    if (revisionFromLoadedPage) {
+      return revisionFromLoadedPage;
+    }
+
+    const fetchedPage = await fetchCurrentRoutePage(sourcePath);
+    const fetchedRevision = extractPageRevision(fetchedPage, sourcePath);
+
+    if (fetchedRevision) {
+      return fetchedRevision;
+    }
+
+    throw new Error(
+      `Unable to determine the MyST revision of ${sourcePath}.`,
+    );
+  }
+
   function getPageTitle() {
     const mainContent = getMainContent();
     const pageHeading = mainContent.querySelector("h1");
@@ -683,7 +945,7 @@ function initializeSuggestEdit() {
         pageTitle: getPageTitle(),
         pageUrl: window.location.href,
         sourcePath: resolveSourcePath(),
-        siteRevision: null,
+        pageRevision: null,
       },
       section: {
         title: sectionHeading
@@ -839,6 +1101,7 @@ function initializeSuggestEdit() {
     operationSelect.value = "add";
     updateOperationFields();
     hidePreview();
+    hideFormError();
 
     pageTitleOutput.textContent = activeAnchor.source.pageTitle;
     sectionTitleOutput.textContent = activeAnchor.section.title;
@@ -874,7 +1137,17 @@ function initializeSuggestEdit() {
 
   function hidePreview() {
     previewSection.hidden = true;
-    previewOutput.textContent = "";
+    previewOutput.replaceChildren();
+  }
+
+  function hideFormError() {
+    formError.hidden = true;
+    formError.textContent = "";
+  }
+
+  function showFormError(message) {
+    formError.textContent = message;
+    formError.hidden = false;
   }
 
   function parseSources(value) {
@@ -884,9 +1157,42 @@ function initializeSuggestEdit() {
       .filter(Boolean);
   }
 
-  function createSuggestionDraft() {
+  /**
+   * Collect the optional public identity supplied by the contributor.
+   *
+   * When both fields are empty, return null so an anonymous suggestion does
+   * not contain a meaningless empty contributor object.
+   */
+  function createContributorInformation() {
+    const displayName = contributorNameInput.value.trim();
+    const affiliation = contributorAffiliationInput.value.trim();
+
+    if (!displayName && !affiliation) {
+      return null;
+    }
+
+    const contributor = {};
+
+    if (displayName) {
+      contributor.displayName = displayName;
+    }
+
+    if (affiliation) {
+      contributor.affiliation = affiliation;
+    }
+
+    return contributor;
+  }
+
+  async function createSuggestionDraft() {
     const operation = operationSelect.value;
     const formData = new FormData(form);
+    const contributor = createContributorInformation();
+    const target = cloneSerializable(activeAnchor);
+
+    target.source.pageRevision = await resolvePageRevision(
+      target.source.sourcePath,
+    );
 
     return {
       schemaVersion: 1,
@@ -896,7 +1202,8 @@ function initializeSuggestEdit() {
       operation,
       placement: operation === "add" ? formData.get("placement") : null,
       title: titleInput.value.trim(),
-      target: cloneSerializable(activeAnchor),
+      ...(contributor ? { contributor } : {}),
+      target,
       body: {
         suggestedText:
           operation === "add" ? suggestedTextInput.value.trim() : null,
@@ -906,16 +1213,145 @@ function initializeSuggestEdit() {
     };
   }
 
+  /**
+   * Create one labelled text field for the human-readable preview.
+   * textContent is used deliberately so contributor-supplied text is never
+   * interpreted as HTML.
+   */
+  function createPreviewField(label, value, { quote = false } = {}) {
+    const field = document.createElement("section");
+    field.className = "suggest-edit-preview__field";
+
+    const fieldLabel = document.createElement("p");
+    fieldLabel.className = "suggest-edit-preview__label";
+    fieldLabel.textContent = label;
+
+    const fieldValue = document.createElement(quote ? "blockquote" : "p");
+    fieldValue.className = "suggest-edit-preview__value";
+    fieldValue.textContent = value;
+
+    field.append(fieldLabel, fieldValue);
+
+    return field;
+  }
+
+  function createPreviewMetadataItem(label, value) {
+    const item = document.createElement("div");
+    const term = document.createElement("dt");
+    const description = document.createElement("dd");
+
+    term.textContent = label;
+    description.textContent = value;
+    item.append(term, description);
+
+    return item;
+  }
+
+  function describeOperation(draft) {
+    if (draft.operation === "delete") {
+      return "Delete the selected passage";
+    }
+
+    return `Add text ${draft.placement} the selected passage`;
+  }
+
+  function describeContributor(contributor) {
+    if (!contributor) {
+      return "Anonymous contributor";
+    }
+
+    const identityParts = [
+      contributor.displayName,
+      contributor.affiliation,
+    ].filter(Boolean);
+
+    return identityParts.join(" — ");
+  }
+
+  /**
+   * Render a reader-friendly summary while keeping the complete JSON draft
+   * available internally through getLastDraft().
+   */
+  function renderHumanPreview(draft) {
+    previewOutput.replaceChildren();
+
+    const previewTitle = document.createElement("h4");
+    previewTitle.className = "suggest-edit-preview__title";
+    previewTitle.textContent = draft.title;
+
+    const metadata = document.createElement("dl");
+    metadata.className = "suggest-edit-preview__metadata";
+    metadata.append(
+      createPreviewMetadataItem("Page", draft.target.source.pageTitle),
+      createPreviewMetadataItem("Section", draft.target.section.title),
+      createPreviewMetadataItem("Proposed action", describeOperation(draft)),
+      createPreviewMetadataItem(
+        "Contributor",
+        describeContributor(draft.contributor),
+      ),
+    );
+
+    previewOutput.append(
+      previewTitle,
+      metadata,
+      createPreviewField(
+        "Selected passage",
+        draft.target.selector.exact,
+        { quote: true },
+      ),
+    );
+
+    if (draft.operation === "add") {
+      previewOutput.append(
+        createPreviewField("Suggested text", draft.body.suggestedText),
+      );
+    }
+
+    previewOutput.append(
+      createPreviewField("Why this change?", draft.body.rationale),
+    );
+
+    const sourcesField = document.createElement("section");
+    sourcesField.className = "suggest-edit-preview__field";
+
+    const sourcesLabel = document.createElement("p");
+    sourcesLabel.className = "suggest-edit-preview__label";
+    sourcesLabel.textContent = "Sources";
+    sourcesField.append(sourcesLabel);
+
+    if (draft.body.sources.length === 0) {
+      const noSources = document.createElement("p");
+      noSources.className = "suggest-edit-preview__value";
+      noSources.textContent = "No sources provided.";
+      sourcesField.append(noSources);
+    } else {
+      const sourcesList = document.createElement("ul");
+      sourcesList.className = "suggest-edit-preview__sources";
+
+      for (const source of draft.body.sources) {
+        const sourceItem = document.createElement("li");
+        sourceItem.textContent = source;
+        sourcesList.append(sourceItem);
+      }
+
+      sourcesField.append(sourcesList);
+    }
+
+    previewOutput.append(sourcesField);
+  }
+
   function handleOperationChange() {
     updateOperationFields();
     hidePreview();
+    hideFormError();
   }
 
   function handleFormInput() {
     hidePreview();
+    hideFormError();
   }
 
-  function handleFormSubmit(event) {
+  async function handleFormSubmit(event) {
     event.preventDefault();
 
     if (!activeAnchor) {
@@ -923,12 +1359,32 @@ function initializeSuggestEdit() {
       return;
     }
 
-    lastDraft = createSuggestionDraft();
-    previewOutput.textContent = JSON.stringify(lastDraft, null, 2);
-    previewSection.hidden = false;
-    previewSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    hideFormError();
+    previewButton.disabled = true;
+    previewButton.textContent = "Preparing preview…";
 
-    console.info("[Suggest an edit] Draft suggestion prepared.", lastDraft);
+    try {
+      lastDraft = await createSuggestionDraft();
+      renderHumanPreview(lastDraft);
+      previewSection.hidden = false;
+      previewSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+      console.info("[Suggest an edit] Draft suggestion prepared.", lastDraft);
+    } catch (error) {
+      lastDraft = null;
+      hidePreview();
+      showFormError(
+        "The page revision could not be determined. Please reload the page and try again.",
+      );
+
+      console.error(
+        "[Suggest an edit] Unable to prepare the suggestion draft.",
+        error,
+      );
+    } finally {
+      previewButton.disabled = false;
+      previewButton.textContent = "Preview suggestion";
+    }
   }
 
   function closeDialog(returnValue = "cancel") {
@@ -943,6 +1399,7 @@ function initializeSuggestEdit() {
     form.reset();
     updateOperationFields();
     hidePreview();
+    hideFormError();
   }
 
   function handleWindowReposition() {
