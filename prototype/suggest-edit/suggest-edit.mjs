@@ -1,4 +1,4 @@
-(() => {
+function initializeSuggestEdit() {
   "use strict";
 
   /* ======================================================================== */
@@ -1007,4 +1007,32 @@
   };
 
   console.info("[Suggest an edit] Form prototype loaded.");
-})();
+}
+
+/* ========================================================================== */
+/* MYST ANYWIDGET ENTRY POINT                                                 */
+/* ========================================================================== */
+
+function render({ el }) {
+  // Start the global suggestion interface when MyST mounts the site footer.
+  initializeSuggestEdit();
+
+  // Leave only an invisible diagnostic marker inside the widget itself.
+  const marker = document.createElement("span");
+  marker.hidden = true;
+  marker.setAttribute("data-suggest-edit-loader", "active");
+  el.appendChild(marker);
+
+  console.info("[Suggest an edit] Automatic MyST widget active.");
+
+  // MyST calls this cleanup function when the widget is removed, for example
+  // during client-side navigation. A newly mounted widget will initialize a
+  // fresh interface for the next page.
+  return () => {
+    window.suggestEditPrototype?.destroy?.();
+  };
+}
+
+export default {
+  render,
+};
