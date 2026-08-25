@@ -32,6 +32,12 @@ function initializeSuggestEdit() {
   // Number of contextual characters retained on each side of the selection.
   const contextCharacterLimit = 160;
 
+  // Development API used while the public storage service is not deployed.
+  // Keeping this value in one place will make the production endpoint easy to
+  // substitute later without changing the form logic.
+  const suggestionSubmissionUrl =
+    "http://127.0.0.1:8787/api/suggestions";
+
   /* ======================================================================== */
   /* PROTOTYPE STATE                                                          */
   /* ======================================================================== */
@@ -120,7 +126,7 @@ function initializeSuggestEdit() {
             type="text"
             maxlength="160"
             autocomplete="off"
-            placeholder="Give a short title for your suggestion"
+            placeholder="Give a title to your suggestion"
             required
           >
         </div>
@@ -222,6 +228,27 @@ function initializeSuggestEdit() {
         </div>
 
         <div id="suggest-edit-preview"></div>
+
+        <div
+          class="suggest-edit-submission-result"
+          id="suggest-edit-submission-result"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></div>
+
+        <div class="suggest-edit-preview-actions">
+          <button id="suggest-edit-back-to-form" type="button">
+            Back to editing
+          </button>
+          <button
+            class="suggest-edit-primary"
+            id="suggest-edit-submit-suggestion"
+            type="button"
+          >
+            Submit suggestion
+          </button>
+        </div>
       </section>
     </div>
   `;
@@ -412,14 +439,16 @@ function initializeSuggestEdit() {
       font-weight: 600;
     }
 
-    .suggest-edit-actions {
+    .suggest-edit-actions,
+    .suggest-edit-preview-actions {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
       padding-top: 4px;
     }
 
-    .suggest-edit-actions button {
+    .suggest-edit-actions button,
+    .suggest-edit-preview-actions button {
       padding: 10px 14px;
       border: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
       border-radius: 8px;
@@ -429,10 +458,17 @@ function initializeSuggestEdit() {
       cursor: pointer;
     }
 
-    .suggest-edit-actions .suggest-edit-primary {
+    .suggest-edit-actions .suggest-edit-primary,
+    .suggest-edit-preview-actions .suggest-edit-primary {
       border-color: #2563eb;
       background: #2563eb;
       color: #ffffff;
+    }
+
+    .suggest-edit-actions button:disabled,
+    .suggest-edit-preview-actions button:disabled {
+      cursor: wait;
+      opacity: 0.65;
     }
 
     #suggest-edit-preview-section {
@@ -518,6 +554,38 @@ function initializeSuggestEdit() {
       margin-top: 5px;
     }
 
+    .suggest-edit-submission-result {
+      margin-top: 16px;
+      padding: 14px;
+      border: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
+      border-radius: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .suggest-edit-submission-result[data-state="pending"] {
+      border-color: #60a5fa;
+      background: color-mix(in srgb, #3b82f6 10%, Canvas);
+    }
+
+    .suggest-edit-submission-result[data-state="success"] {
+      border-color: #16a34a;
+      background: color-mix(in srgb, #16a34a 10%, Canvas);
+    }
+
+    .suggest-edit-submission-result[data-state="error"] {
+      border-color: #dc2626;
+      background: color-mix(in srgb, #dc2626 10%, Canvas);
+    }
+
+    .suggest-edit-submission-result strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .suggest-edit-preview-actions {
+      margin-top: 16px;
+    }
+
     @media (max-width: 560px) {
       .suggest-edit-dialog__body {
         padding: 18px;
@@ -531,11 +599,13 @@ function initializeSuggestEdit() {
         grid-template-columns: 1fr;
       }
 
-      .suggest-edit-actions {
+      .suggest-edit-actions,
+      .suggest-edit-preview-actions {
         flex-direction: column-reverse;
       }
 
-      .suggest-edit-actions button {
+      .suggest-edit-actions button,
+      .suggest-edit-preview-actions button {
         width: 100%;
       }
     }
@@ -577,6 +647,15 @@ function initializeSuggestEdit() {
     "#suggest-edit-preview-section",
   );
   const previewOutput = dialog.querySelector("#suggest-edit-preview");
+  const submissionResult = dialog.querySelector(
+    "#suggest-edit-submission-result",
+  );
+  const backToFormButton = dialog.querySelector(
+    "#suggest-edit-back-to-form",
+  );
+  const submitSuggestionButton = dialog.querySelector(
+    "#suggest-edit-submit-suggestion",
+  );
 
   /* ======================================================================== */
   /* TEXT AND EDITORIAL ANCHOR UTILITIES                                      */
@@ -1138,6 +1217,28 @@ function initializeSuggestEdit() {
   function hidePreview() {
     previewSection.hidden = true;
     previewOutput.replaceChildren();
+    resetSubmissionState();
+  }
+
+  function resetSubmissionState() {
+    submissionResult.hidden = true;
+    submissionResult.removeAttribute("data-state");
+    submissionResult.replaceChildren();
+    backToFormButton.disabled = false;
+    submitSuggestionButton.disabled = false;
+    submitSuggestionButton.textContent = "Submit suggestion";
+  }
+
+  function showSubmissionResult(state, title, message) {
+    const resultTitle = document.createElement("strong");
+    const resultMessage = document.createElement("span");
+
+    resultTitle.textContent = title;
+    resultMessage.textContent = message;
+
+    submissionResult.replaceChildren(resultTitle, resultMessage);
+    submissionResult.dataset.state = state;
+    submissionResult.hidden = false;
   }
 
   function hideFormError() {
@@ -1340,6 +1441,104 @@ function initializeSuggestEdit() {
     previewOutput.append(sourcesField);
   }
 
+  async function readSubmissionResponse(response) {
+    const responseText = await response.text();
+
+    if (!responseText.trim()) {
+      throw new Error("The storage server returned an empty response.");
+    }
+
+    try {
+      return JSON.parse(responseText);
+    } catch {
+      throw new Error("The storage server returned invalid JSON.");
+    }
+  }
+
+  function handleBackToForm() {
+    hidePreview();
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+    titleInput.focus({ preventScroll: true });
+  }
+
+  async function handleSuggestionSubmission() {
+    if (!lastDraft) {
+      showSubmissionResult(
+        "error",
+        "Nothing to submit.",
+        "Prepare a suggestion preview before submitting it.",
+      );
+      return;
+    }
+
+    showSubmissionResult(
+      "pending",
+      "Submitting suggestion…",
+      "The proposal is being validated and stored.",
+    );
+    backToFormButton.disabled = true;
+    submitSuggestionButton.disabled = true;
+    submitSuggestionButton.textContent = "Submitting…";
+    previewButton.disabled = true;
+
+    try {
+      const response = await fetch(suggestionSubmissionUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(lastDraft),
+      });
+      const responseBody = await readSubmissionResponse(response);
+
+      if (!response.ok) {
+        throw new Error(
+          responseBody.message ||
+            `The storage server rejected the request (${response.status}).`,
+        );
+      }
+
+      if (
+        responseBody.persisted !== true ||
+        typeof responseBody.id !== "string" ||
+        typeof responseBody.submittedAt !== "string"
+      ) {
+        throw new Error(
+          "The storage server did not confirm the saved suggestion.",
+        );
+      }
+
+      showSubmissionResult(
+        "success",
+        "Suggestion submitted successfully.",
+        `Reference: ${responseBody.id}`,
+      );
+      submitSuggestionButton.textContent = "Submitted";
+      backToFormButton.disabled = false;
+
+      console.info(
+        "[Suggest an edit] Suggestion stored successfully.",
+        responseBody,
+      );
+    } catch (error) {
+      showSubmissionResult(
+        "error",
+        "The suggestion could not be submitted.",
+        error.message || "No data was confirmed as saved.",
+      );
+      backToFormButton.disabled = false;
+      submitSuggestionButton.disabled = false;
+      submitSuggestionButton.textContent = "Try again";
+
+      console.error(
+        "[Suggest an edit] Suggestion submission failed.",
+        error,
+      );
+    } finally {
+      previewButton.disabled = false;
+    }
+  }
+
   function handleOperationChange() {
     updateOperationFields();
     hidePreview();
@@ -1420,6 +1619,11 @@ function initializeSuggestEdit() {
   operationSelect.addEventListener("change", handleOperationChange);
   form.addEventListener("input", handleFormInput);
   form.addEventListener("submit", handleFormSubmit);
+  backToFormButton.addEventListener("click", handleBackToForm);
+  submitSuggestionButton.addEventListener(
+    "click",
+    handleSuggestionSubmission,
+  );
   closeButton.addEventListener("click", () => closeDialog("close"));
   cancelButton.addEventListener("click", () => closeDialog("cancel"));
   dialog.addEventListener("close", handleDialogClose);
@@ -1446,6 +1650,11 @@ function initializeSuggestEdit() {
       operationSelect.removeEventListener("change", handleOperationChange);
       form.removeEventListener("input", handleFormInput);
       form.removeEventListener("submit", handleFormSubmit);
+      backToFormButton.removeEventListener("click", handleBackToForm);
+      submitSuggestionButton.removeEventListener(
+        "click",
+        handleSuggestionSubmission,
+      );
       dialog.removeEventListener("close", handleDialogClose);
       window.removeEventListener("scroll", handleWindowReposition, true);
       window.removeEventListener("resize", handleWindowReposition);

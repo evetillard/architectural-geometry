@@ -7,10 +7,13 @@
     "new:surface": "node scripts/new-surface.mjs",
     "sync:bibliography": "node scripts/sync-bibliography.mjs",
     "check:bibliography": "node scripts/sync-bibliography.mjs --check",
-    "test:suggestions": "node scripts/check-suggestion-schema.mjs"
+    "test:suggestions": "node scripts/check-suggestion-schema.mjs",
+    "start:storage": "node scripts/suggestion-storage-server.mjs",
+    "dev": "concurrently --kill-others-on-fail --names site,storage --prefix-colors cyan,magenta npm:start npm:start:storage"
   },
   "devDependencies": {
     "ajv": "^8.20.0",
+    "concurrently": "10.0.5",
     "jupyter-book": "2.1.6"
   },
   "engines": {
