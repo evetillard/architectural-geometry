@@ -17,6 +17,15 @@ import { fileURLToPath } from "node:url";
 // Ajv validates incoming data against JSON Schema draft 2020-12.
 import Ajv2020 from "ajv/dist/2020.js";
 
+import {
+  formatSuggestionAsGitHubIssue,
+} from "./format-suggestion-issue.mjs";
+
+import {
+  createDevelopmentGitHubIssue,
+  developmentGitHubRepository,
+} from "./github-issue-client.mjs";
+
 /* ========================================================================== */
 /* SERVER CONFIGURATION                                                       */
 /* ========================================================================== */
@@ -41,6 +50,22 @@ const serverPort = requestedPort;
 
 // Refuse unexpectedly large submissions before they consume excessive memory.
 const maximumRequestBodyBytes = 64 * 1024;
+
+// GitHub delivery is opt-in during local development. The ordinary storage
+// command remains incapable of creating external Issues.
+const commandLineArguments = process.argv.slice(2);
+const unsupportedArguments = commandLineArguments.filter(
+  (argument) => argument !== "--github-issues",
+);
+
+if (unsupportedArguments.length > 0) {
+  throw new Error(
+    `Unsupported argument(s): ${unsupportedArguments.join(", ")}`,
+  );
+}
+
+const githubIssueDeliveryEnabled =
+  commandLineArguments.includes("--github-issues");
 
 /* ========================================================================== */
 /* PROJECT PATHS AND SCHEMA                                                   */
@@ -239,6 +264,36 @@ function formatValidationErrors(validationErrors = []) {
 /* LOCAL PERSISTENCE                                                          */
 /* ========================================================================== */
 
+async function writeStoredRecordAtomically(
+  finalFilePath,
+  storedRecord,
+) {
+  const temporaryFilePath = path.join(
+    suggestionStorageDirectory,
+    `.${path.basename(finalFilePath)}.${process.pid}.${randomUUID()}.tmp`,
+  );
+
+  const serializedRecord = `${JSON.stringify(storedRecord, null, 2)}\n`;
+
+  try {
+    // "wx" refuses to overwrite an existing temporary file. The completed
+    // record only becomes visible under its final name after the write and
+    // atomic rename both succeed.
+    await writeFile(temporaryFilePath, serializedRecord, {
+      encoding: "utf8",
+      flag: "wx",
+    });
+
+    await rename(temporaryFilePath, finalFilePath);
+  } catch (error) {
+    await rm(temporaryFilePath, {
+      force: true,
+    });
+
+    throw error;
+  }
+}
+
 async function persistSuggestion(suggestion) {
   // These values are assigned by the server. The browser cannot choose an ID,
   // forge the submission time or decide the moderation status.
@@ -246,11 +301,16 @@ async function persistSuggestion(suggestion) {
   const submittedAt = new Date().toISOString();
 
   const storedRecord = {
-    recordVersion: 1,
+    recordVersion: 2,
     id: suggestionId,
     status: "open",
     submittedAt,
     suggestion,
+    delivery: {
+      status: githubIssueDeliveryEnabled
+        ? "pending"
+        : "not-requested",
+    },
   };
 
   await mkdir(suggestionStorageDirectory, {
@@ -261,33 +321,95 @@ async function persistSuggestion(suggestion) {
     suggestionStorageDirectory,
     `${suggestionId}.json`,
   );
-  const temporaryFilePath = path.join(
-    suggestionStorageDirectory,
-    `.${suggestionId}.${process.pid}.tmp`,
+  await writeStoredRecordAtomically(
+    finalFilePath,
+    storedRecord,
   );
-  const serializedRecord = `${JSON.stringify(storedRecord, null, 2)}\n`;
+
+  return {
+    storedRecord,
+    finalFilePath,
+  };
+}
+
+async function recordFailedGitHubDelivery(
+  storedSuggestion,
+  deliveryError,
+) {
+  storedSuggestion.storedRecord.delivery = {
+    status: "failed",
+    provider: "github",
+    repository: developmentGitHubRepository,
+    attemptedAt: new Date().toISOString(),
+    error: {
+      message: deliveryError.message,
+    },
+  };
 
   try {
-    // "wx" refuses to overwrite an existing temporary file. The completed
-    // file only becomes visible under its final name after the write succeeds.
-    await writeFile(temporaryFilePath, serializedRecord, {
-      encoding: "utf8",
-      flag: "wx",
-    });
-    await rename(temporaryFilePath, finalFilePath);
+    await writeStoredRecordAtomically(
+      storedSuggestion.finalFilePath,
+      storedSuggestion.storedRecord,
+    );
+  } catch (recordingError) {
+    console.error(
+      `[Suggestion storage] Unable to record the failed GitHub delivery for ${storedSuggestion.storedRecord.id}.`,
+      recordingError,
+    );
+  }
+}
+
+async function deliverSuggestionToGitHub(storedSuggestion) {
+  const issue = formatSuggestionAsGitHubIssue(
+    storedSuggestion.storedRecord,
+  );
+
+  let githubDelivery;
+
+  try {
+    githubDelivery = await createDevelopmentGitHubIssue(issue);
   } catch (error) {
-    // Remove an incomplete temporary file without ever touching a completed
-    // suggestion record.
-    await rm(temporaryFilePath, {
-      force: true,
-    });
-    throw error;
+    await recordFailedGitHubDelivery(
+      storedSuggestion,
+      error,
+    );
+
+    return {
+      succeeded: false,
+      error,
+    };
+  }
+
+  const delivery = {
+    status: "delivered",
+    ...githubDelivery,
+    deliveredAt: new Date().toISOString(),
+  };
+
+  storedSuggestion.storedRecord.delivery = delivery;
+
+  let localRecordUpdated = true;
+
+  try {
+    await writeStoredRecordAtomically(
+      storedSuggestion.finalFilePath,
+      storedSuggestion.storedRecord,
+    );
+  } catch (error) {
+    // The public Issue already exists. Report delivery as successful so that
+    // the browser does not retry and create a duplicate Issue.
+    localRecordUpdated = false;
+
+    console.error(
+      `[Suggestion storage] GitHub Issue ${githubDelivery.issueUrl} was created, but local delivery metadata could not be updated.`,
+      error,
+    );
   }
 
   return {
-    id: suggestionId,
-    status: storedRecord.status,
-    submittedAt,
+    succeeded: true,
+    delivery,
+    localRecordUpdated,
   };
 }
 
@@ -315,6 +437,12 @@ const server = createServer(async (request, response) => {
       status: "ok",
       service: "architectural-geometry-suggestion-storage",
       storage: "local-files",
+      githubDelivery: {
+        enabled: githubIssueDeliveryEnabled,
+        repository: githubIssueDeliveryEnabled
+          ? developmentGitHubRepository
+          : null,
+      },
       timestamp: new Date().toISOString(),
     });
     return;
@@ -337,16 +465,72 @@ const server = createServer(async (request, response) => {
         return;
       }
 
-      const storedSuggestion = await persistSuggestion(suggestion);
+      const storedSuggestion = await persistSuggestion(
+        suggestion,
+      );
+
+      const responseRecord = {
+        id: storedSuggestion.storedRecord.id,
+        status: storedSuggestion.storedRecord.status,
+        submittedAt: storedSuggestion.storedRecord.submittedAt,
+        persisted: true,
+      };
+
+      console.info(
+        `[Suggestion storage] Stored ${responseRecord.id}.`,
+      );
+
+      if (!githubIssueDeliveryEnabled) {
+        sendJson(response, 201, {
+          ...responseRecord,
+          delivery: {
+            status: "not-requested",
+          },
+          message: "The suggestion has been stored successfully.",
+        });
+        return;
+      }
+
+      console.info(
+        `[Suggestion storage] Delivering ${responseRecord.id} to ${developmentGitHubRepository}.`,
+      );
+
+      const githubResult = await deliverSuggestionToGitHub(
+        storedSuggestion,
+      );
+
+      if (!githubResult.succeeded) {
+        console.error(
+          `[Suggestion storage] GitHub delivery failed for ${responseRecord.id}.`,
+          githubResult.error,
+        );
+
+        sendJson(response, 502, {
+          ...responseRecord,
+          error: "github_delivery_failed",
+          delivery: {
+            status: "failed",
+            provider: "github",
+            repository: developmentGitHubRepository,
+          },
+          message:
+            "The suggestion was stored locally but could not be published to GitHub.",
+        });
+        return;
+      }
 
       sendJson(response, 201, {
-        ...storedSuggestion,
-        persisted: true,
-        message: "The suggestion has been stored successfully.",
+        ...responseRecord,
+        delivery: githubResult.delivery,
+        issueNumber: githubResult.delivery.issueNumber,
+        issueUrl: githubResult.delivery.issueUrl,
+        localRecordUpdated: githubResult.localRecordUpdated,
+        message:
+          "The suggestion has been stored and published to GitHub successfully.",
       });
 
       console.info(
-        `[Suggestion storage] Stored ${storedSuggestion.id}.`,
+        `[Suggestion storage] Published ${responseRecord.id} as ${githubResult.delivery.issueUrl}.`,
       );
       return;
     } catch (error) {
@@ -399,6 +583,11 @@ server.listen(serverPort, serverHost, () => {
     `Store suggestion: POST http://${serverHost}:${serverPort}/api/suggestions`,
   );
   console.log(`Storage directory: ${suggestionStorageDirectory}`);
+  console.log(
+    githubIssueDeliveryEnabled
+      ? `GitHub delivery: ENABLED → ${developmentGitHubRepository}`
+      : "GitHub delivery: disabled (local storage only)",
+  );
   console.log("Press Ctrl+C to stop the server.");
   console.log("");
 });

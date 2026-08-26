@@ -5,7 +5,7 @@ function initializeSuggestEdit() {
   /* PREVIOUS PROTOTYPE CLEANUP                                               */
   /* ======================================================================== */
 
-  // Remove the previous injected version before installing this one.
+  // Remove the previous injected version before installing this version.
   window.suggestEditPrototype?.destroy?.();
 
   // Also remove stale elements left behind by a previously interrupted script.
@@ -582,6 +582,28 @@ function initializeSuggestEdit() {
       margin-bottom: 3px;
     }
 
+    .suggest-edit-submission-result > span {
+      display: block;
+    }
+
+    .suggest-edit-submission-result__link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 12px;
+      padding: 9px 13px;
+      border: 1px solid currentColor;
+      border-radius: 8px;
+      color: inherit;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .suggest-edit-submission-result__link:hover,
+    .suggest-edit-submission-result__link:focus-visible {
+      text-decoration: underline;
+    }
+
     .suggest-edit-preview-actions {
       margin-top: 16px;
     }
@@ -663,6 +685,103 @@ function initializeSuggestEdit() {
 
   function normalizeText(text) {
     return text.replace(/\s+/g, " ").trim();
+  }
+
+  // HTML block boundaries are not always represented by whitespace in
+  // Range.toString(). For example, the end of one paragraph and the start of
+  // the next one may otherwise become "another.Surface".
+  const contextBoundaryElementNames = new Set([
+    "ADDRESS",
+    "ARTICLE",
+    "ASIDE",
+    "BLOCKQUOTE",
+    "DD",
+    "DETAILS",
+    "DIALOG",
+    "DIV",
+    "DL",
+    "DT",
+    "FIELDSET",
+    "FIGCAPTION",
+    "FIGURE",
+    "FOOTER",
+    "FORM",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "HEADER",
+    "HGROUP",
+    "HR",
+    "LI",
+    "MAIN",
+    "NAV",
+    "OL",
+    "P",
+    "PRE",
+    "SECTION",
+    "TABLE",
+    "TBODY",
+    "TD",
+    "TFOOT",
+    "TH",
+    "THEAD",
+    "TR",
+    "UL",
+  ]);
+
+  function extractContextText(range) {
+    const rangeContents = range.cloneContents();
+    const textParts = [];
+
+    function appendBoundary() {
+      if (
+        textParts.length > 0 &&
+        !/\s$/.test(textParts[textParts.length - 1])
+      ) {
+        textParts.push(" ");
+      }
+    }
+
+    function visitNode(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        textParts.push(node.nodeValue || "");
+        return;
+      }
+
+      if (
+        node.nodeType !== Node.ELEMENT_NODE &&
+        node.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
+      ) {
+        return;
+      }
+
+      const isLineBreak =
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.nodeName === "BR";
+
+      const isBlockBoundary =
+        node.nodeType === Node.ELEMENT_NODE &&
+        contextBoundaryElementNames.has(node.nodeName);
+
+      if (isLineBreak || isBlockBoundary) {
+        appendBoundary();
+      }
+
+      for (const childNode of node.childNodes) {
+        visitNode(childNode);
+      }
+
+      if (isBlockBoundary) {
+        appendBoundary();
+      }
+    }
+
+    visitNode(rangeContents);
+
+    return normalizeText(textParts.join(""));
   }
 
   function cloneSerializable(value) {
@@ -1006,8 +1125,8 @@ function initializeSuggestEdit() {
     followingRange.selectNodeContents(mainContent);
     followingRange.setStart(range.endContainer, range.endOffset);
 
-    const precedingText = normalizeText(precedingRange.toString());
-    const followingText = normalizeText(followingRange.toString());
+    const precedingText = extractContextText(precedingRange);
+    const followingText = extractContextText(followingRange);
 
     return {
       prefix: precedingText.slice(-contextCharacterLimit),
@@ -1229,7 +1348,35 @@ function initializeSuggestEdit() {
     submitSuggestionButton.textContent = "Submit suggestion";
   }
 
-  function showSubmissionResult(state, title, message) {
+  function getSafeGitHubIssueUrl(candidateUrl) {
+    if (typeof candidateUrl !== "string" || !candidateUrl.trim()) {
+      return null;
+    }
+
+    try {
+      const issueUrl = new URL(candidateUrl);
+      const isSecureGitHubUrl =
+        issueUrl.protocol === "https:" &&
+        issueUrl.hostname === "github.com";
+      const isIssuePath =
+        /^\/[^/]+\/[^/]+\/issues\/\d+\/?$/.test(issueUrl.pathname);
+
+      if (!isSecureGitHubUrl || !isIssuePath) {
+        return null;
+      }
+
+      return issueUrl.href;
+    } catch {
+      return null;
+    }
+  }
+
+  function showSubmissionResult(
+    state,
+    title,
+    message,
+    { publicDiscussionUrl = null } = {},
+  ) {
     const resultTitle = document.createElement("strong");
     const resultMessage = document.createElement("span");
 
@@ -1237,6 +1384,24 @@ function initializeSuggestEdit() {
     resultMessage.textContent = message;
 
     submissionResult.replaceChildren(resultTitle, resultMessage);
+
+    const safePublicDiscussionUrl = getSafeGitHubIssueUrl(
+      publicDiscussionUrl,
+    );
+
+    if (safePublicDiscussionUrl) {
+      const publicDiscussionLink = document.createElement("a");
+
+      publicDiscussionLink.className =
+        "suggest-edit-submission-result__link";
+      publicDiscussionLink.href = safePublicDiscussionUrl;
+      publicDiscussionLink.target = "_blank";
+      publicDiscussionLink.rel = "noopener noreferrer";
+      publicDiscussionLink.textContent = "View public discussion";
+
+      submissionResult.append(publicDiscussionLink);
+    }
+
     submissionResult.dataset.state = state;
     submissionResult.hidden = false;
   }
@@ -1508,11 +1673,28 @@ function initializeSuggestEdit() {
         );
       }
 
-      showSubmissionResult(
-        "success",
-        "Suggestion submitted successfully.",
-        `Reference: ${responseBody.id}`,
-      );
+      const delivery = responseBody.delivery;
+      const wasPublishedToGitHub =
+        delivery?.status === "delivered" &&
+        delivery?.provider === "github";
+
+      if (wasPublishedToGitHub) {
+        showSubmissionResult(
+          "success",
+          "Suggestion published successfully.",
+          `Reference: ${responseBody.id}. The proposal is now available for public discussion on GitHub.`,
+          {
+            publicDiscussionUrl:
+              delivery.issueUrl || responseBody.issueUrl,
+          },
+        );
+      } else {
+        showSubmissionResult(
+          "success",
+          "Suggestion submitted successfully.",
+          `Reference: ${responseBody.id}. The proposal has been stored for editorial review.`,
+        );
+      }
       submitSuggestionButton.textContent = "Submitted";
       backToFormButton.disabled = false;
 
