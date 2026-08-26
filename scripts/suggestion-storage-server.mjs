@@ -26,6 +26,13 @@ import {
   developmentGitHubRepository,
 } from "./github-issue-client.mjs";
 
+// Inspect failed local deliveries and retry only those whose scheduled date
+// has arrived. The service owns retry history, atomic updates and the maximum
+// automatic-attempt policy.
+import {
+  runAutomaticSuggestionRetryCycle,
+} from "./suggestion-retry-service.mjs";
+
 /* ========================================================================== */
 /* SERVER CONFIGURATION                                                       */
 /* ========================================================================== */
@@ -66,6 +73,41 @@ if (unsupportedArguments.length > 0) {
 
 const githubIssueDeliveryEnabled =
   commandLineArguments.includes("--github-issues");
+
+// The server checks the local queue regularly. This is only the frequency at
+// which the clock is inspected: the actual retry dates (1 min, 5 min, 30 min,
+// 2 h) remain controlled by suggestion-retry-policy.mjs.
+const retryCycleIntervalMilliseconds = Number.parseInt(
+  process.env.SUGGESTION_RETRY_INTERVAL_MS ?? "15000",
+  10,
+);
+
+if (
+  !Number.isInteger(retryCycleIntervalMilliseconds) ||
+  retryCycleIntervalMilliseconds < 1000
+) {
+  throw new Error(
+    "SUGGESTION_RETRY_INTERVAL_MS must be an integer of at least 1000 milliseconds.",
+  );
+}
+
+// Prevent a large queue from producing an uncontrolled burst of GitHub calls
+// during one cycle. Remaining due suggestions stay recoverable and will be
+// considered during the following cycle.
+const maximumRetryAttemptsPerCycle = Number.parseInt(
+  process.env.SUGGESTION_RETRY_MAX_PER_CYCLE ?? "10",
+  10,
+);
+
+if (
+  !Number.isInteger(maximumRetryAttemptsPerCycle) ||
+  maximumRetryAttemptsPerCycle < 1 ||
+  maximumRetryAttemptsPerCycle > 100
+) {
+  throw new Error(
+    "SUGGESTION_RETRY_MAX_PER_CYCLE must be an integer between 1 and 100.",
+  );
+}
 
 /* ========================================================================== */
 /* PROJECT PATHS AND SCHEMA                                                   */
@@ -414,6 +456,111 @@ async function deliverSuggestionToGitHub(storedSuggestion) {
 }
 
 /* ========================================================================== */
+/* AUTOMATIC RETRY SCHEDULER                                                  */
+/* ========================================================================== */
+
+let automaticRetryCycleRunning = false;
+let automaticRetryIntervalHandle = null;
+let serverIsStopping = false;
+
+/**
+ * Run one queue-inspection cycle without ever allowing two cycles to overlap.
+ *
+ * A slow or unavailable GitHub request may take longer than the configured
+ * interval. In that situation the following clock tick is skipped instead of
+ * starting a competing delivery attempt for the same suggestion.
+ */
+async function runScheduledAutomaticRetryCycle(trigger) {
+  if (
+    !githubIssueDeliveryEnabled ||
+    serverIsStopping ||
+    automaticRetryCycleRunning
+  ) {
+    return null;
+  }
+
+  automaticRetryCycleRunning = true;
+
+  try {
+    const summary = await runAutomaticSuggestionRetryCycle({
+      now: new Date(),
+      maximumAttemptsPerCycle:
+        maximumRetryAttemptsPerCycle,
+
+      // Avoid printing an empty report every fifteen seconds. Exceptional
+      // per-record failures are still reported by the scheduler below.
+      logger: {
+        info() {},
+        error() {},
+      },
+    });
+
+    if (
+      summary.attempted > 0 ||
+      summary.needsAttention > 0 ||
+      summary.unreadableRecordCount > 0
+    ) {
+      console.info(
+        `[Suggestion retry] ${trigger} cycle: ` +
+          `${summary.attempted} attempted, ` +
+          `${summary.delivered} delivered, ` +
+          `${summary.failed} failed, ` +
+          `${summary.needsAttention} need attention, ` +
+          `${summary.unreadableRecordCount} unreadable.`,
+      );
+
+      for (const result of summary.results) {
+        if (result.outcome === "delivered") {
+          console.info(
+            `[Suggestion retry] Recovered ${result.id}: ${result.issueUrl}`,
+          );
+        } else {
+          console.error(
+            `[Suggestion retry] ${result.id}: ${result.outcome}. ${result.error ?? "No error message recorded."}`,
+          );
+        }
+      }
+    }
+
+    return summary;
+  } catch (error) {
+    // A cycle failure must never stop the HTTP server. The next interval will
+    // inspect the recoverable local records again.
+    console.error(
+      `[Suggestion retry] ${trigger} cycle failed.`,
+      error,
+    );
+
+    return null;
+  } finally {
+    automaticRetryCycleRunning = false;
+  }
+}
+
+function startAutomaticRetryScheduler() {
+  if (!githubIssueDeliveryEnabled) {
+    return;
+  }
+
+  // Inspect the queue immediately, so a recovered server does not have to wait
+  // for the first interval before noticing overdue suggestions.
+  void runScheduledAutomaticRetryCycle("startup");
+
+  automaticRetryIntervalHandle = setInterval(() => {
+    void runScheduledAutomaticRetryCycle("scheduled");
+  }, retryCycleIntervalMilliseconds);
+}
+
+function stopAutomaticRetryScheduler() {
+  serverIsStopping = true;
+
+  if (automaticRetryIntervalHandle !== null) {
+    clearInterval(automaticRetryIntervalHandle);
+    automaticRetryIntervalHandle = null;
+  }
+}
+
+/* ========================================================================== */
 /* REQUEST HANDLING                                                           */
 /* ========================================================================== */
 
@@ -441,6 +588,16 @@ const server = createServer(async (request, response) => {
         enabled: githubIssueDeliveryEnabled,
         repository: githubIssueDeliveryEnabled
           ? developmentGitHubRepository
+          : null,
+      },
+      automaticRetry: {
+        enabled: githubIssueDeliveryEnabled,
+        running: automaticRetryCycleRunning,
+        intervalMilliseconds: githubIssueDeliveryEnabled
+          ? retryCycleIntervalMilliseconds
+          : null,
+        maximumAttemptsPerCycle: githubIssueDeliveryEnabled
+          ? maximumRetryAttemptsPerCycle
           : null,
       },
       timestamp: new Date().toISOString(),
@@ -588,13 +745,22 @@ server.listen(serverPort, serverHost, () => {
       ? `GitHub delivery: ENABLED → ${developmentGitHubRepository}`
       : "GitHub delivery: disabled (local storage only)",
   );
+  console.log(
+    githubIssueDeliveryEnabled
+      ? `Automatic retry: ENABLED → queue checked every ${retryCycleIntervalMilliseconds} ms, maximum ${maximumRetryAttemptsPerCycle} attempt(s) per cycle`
+      : "Automatic retry: disabled with GitHub delivery",
+  );
   console.log("Press Ctrl+C to stop the server.");
   console.log("");
+
+  startAutomaticRetryScheduler();
 });
 
 function stopServer(signal) {
   console.log("");
   console.log(`${signal} received. Stopping suggestion storage server...`);
+
+  stopAutomaticRetryScheduler();
 
   server.close((error) => {
     if (error) {
