@@ -1,0 +1,18 @@
+{
+  "name": "architectural-geometry",
+  "private": true,
+  "scripts": {
+    "start": "jupyter-book start",
+    "build": "npm run check:bibliography && jupyter-book build --html",
+    "new:surface": "node scripts/new-surface.mjs",
+    "sync:bibliography": "node scripts/sync-bibliography.mjs",
+    "check:bibliography": "node scripts/sync-bibliography.mjs --check"
+  },
+  "devDependencies": {
+    "jupyter-book": "2.1.6"
+  },
+  "engines": {
+    "node": ">=24 <27",
+    "npm": ">=11"
+  }
+}
