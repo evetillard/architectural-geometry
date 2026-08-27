@@ -1175,3 +1175,268 @@
 .dark .home-about__link {
   color: #a9cff2 !important;
 }
+
+
+
+
+
+
+/* =========================================================
+   RELECTURE par Cyril DES STYLES SPECIFIQUES d'Eléa
+   ========================================================= */
+
+/* =========================================================
+   VARIABLES — PALETTE DU SITE
+   ========================================================= */
+
+:root {
+  --blue-dark:    #284d70;
+  --blue:         #245f9e;
+  --blue-light:   #dceafb;
+  --blue-pale:    #dfeaf5;
+
+  --border:       #c9d4df;
+  --border-dark:  #465b6d;
+
+  --text-dark:    #53697d;
+}
+
+
+/* =========================================================
+   BOUTONS DE NAVIGATION
+   ========================================================= */
+
+.link.button {
+  display: inline-block;
+  margin: 3px 4px 3px 0;
+  padding: 4px 10px;
+
+  background: var(--blue-light);
+  border: 1px solid #9ebfe3;
+  border-radius: 999px;
+
+  color: #244d78;
+  font-size: 0.9em;
+  font-weight: 600;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+/* Survol en mode clair */
+.link.button:hover {
+  background: #e8f2fc;
+  border-color: #7faedc;
+  color: #1d4268;
+}
+
+
+/* =========================================================
+   CARDS MYST
+   ========================================================= */
+
+/* Structure générale */
+.myst-card {
+  width: 100%;
+  margin: 0 0 3rem;
+  overflow: hidden;
+
+  background: #fff;
+  border: 1px solid var(--border);
+  border-top: 5px solid #6e9ed8;
+  border-radius: 14px;
+}
+
+/* En-tête */
+.myst-card .myst-card-header {
+  padding: 1.9rem 2rem 1.7rem;
+
+  background: linear-gradient(
+    100deg,
+    #dfeaf5 0%,
+    #edf3f8 55%,
+    #fff 100%
+  ) !important;
+
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* Titre */
+.myst-card .myst-card-header p {
+  margin: 0;
+
+  color: var(--blue-dark) !important;
+  font-size: 1.6rem !important;
+  font-weight: 800 !important;
+  line-height: 1.2;
+}
+
+.myst-card .myst-card-header p strong {
+  color: inherit !important;
+  font-weight: inherit !important;
+}
+
+/* Contenu */
+.myst-card .myst-card-body {
+  padding: 1.5rem 2rem;
+}
+
+
+/* =========================================================
+   DROPDOWNS MYST
+   ========================================================= */
+
+/* Conteneur */
+.myst-dropdown {
+  margin: 1rem 0 !important;
+
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Barre cliquable */
+.myst-dropdown > .myst-dropdown-header {
+  position: relative;
+  display: block;
+
+  padding: 0.75rem 2.5rem 0.65rem 0 !important;
+
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid #bdcbd8 !important;
+  border-radius: 0 !important;
+
+  color: var(--blue) !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3;
+
+  cursor: pointer;
+  list-style: none;
+}
+
+/* Titre */
+.myst-dropdown .myst-dropdown-header-title {
+  color: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+}
+
+/* Suppression de l'icône MyST */
+.myst-dropdown .myst-dropdown-header-icon,
+.myst-dropdown > .myst-dropdown-header::-webkit-details-marker {
+  display: none;
+}
+
+.myst-dropdown > .myst-dropdown-header::marker {
+  content: "";
+}
+
+/* + fermé / − ouvert */
+.myst-dropdown > .myst-dropdown-header::after {
+  content: "+";
+
+  position: absolute;
+  top: 50%;
+  right: 0.2rem;
+
+  transform: translateY(-50%);
+
+  color: #647b90;
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+.myst-dropdown[open] > .myst-dropdown-header::after {
+  content: "−";
+}
+
+/* Contenu */
+.myst-dropdown .myst-dropdown-body {
+  padding: 0.9rem 0 1rem !important;
+  background: transparent !important;
+}
+
+
+/* =========================================================
+   MODE SOMBRE
+   ========================================================= */
+
+/* --- Cards --- */
+
+.dark .myst-card {
+  background: #202b35;
+  border-color: var(--border-dark);
+  border-top-color: #6e9ed8;
+}
+
+.dark .myst-card .myst-card-header {
+  background: linear-gradient(
+    100deg,
+    #293b4c 0%,
+    #304555 55%,
+    #344957 100%
+  ) !important;
+
+  border-bottom-color: var(--border-dark) !important;
+}
+
+.dark .myst-card .myst-card-header p {
+  color: #edf4fa !important;
+}
+
+
+/* --- Boutons / link buttons --- */
+
+.dark .link.button {
+  background: #c5d8ef;
+  color: #1f3f66;
+  border-color: #8ab6f0;
+}
+
+/* Survol */
+.dark .link.button:hover {
+  background: #d9e7f7;
+  border-color: #6fa5e8;
+  color: #163452;
+}
+
+
+/* --- Dropdowns --- */
+
+.dark .myst-dropdown > .myst-dropdown-header {
+  color: #a9cff2 !important;
+  border-bottom-color: #50677a !important;
+}
+
+.dark .myst-dropdown > .myst-dropdown-header::after {
+  color: #a8bac9;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .myst-card .myst-card-header {
+    padding: 1.4rem;
+  }
+
+  .myst-card .myst-card-header p {
+    font-size: 1.35rem !important;
+  }
+
+  .myst-card .myst-card-body {
+    padding: 1.2rem;
+  }
+}

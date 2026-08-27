@@ -1,104 +1,160 @@
 # IASS Design Guide for Architectural Engineering of surfaces
 
 <!-- BANDEAU D’INTRODUCTION DE LA PAGE D’ACCUEIL -->
-```{admonition} Aims and scope
-This web-site is a collaborative project driven by Working Group 22 of the International Association for Shell and Spatial Structures [IASS](https://iass-structures.org/WG22-Public). It aims at spreading the knowledge of Architectural Geometry within the community interested in architectural design of surfaces. To this end, it focuses on design issues and approaches them through structural morphology framework. Within the IASS, this framework described the design of a structure as a compromise between five categoriesof parameters: form, force, structure, material and technology.
+:::{admonition} Aims and scope
+This design guide is a collaborative project driven by Working Group 22 of the International Association for Shell and Spatial Structures [IASS](https://iass-structures.org/WG22-Public). It aims at spreading the knowledge of Architectural Geometry within the community interested in architectural design of surfaces. It is thus structured so as to help architects and engineers in their design process and relies therefore on the Structural Morphology Framework (defined by Motro et al.). 
+:::
 
-* The **Form** category regroups all parameters used to define the shape;
-* The **Force** category regroups all parameters used to define the forces applied to the shape and the forces within it;
-* The **Structure** category regroups all parameters used to define the topology of the members constituting the shape, their nature and their relation;
-* The **Material** category regroups all parameters used to define the material of the various members;
-* The **Technology** category regroups all parameters used to define technological aspects of the construction, from assembly to erection process. 
+:::{dropdown} About the Structural Morpology Framework
+Within the IASS, this framework described the design of a structure as a compromise between five categories of parameters: form, force, structure, material and technology. Each category regroups a typical set of parameters used to describe the structure:
 
-When designing a shape, one generally has some architectural intent
-```
-<!-- BANDEAU D’INTRODUCTION DE LA PAGE D’ACCUEIL -->
-<div class="home-intro">
-  <p class="home-intro__text">
-    <i> This web-site is a collaborative project driven by Working Group 22 of the International Association for Shell and Spatial Structures [IASS](https://iass-structures.org/WG22-Public). It aims at spreading the knowledge of Architectural Geometry within the community interested in architectural design of surfaces. To this end, it focuses on design issues and approaches them through structural morphology. Within the IASS, the design process of a structure is often described as a compromise between parameters of five different categories: form, force, structure, material and technology. </i>
-  </p><p>
-    <i>
-    * The Form category regroups all parameters used to define the shape;
-    * The Force category regroups all parameters used to define the forces applied to the shape and the forces within it;
-    * The Structure category regroups all parameters used to define the topology of the members constituting the shape, their nature and their relation;
-    * The Material category regroups all parameters used to define the material of the various members;
-    * The Technology category regroups all parameters used to define technological aspects of the construction, from assembly to erection process.      
-    When designing a shape, one generally has some architectural intent </i>
-  </p>
-  <a class="home-intro__link" href="/portals/about">
-    Learn more about it
-  </a>
-</div>
+* The **Form**  parameters define the shape;
+* The **Force** parameters define the forces applied to the shape and the forces within it;
+* The **Structure** parameters define the topology of the members constituting the shape, their nature and their relation;
+* The **Material** parameters define the material of the various members;
+* The **Technology** parameters define technological aspects of the construction, from assembly to erection process. 
 
-<!-- SECTION DES PORTAILS THÉMATIQUES -->
-<h2 class="home-section-title">Thematic Portals</h2>
-<!-- FORM -->
-<div class="portal-card portal-card--form">
-  <div class="portal-card__header">
-    <h3 class="portal-card__title">Form</h3>
-    <p class="portal-card__description">An introduction to the geometric and mathematical concepts used to describe, understand and classify shapes</p>
-  </div>
-  <details class="subportal-menu"><summary>Geometric Properties</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/geometric-properties/developability/home">Developability</a><a class="subportal-badge" href="/portals/form/geometric-properties/gaussian-curvature/home">Gaussian Curvature</a><a class="subportal-badge" href="/portals/form/geometric-properties/mean-curvature/home">Mean Curvature</a><a class="subportal-badge" href="/portals/form/geometric-properties/surface-boundaries/home">Surface Boudaries</a></div></div></details>
-  <details class="subportal-menu"><summary>Transformations</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><i>content coming soon</i></div></div></details>
-  <details class="subportal-menu"><summary>Surface Families</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/surface-families/catalan/home">Catalan</a><a class="subportal-badge" href="/portals/form/surface-families/conoids/home">Conoid</a><a class="subportal-badge" href="/surfaces/monge-surface/home">Monge</a><a class="subportal-badge" href="/surfaces/moulding-surface/home">Moulding</a><a class="subportal-badge" href="/portals/form/surface-families/quadrics/home">Quadric</a><a class="subportal-badge" href="/portals/form/surface-families/revolution-surfaces/home">Revolution</a><a class="subportal-badge" href="/portals/form/surface-families/ruled-surfaces/home">Ruled</a><a class="subportal-badge" href="/portals/form/surface-families/translation-surfaces/home">Translation</a></div></div></details>
-   <details class="subportal-menu"><summary>Curve Families</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form/curve-families/asymptotic/home">Asymptotic</a><a class="subportal-badge" href="/portals/form/curve-families/curvature/home">Curvature</a><a class="subportal-badge" href="/portals/form/curve-families/geodesic/home">Geodesic</a><a class="subportal-badge" href="/portals/form/curve-families/parabola/home">Parabola</a></div></div></details>
-</div>
-<!-- FORM STRUCTURE -->
-<div class="portal-card portal-card--form">
-  <div class="portal-card__header">
-    <h3 class="portal-card__title">Form - Structure</h3>
-    <p class="portal-card__description"><i>Short description of the portal in just a few words</i></p>
-  </div>
-</div>
-<!-- FORM TECHNOLOGY -->
-<div class="portal-card portal-card--form">
-  <div class="portal-card__header">
-    <h3 class="portal-card__title">Form - Technology</h3>
-    <p class="portal-card__description">From geometric form to construction systems, elements and fabrication methods</p>
-  </div>
-  <details class="subportal-menu"><summary>Linear Elements</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-technology/linear-elements/cables/home">Cables</a><a class="subportal-badge" href="/portals/form-technology/linear-elements/straight-beams/home">Straight Beams</a></div></div></details>
-  <details class="subportal-menu"><summary>Surface-Forming Systems</summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-technology/surface-forming-systems/flat-panels/home">Flat Panels</a><a class="subportal-badge" href="/portals/form-technology/surface-forming-systems/formwork/home">Formwork</a></div></div></details>
-</div>
-<!-- FORM FORCE -->
-<div class="portal-card portal-card--form">
-  <div class="portal-card__header">
-    <h3 class="portal-card__title">Form - Force</h3>
-    <p class="portal-card__description">Geometry considered through forces, equilibrium and structural performance</p>
-  </div>
-  <details class="subportal-menu"><summary><i>Subportal Title</i></summary><div class="subportal-menu__content"><div class="subportal-badge-list"><a class="subportal-badge" href="/portals/form-force/funicular/home">Funicular</a><a class="subportal-badge" href="/portals/form-force/pre-stressed/home">Self prestressed</a><a class="subportal-badge" href="/portals/form-force/uniform-pressure/home">Uniform Pressure</a></div></div></details>
-</div>
-<!-- BUILT EXAMPLES -->
-<!-- ======================================================
-     PORTAIL BUILT EXAMPLES
-     ====================================================== -->
+Each design is hence seen as a compromise between the five sets, each design process as the order in which the various parameters are taken into account.
+:::
 
-<div class="built-examples-card">
-  <div class="built-examples-card__header">
-    <h3>Built Examples</h3>
-    <p class="built-examples-card__description">
-      Case studies illustrating how geometry is translated into constructed works
-    </p>
-  </div>
-  <details class="built-examples-menu"><summary>Designers</summary><div class="built-examples-menu__content"><div class="built-examples-badge-list"><a class="built-examples-badge" href="/built-examples/designers/candela-felix/home">Candela F.</a><a class="built-examples-badge" href="/built-examples/designers/sarger-rene/home">Sarger R.</a></div></div></details>
-  <details class="built-examples-menu"><summary>Locations</summary><div class="built-examples-menu__content"><div class="built-examples-badge-list"><a class="built-examples-badge" href="/built-examples/locations/africa/home">Africa</a><a class="built-examples-badge" href="/built-examples/locations/asia/home">Asia</a><a class="built-examples-badge" href="/built-examples/locations/central-america/home">Central America</a><a class="built-examples-badge" href="/built-examples/locations/europe/home">Europe</a><a class="built-examples-badge" href="/built-examples/locations/north-america/home">North America</a><a class="built-examples-badge" href="/built-examples/locations/oceania/home">Oceania</a><a class="built-examples-badge" href="/built-examples/locations/south-america/home">South America</a></div></div></details>
-  <details class="built-examples-menu"><summary>Programs</summary><div class="built-examples-menu__content"><div class="built-examples-badge-list"><i>content coming soon</i></div></div></details>
-  <details class="built-examples-menu"><summary>Index</summary><div class="built-examples-menu__content"><div class="built-examples-badge-list"><i>content coming soon</i></div></div></details>
-</div>
+:::{dropdown} About the structure of the design guide
+Architectural Geometry is not solely geometry. It contains a lot of mathematical notions but it combines them with other architectural intents. Depending on which intent the designer gives more importance first, one will get a different design process. Elementary interactions of the form parameters with the other categories constitute hence the core structure of this design guide. Beside an ordered presentation of remarkable famillies of surfaces, each section contains also associated numerical methods to transform, compose, assemble or form-find complex shapes. 
 
-<!-- SECTION DES INDEX -->
-<h2 class="home-section-title">Index</h2>
-<div class="index-card">
-  <div class="index-card__header">
-    <h3>Surfaces</h3>
-  </div>
-  <details class="index-menu"><summary>Browse by surface</summary><div class="index-menu__content"><div class="index-badge-list"><a class="index-badge" href="/surfaces/hyperbolic-paraboloid/home">Hyperbolic Paraboloid</a></div></div></details>
-</div>
+1. **Describing the shape** introduces the various notions of geometry which are necessary for a designer to describe and analyse a *form*.
+2. **Structuring globally the shape** focuses on the *form-structure interaction* and contains all the shapes which comes with a natural structuration or discretisation with remarkable architectural features; they are classified by shape generation methods.
+3. **Translating locally technology into shape** focuses on the *form-technology interaction* and contains geometrical interpretations of technological features (in terms of member or assembly caracteristics). Methods to agregate these locally defined properties into a global shape are also described here. 
+4. **Starting from equilibrium** focuses on the *form-force interaction* and emphasises shapes which have naturally good mechanical properties, which can withstand loads with minimal deformation such as funicular, self-stressed and inflatable structures. References of form-finding methods are also listed here. 
+
+More complex interactions are of course possible, but they are likely less general. They will thus be illustrated in the section dedicated to case studies.
+
+5. **Built examples** contains thus analyses of existing remarkable built examples through the prism of interaction between form, force, structure, material and technology. They are classified by *material*, which is the only category of parameters which is not adressed elsewhere.
+:::
+
+::::{card} 
+:header: **Describing the shape or how to analyse the form parameters**
+This section introduces the various notions of geometry which are necessary for a designer to describe and analyse a *form*.
+
+:::{dropdown} Geometry of Curves
+Elementary notions of curves geometry
+:::
+
+:::{dropdown} Smooth Surfaces
+Elementary notions of smooth differential geometry
+:::
+
+:::{dropdown}  Polyedral Surfaces
+Elementary notions of discrete differential geometry
+:::
+
+:::{dropdown} Transformations of Surfaces
+Elementary notions of surface transformations and invariant properties.
+:::
+
+::::
+
+::::{card} 
+:header: **Structuring globally the shape through Form-Structure Interaction**
+
+This section contains shapes which comes with a natural structuration or discretisation with remarkable architectural features; they are classified by shape generation methods.
+
+:::{dropdown} Surfaces from 2 curves
+This section contains surfaces generated by two curves ordered by characteristics of the resulting mesh.
+
+{button}`Meshed by principal curvatures <form_structure/2curves/principal/home.md>`
+{button}`Meshed by asymptotic curves <form_structure/2curves/asymptotic/home.md>`
+{button}`Meshed by geodesic curves <form_structure/2curves/geodesic/home.md>`
+{button}`Meshed by planar quads <form_structure/2curves/planar_quads/home.md>`  
+
+:::
+
+:::{dropdown} Surfaces from 3 curves
+This section contains surfaces generated by three curves ordered by characteristics of the resulting mesh.
+
+{button}`Meshed by principal curvatures <form_structure/3curves/principal/home.md>`
+
+:::
+
+::::
+
+::::{card} 
+:header: **Translating locally technology into shape through form-technology interaction**
+This section contains geometrical interpretations of technological features (in terms of member or assembly caracteristics). Methods to agregate these locally defined properties into a global shape are also described here. 
+
+:::{dropdown}  By member characteristics
+This section lists usual member characteristics and translates them into local geometric properties.
+:::
+
+:::{dropdown}   By node characteristics
+This section lists usual node/assembly characteristics and translates them into local geometric properties.
+:::
+
+:::{dropdown}  By panel characteristics
+This section lists usual panel characteristics and translates them into local geometric properties.
+:::
+
+:::{dropdown}  Integration methods
+This section provides an overview of numerical methods to integrate local geometric properties and the scale of the global shape.
+:::
 
 
-## Contribute
-<div class="home-about">
-  <p>
-    If you want to contribute, follow the dedicated
-    <a class="home-about__link" href="/contributing/contribute">guide</a>.
-  </p>
-</div>
+::::
+
+::::{card}
+:header: **Starting from equilibrium through form-force interaction**
+This section emphasises shapes which have naturally good mechanical properties, which can withstand loads with minimal deformation such as funicular, self-stressed and inflatable structures. References of form-finding methods are also listed here. 
+
+:::{dropdown}  Geometry and equilibrium
+This section recalls basic notions of equilibrium of usual mechanical models from arch to membrane through Pucher, Laplace equations as well as static graphics.
+:::
+
+:::{dropdown} Inflatable shapes
+This section reviews shapes which are naturally in equilibrium with a uniform pressure.
+:::
+
+:::{dropdown} Funicular shapes
+This section reviews shapes which are naturally in equilibrium with gravity loads.
+
+:::
+
+:::{dropdown} Self-stressed shapes
+This section reviews shapes in which one or several self-stressed states exist.
+
+:::
+
+:::{dropdown} Form-finding methods
+This section expands previous notions to methods commonly used to search for shapes in equilibrium.
+
+:::
+
+::::
+
+::::{card}
+:header: **Built Examples**
+This section contains analyses of remarkable built examples through the prism of interaction between form, force, structure, material and technology. They are classified by *material*, which is the only category of parameters which is not adressed elsewhere.
+
+:::{dropdown} Made of timber
+This section regroups built examples where timber is the dominant material.
+
+:::
+
+:::{dropdown} Made of steel
+This section regroups built examples where steel is the dominant material.
+
+:::
+
+:::{dropdown} Made of concrete
+This section regroups built examples where concrete is the dominant material.
+
+:::
+
+:::{dropdown} Made of stone
+This section regroups built examples where stone is the dominant material.
+
+:::
+
+:::{dropdown} Made of textile
+This section regroups built examples where textile is the dominant material.
+
+:::
+
+::::

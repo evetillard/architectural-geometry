@@ -44,26 +44,11 @@ z = \frac{x^2}{a^2} - \frac{y^2}{b^2}
 $$ 
 
 **Surface family** : 
-<a class="tag"
-   href="../../portals/form/surface-families/conoids/home">
-  Conoid
-</a>
-<a class="tag"
-   href="../../portals/form/surface_families/quadrics/home">
-  Quadric
-</a>
-<a class="tag"
-   href="../../portals/form/surface-families/ruled-surfaces/home">
-  Ruled
-</a>
-<a class="tag"
-   href="../../portals/form/surface-families/catalan/home">
-  Catalan
-</a>
-<a class="tag"
-   href="../../portals/form/surface-families/translation-surfaces/home">
-  Translation
-</a>
+{button}`Conoid <../../portals/form/surface-families/conoids/home>`
+{button}`Quadric <../../portals/form/surface_families/quadrics/home>`
+{button}`Ruled <../../portals/form/surface-families/ruled-surfaces/home>`
+{button}`Catalan <../../portals/form/surface-families/catalan/home>`
+{button}`Translation <../../portals/form/surface-families/translation-surfaces/home>`
 
 **Geometric properties** : 
 <a class="tag"
@@ -92,31 +77,22 @@ $$
 
 The hyperbolic paraboloid is a doubly ruled surface. It contains two distinct families of straight rulings, each of which coincides with one family of asymptotic lines. The hyperbolic paraboloid can be generated from three straight lines that are two by two non coplanar. The four boundary rulings therefore form a skew quadrilateral. The two ruling families subdivide this skew quadrilateral into a mesh of smaller skew quadrilaterals. Each cell is bounded by four non-coplanar vertices.[@ferreol2019hp]
 
-:::{div}
-:class: figure-1
+::::{grid} 3 3 3 3
 
-:::{div}
-:class: figure-1-row
-
-<div class="figure-1-slot">
-<img src="images/Pt1_Sch1_Gen1.svg">
-</div>
-
-<div class="figure-1-slot">
-<img src="images/Pt1_Sch1_Gen2.svg">
-</div>
-
-<div class="figure-1-slot">
-<img src="images/Pt1_Sch1_GenTot.svg">
-</div>
-
+:::{card} First rulling familly
+![alt](images/Pt1_Sch1_Gen1.svg)
 :::
-:::{div}
-:class: figure-1-caption
 
-Doubly Ruled Surface
-
+:::{card} Second rulling familly
+![alt](images/Pt1_Sch1_Gen2.svg)
 :::
+
+:::{card} Doubly rulled surface
+![alt](images/Pt1_Sch1_GenTot.svg)
+:::
+::::
+
+
 
 The hyperbolic paraboloid can be generated from three straight lines. Two non-coplanar lines act as guide rails, while a third straight line sweeps between them. 
 

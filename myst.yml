@@ -23,13 +23,14 @@ extends:
 
 site:
   template: book-theme
-  style: css/style.css
+  # style: css/style.css
   options:
     favicon: images/favicon-iass.ico
     logo: images/logo-iass.png
     hide_footer_links: true
     folders: true
     numbered_references: true
+    style: css/style.css
   nav:
     - title: Home
       url: /index

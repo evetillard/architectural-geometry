@@ -2,106 +2,82 @@ version: 1
 project:
   toc:
    - file: index.md
-   - title: Contributing
-     children: 
-      - pattern: 'contributing/*.md'
-   - title: Surfaces
-     children: 
-      - file: surfaces/hyperbolic_paraboloid/home.md
-      - file: surfaces/moulding_surface/home.md
-      - file: surfaces/monge_surface/home.md
 
-   - title: Thematic Portals
-     file: portals/about.md
+   - title: Form
+     file: form/home_portal.md
      children:
 
-       - title: Form
-         file: portals/form/home_portal.md
+       - title: Geometry of Curves
+         file: form/curves/home.md  
+       - title: Smooth Surfaces
+         file: form/smooth_surfaces/home.md
+       - title: Polyedral Surfaces
+         file: form/polyedral_surfaces/home.md
+       - title: Transformations of Surfaces
+         file: form/transformations/home.md
+
+   - title: Form-Structure
+     file: form_structure/home_portal.md
+     children:
+
+       - title: Surfaces from two curves
          children:
-           - title: Geometric Properties
-             children:
-               - file: portals/form/geometric_properties/developability/home.md
-               - file: portals/form/geometric_properties/gaussian_curvature/home.md
-               - file: portals/form/geometric_properties/mean_curvature/home.md
-               - file: portals/form/geometric_properties/surface_boundaries/home.md
+         - title: Meshed by principal curvatures
+           file: form_structure/2curves/principal/home.md
+         - title: Meshed by asymptotic curves
+           file: form_structure/2curves/asymptotic/home.md
+         - title: Meshed by geodesic curves
+           file: form_structure/2curves/geodesic/home.md
+         - title: Meshed by planar quads
+           file: form_structure/2curves/planar_quads/home.md
+       - title: Surfaces from three curves
+         file: form_structure/3curves/home.md
+       - title: Compatible transformations
+         file: form_structure/compatible_transformations/home.md
 
-           - title: Transformations
-             children:
-               - file: portals/form/transformations/combescure/home.md
+   - title: Form-Technology 
+     file: form_technology/home_portal.md
+     children:
 
-           - title: Surface Families
-             children:
-               - file: portals/form/surface_families/catalan/home.md
-               - file: portals/form/surface_families/conoids/home.md
-               - file: portals/form/surface_families/quadrics/home.md
-               - file: portals/form/surface_families/revolution_surfaces/home.md
-               - file: portals/form/surface_families/ruled_surfaces/home.md
-               - file: portals/form/surface_families/translation_surfaces/home.md
-               
-           - title: Curve Families
-             children:
-                - file: portals/form/curve_families/asymptotic/home.md
-                - file: portals/form/curve_families/curvature/home.md
-                - file: portals/form/curve_families/geodesic/home.md
-                - file: portals/form/curve_families/parabola/home.md
+       - title: By member characteristics
+         file: form_technology/member_characteristics/home.md
+       - title: By node characteristics
+         file: form_technology/node_characteristics/home.md
+       - title: By panel characteristics
+         file: form_technology/panel_characteristics/home.md
+       - title: Integration methods
+         file: form_technology/integration_methods/home.md
 
-       - title: Form - Structure
-         file: portals/form_structure/home_portal.md
+   - title: Form-Force 
+     file: form_force/home_portal.md
+     children:
 
-       - title: Form - Force
-         file: portals/form_force/home_portal.md
-         children:
-           - title: Funicular
-             file: portals/form_force/funicular/home.md
-           - title: Pre-Stressed
-             file: portals/form_force/pre_stressed/home.md
-           - title: Uniform Pressure
-             file: portals/form_force/uniform_pressure/home.md
-
-       - title: Form - Technology
-         file: portals/form_technology/home_portal.md
-         children:
-           - title: Straight Beams
-             file: portals/form_technology/linear_elements/straight_beams/home.md
-           - title: Flat Panels
-             file: portals/form_technology/surface_forming_systems/flat_panels/home.md
-           - title: Cables
-             file: portals/form_technology/linear_elements/cables/home.md
-           - title: Formwork
-             file: portals/form_technology/surface_forming_systems/formwork/home.md
+       - title: Geometry and equilibrium
+         file: form_force/equilibrium/home.md
+       - title: Inflatable shapes
+         file: form_force/inflatable/home.md
+       - title: Funicular shapes
+         file: form_force/funicular/home.md
+       - title: Self-stressed shapes
+         file: form_force/self_stressed/home.md
+       - title: Form-finding methods
+         file: form_force/form_finding/home.md
 
    - title: Built Examples
      file: built_examples/home_portal.md
      children:
 
-       - title: Designers
-         file: built_examples/designers/home.md
-         children:
-           - title: Felix Candela
-             file: built_examples/designers/candela_felix/home.md
-           - title: René Sarger
-             file: built_examples/designers/sarger_rene/home.md
-       - title: Locations
-         file: built_examples/locations/home.md
-         children:
-           - title: Africa
-             file: built_examples/locations/africa/home.md
-           - title: Asia
-             file: built_examples/locations/asia/home.md
-           - title: Central America
-             file: built_examples/locations/central_america/home.md
-           - title: Europe
-             file: built_examples/locations/europe/home.md
-           - title: North America
-             file: built_examples/locations/north_america/home.md
-           - title: Oceania
-             file: built_examples/locations/oceania/home.md
-           - title: South America
-             file: built_examples/locations/south_america/home.md
-       - title: Programs
-         file: built_examples/program/home.md
-       - title: Index
-         file: built_examples/index/home.md
+       - title: Made of wood
+         file: built_examples/wood/home.md
+       - title: Made of concrete
+         file: built_examples/concrete/home.md
+       - title: Made of steel
+         file: built_examples/steel/home.md
+       - title: Made of fabric
+         file: built_examples/fabric/home.md
+       - title: Made of stone
+         file: built_examples/stone/home.md
+
 
    - title: Index
      children:
@@ -109,7 +85,10 @@ project:
        - title: Surfaces
          file: indexes/surfaces/home.md
 
-
+   - title: Contributing
+     children: 
+      - pattern: 'contributing/*.md'
+    
 
 
 
