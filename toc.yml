@@ -9,12 +9,24 @@ project:
 
        - title: Geometry of Curves
          file: form/curves/home.md  
+         children:
+          - pattern: 'form/curves/*/home.md'
+            sort: ascending
        - title: Smooth Surfaces
          file: form/smooth_surfaces/home.md
-       - title: Polyedral Surfaces
+         children:
+          - pattern: 'form/smooth_surfaces/*/home.md'
+            sort: ascending
+       - title: Polyhedral Surfaces
          file: form/polyedral_surfaces/home.md
+         children:
+          - pattern: 'form/polyedral_surfaces/*/home.md'
+            sort: ascending
        - title: Transformations of Surfaces
          file: form/transformations/home.md
+         children:
+          - pattern: 'form/transformations/*/home.md'
+            sort: ascending
 
    - title: Form-Structure
      file: form_structure/home_portal.md
@@ -24,16 +36,34 @@ project:
          children:
          - title: Meshed by principal curvatures
            file: form_structure/2curves/principal/home.md
+           children:
+            - pattern: 'form_structure/2curves/principal/*/home.md'
+              sort: ascending
          - title: Meshed by asymptotic curves
            file: form_structure/2curves/asymptotic/home.md
+           children:
+            - pattern: 'form_structure/2curves/asymptotic/*/home.md'
+              sort: ascending
          - title: Meshed by geodesic curves
            file: form_structure/2curves/geodesic/home.md
+           children:
+            - pattern: 'form_structure/2curves/geodesic/*/home.md'
+              sort: ascending
          - title: Meshed by planar quads
            file: form_structure/2curves/planar_quads/home.md
+           children:
+            - pattern: 'form_structure/2curves/planar_quads/*/home.md'
+              sort: ascending
        - title: Surfaces from three curves
          file: form_structure/3curves/home.md
+         children:
+            - pattern: 'form_structure/3curves/*/home.md'
+              sort: ascending
        - title: Compatible transformations
          file: form_structure/compatible_transformations/home.md
+         children:
+            - pattern: 'form_structure/compatible_transformations/*/home.md'
+              sort: ascending
 
    - title: Form-Technology 
      file: form_technology/home_portal.md
@@ -41,12 +71,24 @@ project:
 
        - title: By member characteristics
          file: form_technology/member_characteristics/home.md
+         children:
+          - pattern: 'form_technology/member_characteristics/*/home.md'
+            sort: ascending
        - title: By node characteristics
          file: form_technology/node_characteristics/home.md
+         children:
+          - pattern: 'form_technology/node_characteristics/*/home.md'
+            sort: ascending
        - title: By panel characteristics
          file: form_technology/panel_characteristics/home.md
+         children:
+          - pattern: 'form_technology/panel_characteristics/*/home.md'
+            sort: ascending
        - title: Integration methods
          file: form_technology/integration_methods/home.md
+         children:
+          - pattern: 'form_technology/integration_methods/*/home.md'
+            sort: ascending
 
    - title: Form-Force 
      file: form_force/home_portal.md
@@ -54,14 +96,29 @@ project:
 
        - title: Geometry and equilibrium
          file: form_force/equilibrium/home.md
+         children:
+          - pattern: 'form_force/equilibrium/*/home.md'
+            sort: ascending
        - title: Inflatable shapes
          file: form_force/inflatable/home.md
+         children:
+          - pattern: 'form_force/inflatable/*/home.md'
+            sort: ascending
        - title: Funicular shapes
          file: form_force/funicular/home.md
+         children:
+          - pattern: 'form_force/funicular/*/home.md'
+            sort: ascending
        - title: Self-stressed shapes
          file: form_force/self_stressed/home.md
+         children:
+          - pattern: 'form_force/self_stressed/*/home.md'
+            sort: ascending
        - title: Form-finding methods
          file: form_force/form_finding/home.md
+         children:
+          - pattern: 'form_force/form_finding/*/home.md'
+            sort: ascending
 
    - title: Built Examples
      file: built_examples/home_portal.md
@@ -69,14 +126,29 @@ project:
 
        - title: Made of wood
          file: built_examples/wood/home.md
+         children:
+          - pattern: 'built_examples/wood/*/home.md'
+            sort: ascending
        - title: Made of concrete
          file: built_examples/concrete/home.md
+         children:
+            - pattern: 'built_examples/concrete/*/home.md'
+              sort: ascending
        - title: Made of steel
          file: built_examples/steel/home.md
+         children:
+            - pattern: 'built_examples/steel/*/home.md'
+              sort: ascending
        - title: Made of fabric
          file: built_examples/fabric/home.md
+         children:
+            - pattern: 'built_examples/fabric/*/home.md'
+              sort: ascending
        - title: Made of stone
          file: built_examples/stone/home.md
+         children:
+            - pattern: 'built_examples/stone/*/home.md'
+              sort: ascending
 
 
    - title: Index
@@ -84,10 +156,14 @@ project:
 
        - title: Surfaces
          file: indexes/surfaces/home.md
+         children:
+          - pattern: 'indexes/surfaces/*/home.md'
+            sort: ascending
 
    - title: Contributing
      children: 
       - pattern: 'contributing/*.md'
+        sort: ascending
     
 
 
