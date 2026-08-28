@@ -157,7 +157,7 @@ project:
        - title: Surfaces
          file: indexes/surfaces/home.md
          children:
-          - pattern: 'indexes/surfaces/*/home.md'
+          - pattern: 'surfaces/*/home.md'
             sort: ascending
 
    - title: Contributing
