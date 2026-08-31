@@ -158,3 +158,45 @@ This section regroups built examples where textile is the dominant material.
 :::
 
 ::::
+
+
+:::::{card}
+:header: **Index**
+
+::::{dropdown} Surfaces
+
+:::{dropdown} A-D
+*no surfaces here yet*
+
+:::
+
+:::{dropdown} E-H
+{button}`Hyperbolic Paraboloid <surfaces/hyperbolic_paraboloid/home.md>`
+
+:::
+
+:::{dropdown} I-L
+*no surfaces here yet*
+
+:::
+
+:::{dropdown} M-P
+*no surfaces here yet*
+
+:::
+
+
+:::{dropdown} Q-T
+*no surfaces here yet*
+
+:::
+
+:::{dropdown} U-Z
+*no surfaces here yet*
+
+:::
+
+::::
+
+
+:::::
