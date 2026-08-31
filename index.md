@@ -162,15 +162,17 @@ This section regroups built examples where textile is the dominant material.
 
 :::::{card}
 :header: **Index**
+This section contains usueful indexes by alphetical order. 
 
 ::::{dropdown} Surfaces
-
+This section contains a list of pages dedicated specific surfaces.
 :::{dropdown} A-D
 *no surfaces here yet*
 
 :::
 
 :::{dropdown} E-H
+:open:
 {button}`Hyperbolic Paraboloid <surfaces/hyperbolic_paraboloid/home.md>`
 
 :::
@@ -181,7 +183,7 @@ This section regroups built examples where textile is the dominant material.
 :::
 
 :::{dropdown} M-P
-*no surfaces here yet*
+{button}`Moulding surfaces <surfaces/moulding_surfaces/home.md>`
 
 :::
 
