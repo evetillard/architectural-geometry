@@ -1,0 +1,17 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+
+  // Nom technique du Worker de staging.
+  "name": "architectural-geometry-suggestions-staging",
+
+  // Programme exécuté lorsqu'une requête arrive.
+  "main": "src/index.mjs",
+
+  // Fige le comportement de la plateforme Cloudflare.
+  "compatibility_date": "2026-08-31",
+
+  // Prépare la collecte des journaux d'exécution.
+  "observability": {
+    "enabled": true
+  }
+}

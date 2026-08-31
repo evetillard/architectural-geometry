@@ -21,10 +21,15 @@
   "devDependencies": {
     "ajv": "^8.20.0",
     "concurrently": "10.0.5",
-    "jupyter-book": "2.1.6"
+    "jupyter-book": "2.1.6",
+    "wrangler": "^4.127.1"
   },
   "engines": {
     "node": ">=24 <27",
     "npm": ">=11"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "workerd@1.20260828.1": true
   }
 }
