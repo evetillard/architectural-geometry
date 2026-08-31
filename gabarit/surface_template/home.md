@@ -22,12 +22,22 @@ Choose the appropriate figure layout documented in README.md.
 this field if no single equation appropriately describes the surface. -->
 
 **Surface family**:
-
-<!-- TODO: Add one or more tags linking to the relevant surface families. -->
+<!--To add badges, use the following syntax : {button}`badge name <link>` -->
 
 **Geometric properties**:
 
-<!-- TODO: Add one or more tags linking to the relevant geometric properties. -->
+
+**Geometric generation** :
+
+
+**Building systems** :
+
+
+**Structural properties** : 
+
+
+**Built examples** : 
+
 
 :::
 

@@ -43,47 +43,35 @@ $$
 z = \frac{x^2}{a^2} - \frac{y^2}{b^2}
 $$ 
 
-**Surface family** : 
-<a class="tag"
-   href="../../portals/form/surface-families/conoids/home">
-  Conoid
-</a>
-<a class="tag"
-   href="../../portals/form/surface_families/quadrics/home">
-  Quadric
-</a>
-<a class="tag"
-   href="../../portals/form/surface-families/ruled-surfaces/home">
-  Ruled
-</a>
-<a class="tag"
-   href="../../portals/form/surface-families/catalan/home">
-  Catalan
-</a>
-<a class="tag"
-   href="../../portals/form/surface-families/translation-surfaces/home">
-  Translation
-</a>
+**Surface families** : 
+{button}`Catalan <../../portals/form/surface-families/catalan/home>`
+{button}`Conoid <../../portals/form/surface-families/conoids/home>`
+{button}`Quadric <../../portals/form/surface-families/quadrics/home>`
+{button}`Ruled <../../portals/form/surface-families/ruled-surfaces/home>`
+{button}`Translation <../../portals/form/surface-families/translation-surfaces/home>`
 
 **Geometric properties** : 
-<a class="tag"
-   href="../../portals/form/geometric-properties/developability/home">
-  non-developable
-</a>
-<a class="tag"
-   href="../../portals/form/geometric-properties/gaussian-curvature/home">
-  negative Gaussian curvature (anticlastic)
-</a>
-<a class="tag"
-   href="../../portals/form/geometric-properties/mean-curvature/home">
-  non-null mean curvature (non-minimal)
-</a>
-<a class="tag"
-   href="../../portals/form/geometric-properties/surface-boundaries/home">
-  open
-</a>
+{button}`non-developable <../../portals/form/geometric-properties/developability/home>`
+{button}`negative Gaussian curvature <../../portals/form/geometric-properties/gaussian-curvature/home>`
+{button}`non-minimal <../../portals/form/geometric-properties/mean-curvature/home>`
+{button}`open <../../portals/form/geometric-properties/surface-boundaries/home>`
+
+**Geometric generation** :
+{button}`translation of 2 parabolas <../../form_structure/home_portal>`
+{button}`ruled by straight lines <../../form_structure/home_portal>`
+
+**Building systems** :
+{button}`straight members <../../form_technology/member_characteristics/straight_member/home>`
+{button}`flat panels <../../form_technology/panel_characteristics/flat_panels/home>`
+
+**Structural properties** : 
+{button}`self-stressed <../../portals/form-force/pre-stressed/home>` 
+
+**Built examples** : 
+{button}`Los Manantiales <../../built_examples/concrete/los_manantiales/home>`
 
 :::
+
 
 
 ## Built from straight elements
