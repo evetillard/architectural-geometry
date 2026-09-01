@@ -14,3 +14,7 @@ node_modules/
 
 # Cloudflare local development state
 .wrangler/
+
+# Local Worker secrets
+.dev.vars*
+.env*
