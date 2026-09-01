@@ -2,11 +2,14 @@
   "$schema": "../node_modules/wrangler/config-schema.json",
 
   "name": "architectural-geometry-suggestions-staging",
+
   "main": "src/index.mjs",
+
   "compatibility_date": "2026-08-31",
 
   "vars": {
-    "ENVIRONMENT": "local"
+    "ENVIRONMENT": "local",
+    "GITHUB_DELIVERY_ENABLED": "false"
   },
 
   "d1_databases": [
@@ -21,6 +24,12 @@
       "migrations_dir": "migrations"
     }
   ],
+
+  // Aucun véritable Cron ne sera créé tant que la livraison GitHub
+  // du Worker n'aura pas été configurée et testée.
+  "triggers": {
+    "crons": []
+  },
 
   "observability": {
     "enabled": true

@@ -7,16 +7,11 @@ import {
 const JSON_CONTENT_TYPE =
   "application/json; charset=utf-8";
 
-/* ========================================================================== */
-/* CORS                                                                       */
-/* ========================================================================== */
-
 function isAllowedOrigin(origin, env) {
   if (!origin) {
     return false;
   }
 
-  // During local development, MyST may choose any available port.
   if (
     env.ENVIRONMENT === "local" &&
     /^http:\/\/(?:localhost|127\.0\.0\.1):\d+$/.test(origin)
@@ -24,7 +19,6 @@ function isAllowedOrigin(origin, env) {
     return true;
   }
 
-  // Staging and production will provide one exact public origin.
   const configuredOrigin =
     typeof env.ALLOWED_ORIGIN === "string"
       ? env.ALLOWED_ORIGIN.trim()
@@ -43,30 +37,14 @@ function createCorsHeaders(origin) {
     return headers;
   }
 
-  headers.set(
-    "Access-Control-Allow-Origin",
-    origin,
-  );
-  headers.set(
-    "Access-Control-Allow-Methods",
-    "POST, OPTIONS",
-  );
-  headers.set(
-    "Access-Control-Allow-Headers",
-    "Content-Type",
-  );
-  headers.set(
-    "Access-Control-Max-Age",
-    "86400",
-  );
+  headers.set("Access-Control-Allow-Origin", origin);
+  headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+  headers.set("Access-Control-Allow-Headers", "Content-Type");
+  headers.set("Access-Control-Max-Age", "86400");
   headers.set("Vary", "Origin");
 
   return headers;
 }
-
-/* ========================================================================== */
-/* RESPONSES                                                                  */
-/* ========================================================================== */
 
 function jsonResponse(
   payload,
@@ -75,10 +53,7 @@ function jsonResponse(
 ) {
   const headers = new Headers(additionalHeaders);
 
-  headers.set(
-    "Content-Type",
-    JSON_CONTENT_TYPE,
-  );
+  headers.set("Content-Type", JSON_CONTENT_TYPE);
   headers.set("Cache-Control", "no-store");
 
   return new Response(
@@ -98,10 +73,6 @@ function formatValidationErrors(errors = []) {
     params: error.params,
   }));
 }
-
-/* ========================================================================== */
-/* D1 STORAGE                                                                 */
-/* ========================================================================== */
 
 async function persistSuggestion(env, suggestion) {
   const id = crypto.randomUUID();
@@ -155,29 +126,43 @@ async function persistSuggestion(env, suggestion) {
   return storedRecord;
 }
 
-/* ========================================================================== */
-/* WORKER                                                                     */
-/* ========================================================================== */
+async function handleScheduledRecovery(controller, env) {
+  const scheduledTime = Number.isFinite(controller.scheduledTime)
+    ? new Date(controller.scheduledTime).toISOString()
+    : new Date().toISOString();
+
+  const eventInformation = {
+    cron: controller.cron ?? null,
+    scheduledTime,
+    environment: env.ENVIRONMENT ?? "unknown",
+  };
+
+  if (env.GITHUB_DELIVERY_ENABLED !== "true") {
+    console.info(
+      "[Suggestion retry] Scheduled event received; GitHub delivery is disabled.",
+      eventInformation,
+    );
+
+    return {
+      status: "disabled",
+      ...eventInformation,
+    };
+  }
+
+  throw new Error(
+    "GitHub delivery was enabled before the Worker GitHub client was configured.",
+  );
+}
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const origin =
-      request.headers.get("Origin");
-
-    const originIsAllowed =
-      isAllowedOrigin(origin, env);
-
+    const origin = request.headers.get("Origin");
+    const originIsAllowed = isAllowedOrigin(origin, env);
     const corsHeaders = originIsAllowed
       ? createCorsHeaders(origin)
       : new Headers();
 
-    /*
-     * Reject browser requests explicitly coming from another website.
-     *
-     * Requests without an Origin header remain available to PowerShell,
-     * curl, monitoring systems and server-to-server clients.
-     */
     if (origin && !originIsAllowed) {
       return jsonResponse(
         {
@@ -189,9 +174,6 @@ export default {
       );
     }
 
-    /*
-     * Browser preflight preceding the JSON POST.
-     */
     if (
       request.method === "OPTIONS" &&
       url.pathname === "/api/suggestions"
@@ -213,9 +195,6 @@ export default {
       });
     }
 
-    /*
-     * Health endpoint.
-     */
     if (
       request.method === "GET" &&
       url.pathname === "/health"
@@ -223,21 +202,21 @@ export default {
       return jsonResponse(
         {
           status: "ok",
-          service:
-            "architectural-geometry-suggestions",
+          service: "architectural-geometry-suggestions",
           environment: env.ENVIRONMENT,
           storage: "d1",
           issueFormatting: "enabled",
-          githubDelivery: "not-configured",
+          githubDelivery:
+            env.GITHUB_DELIVERY_ENABLED === "true"
+              ? "enabled"
+              : "disabled",
+          scheduledRecovery: "configured",
         },
         200,
         corsHeaders,
       );
     }
 
-    /*
-     * Suggestion submission endpoint.
-     */
     if (
       request.method === "POST" &&
       url.pathname === "/api/suggestions"
@@ -295,9 +274,6 @@ export default {
         );
       }
 
-      /*
-       * First persist the validated suggestion.
-       */
       let storedRecord;
 
       try {
@@ -322,12 +298,6 @@ export default {
         );
       }
 
-      /*
-       * Then derive the simulated GitHub Issue.
-       *
-       * A formatting failure must not conceal the fact that the
-       * suggestion has already been stored successfully.
-       */
       let issuePreview;
 
       try {
@@ -350,8 +320,7 @@ export default {
             persisted: true,
             id: storedRecord.id,
             status: storedRecord.status,
-            submittedAt:
-              storedRecord.submittedAt,
+            submittedAt: storedRecord.submittedAt,
             delivery: storedRecord.delivery,
             issuePreview: null,
           },
@@ -365,8 +334,7 @@ export default {
           persisted: true,
           id: storedRecord.id,
           status: storedRecord.status,
-          submittedAt:
-            storedRecord.submittedAt,
+          submittedAt: storedRecord.submittedAt,
           delivery: storedRecord.delivery,
           issuePreview,
         },
@@ -375,19 +343,10 @@ export default {
       );
     }
 
-    /*
-     * Known endpoint, unsupported HTTP method.
-     */
-    if (
-      url.pathname === "/api/suggestions"
-    ) {
-      const methodHeaders =
-        new Headers(corsHeaders);
+    if (url.pathname === "/api/suggestions") {
+      const methodHeaders = new Headers(corsHeaders);
 
-      methodHeaders.set(
-        "Allow",
-        "POST, OPTIONS",
-      );
+      methodHeaders.set("Allow", "POST, OPTIONS");
 
       return jsonResponse(
         {
@@ -408,6 +367,12 @@ export default {
       },
       404,
       corsHeaders,
+    );
+  },
+
+  async scheduled(controller, env, ctx) {
+    ctx.waitUntil(
+      handleScheduledRecovery(controller, env),
     );
   },
 };
