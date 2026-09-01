@@ -114,7 +114,7 @@ async function persistSuggestion(env, suggestion) {
     submittedAt,
     suggestion,
     delivery: {
-      status: "not-requested",
+      status: "pending",
     },
   };
 
