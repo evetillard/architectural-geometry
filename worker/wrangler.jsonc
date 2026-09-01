@@ -1,36 +1,32 @@
 {
   "$schema": "../node_modules/wrangler/config-schema.json",
-
   "name": "architectural-geometry-suggestions-staging",
-
   "main": "src/index.mjs",
-
   "compatibility_date": "2026-08-31",
-
   "vars": {
     "ENVIRONMENT": "local",
-    "GITHUB_DELIVERY_ENABLED": "false"
+    "GITHUB_DELIVERY_ENABLED": "true",
+    "GITHUB_APP_ID": "4795049",
+    "GITHUB_APP_INSTALLATION_ID": "158272785",
+    "GITHUB_REPOSITORY_OWNER": "evetillard",
+    "GITHUB_REPOSITORY_NAME": "architectural-geometry"
   },
-
+  "secrets": {
+    "required": [
+      "GITHUB_APP_PRIVATE_KEY_BASE64"
+    ]
+  },
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "architectural-geometry-suggestions-local",
-
-      // Identifiant factice utilisable uniquement en développement local.
-      // Il sera remplacé par l'identifiant réel de la base de staging.
       "database_id": "00000000-0000-0000-0000-000000000000",
-
       "migrations_dir": "migrations"
     }
   ],
-
-  // Aucun véritable Cron ne sera créé tant que la livraison GitHub
-  // du Worker n'aura pas été configurée et testée.
   "triggers": {
     "crons": []
   },
-
   "observability": {
     "enabled": true
   }

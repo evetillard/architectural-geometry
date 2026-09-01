@@ -17,7 +17,8 @@
     "retry:suggestions": "node scripts/retry-failed-suggestion.mjs",
     "test:retry-policy": "node scripts/check-suggestion-retry-policy.mjs",
     "test:retry-service": "node scripts/check-suggestion-retry-service.mjs",
-    "generate:worker-validator": "node scripts/generate-worker-suggestion-validator.mjs"
+    "generate:worker-validator": "node scripts/generate-worker-suggestion-validator.mjs",
+    "test:github-app": "node scripts/check-worker-github-app.mjs"
   },
   "devDependencies": {
     "ajv": "^8.20.0",
