@@ -1,6 +1,15 @@
 import validateSuggestion from "./generated/validate-suggestion.mjs";
 
-const JSON_CONTENT_TYPE = "application/json; charset=utf-8";
+import {
+  formatSuggestionAsGitHubIssue,
+} from "../../lib/content-suggestions/github-issue-formatter.mjs";
+
+const JSON_CONTENT_TYPE =
+  "application/json; charset=utf-8";
+
+/* ========================================================================== */
+/* CORS                                                                       */
+/* ========================================================================== */
 
 function isAllowedOrigin(origin, env) {
   if (!origin) {
@@ -21,7 +30,10 @@ function isAllowedOrigin(origin, env) {
       ? env.ALLOWED_ORIGIN.trim()
       : "";
 
-  return configuredOrigin !== "" && origin === configuredOrigin;
+  return (
+    configuredOrigin !== "" &&
+    origin === configuredOrigin
+  );
 }
 
 function createCorsHeaders(origin) {
@@ -31,25 +43,51 @@ function createCorsHeaders(origin) {
     return headers;
   }
 
-  headers.set("Access-Control-Allow-Origin", origin);
-  headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-  headers.set("Access-Control-Allow-Headers", "Content-Type");
-  headers.set("Access-Control-Max-Age", "86400");
+  headers.set(
+    "Access-Control-Allow-Origin",
+    origin,
+  );
+  headers.set(
+    "Access-Control-Allow-Methods",
+    "POST, OPTIONS",
+  );
+  headers.set(
+    "Access-Control-Allow-Headers",
+    "Content-Type",
+  );
+  headers.set(
+    "Access-Control-Max-Age",
+    "86400",
+  );
   headers.set("Vary", "Origin");
 
   return headers;
 }
 
-function jsonResponse(payload, status = 200, additionalHeaders = undefined) {
+/* ========================================================================== */
+/* RESPONSES                                                                  */
+/* ========================================================================== */
+
+function jsonResponse(
+  payload,
+  status = 200,
+  additionalHeaders = undefined,
+) {
   const headers = new Headers(additionalHeaders);
 
-  headers.set("Content-Type", JSON_CONTENT_TYPE);
+  headers.set(
+    "Content-Type",
+    JSON_CONTENT_TYPE,
+  );
   headers.set("Cache-Control", "no-store");
 
-  return new Response(`${JSON.stringify(payload, null, 2)}\n`, {
-    status,
-    headers,
-  });
+  return new Response(
+    `${JSON.stringify(payload, null, 2)}\n`,
+    {
+      status,
+      headers,
+    },
+  );
 }
 
 function formatValidationErrors(errors = []) {
@@ -60,6 +98,10 @@ function formatValidationErrors(errors = []) {
     params: error.params,
   }));
 }
+
+/* ========================================================================== */
+/* D1 STORAGE                                                                 */
+/* ========================================================================== */
 
 async function persistSuggestion(env, suggestion) {
   const id = crypto.randomUUID();
@@ -105,35 +147,51 @@ async function persistSuggestion(env, suggestion) {
     .run();
 
   if (!result.success) {
-    throw new Error("D1 did not confirm the suggestion insertion.");
+    throw new Error(
+      "D1 did not confirm the suggestion insertion.",
+    );
   }
 
   return storedRecord;
 }
 
+/* ========================================================================== */
+/* WORKER                                                                     */
+/* ========================================================================== */
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const origin = request.headers.get("Origin");
-    const originIsAllowed = isAllowedOrigin(origin, env);
+    const origin =
+      request.headers.get("Origin");
+
+    const originIsAllowed =
+      isAllowedOrigin(origin, env);
+
     const corsHeaders = originIsAllowed
       ? createCorsHeaders(origin)
       : new Headers();
 
-    // Reject browser requests explicitly coming from another website.
-    // Requests without an Origin header remain available to PowerShell,
-    // curl, monitoring systems and server-to-server clients.
+    /*
+     * Reject browser requests explicitly coming from another website.
+     *
+     * Requests without an Origin header remain available to PowerShell,
+     * curl, monitoring systems and server-to-server clients.
+     */
     if (origin && !originIsAllowed) {
       return jsonResponse(
         {
           error: "origin_forbidden",
-          message: "This origin is not allowed to use the suggestion API.",
+          message:
+            "This origin is not allowed to use the suggestion API.",
         },
         403,
       );
     }
 
-    // Browser preflight preceding the JSON POST.
+    /*
+     * Browser preflight preceding the JSON POST.
+     */
     if (
       request.method === "OPTIONS" &&
       url.pathname === "/api/suggestions"
@@ -142,7 +200,8 @@ export default {
         return jsonResponse(
           {
             error: "missing_origin",
-            message: "CORS preflight requests must provide an Origin header.",
+            message:
+              "CORS preflight requests must provide an Origin header.",
           },
           403,
         );
@@ -154,30 +213,48 @@ export default {
       });
     }
 
-    if (request.method === "GET" && url.pathname === "/health") {
+    /*
+     * Health endpoint.
+     */
+    if (
+      request.method === "GET" &&
+      url.pathname === "/health"
+    ) {
       return jsonResponse(
         {
           status: "ok",
-          service: "architectural-geometry-suggestions",
+          service:
+            "architectural-geometry-suggestions",
           environment: env.ENVIRONMENT,
           storage: "d1",
+          issueFormatting: "enabled",
+          githubDelivery: "not-configured",
         },
         200,
         corsHeaders,
       );
     }
 
+    /*
+     * Suggestion submission endpoint.
+     */
     if (
       request.method === "POST" &&
       url.pathname === "/api/suggestions"
     ) {
-      const contentType = request.headers.get("Content-Type") ?? "";
+      const contentType =
+        request.headers.get("Content-Type") ?? "";
 
-      if (!contentType.toLowerCase().startsWith("application/json")) {
+      if (
+        !contentType
+          .toLowerCase()
+          .startsWith("application/json")
+      ) {
         return jsonResponse(
           {
             error: "unsupported_media_type",
-            message: "The request body must use application/json.",
+            message:
+              "The request body must use application/json.",
           },
           415,
           corsHeaders,
@@ -192,64 +269,131 @@ export default {
         return jsonResponse(
           {
             error: "invalid_json",
-            message: "The request body is not valid JSON.",
+            message:
+              "The request body is not valid JSON.",
           },
           400,
           corsHeaders,
         );
       }
 
-      const suggestionIsValid = validateSuggestion(suggestion);
+      const suggestionIsValid =
+        validateSuggestion(suggestion);
 
       if (!suggestionIsValid) {
         return jsonResponse(
           {
             error: "invalid_suggestion",
-            message: "The suggestion does not satisfy the content schema.",
-            details: formatValidationErrors(validateSuggestion.errors),
+            message:
+              "The suggestion does not satisfy the content schema.",
+            details: formatValidationErrors(
+              validateSuggestion.errors,
+            ),
           },
           422,
           corsHeaders,
         );
       }
 
-      try {
-        const storedRecord = await persistSuggestion(env, suggestion);
+      /*
+       * First persist the validated suggestion.
+       */
+      let storedRecord;
 
-        return jsonResponse(
-          {
-            persisted: true,
-            id: storedRecord.id,
-            status: storedRecord.status,
-            submittedAt: storedRecord.submittedAt,
-            delivery: storedRecord.delivery,
-          },
-          201,
-          corsHeaders,
+      try {
+        storedRecord = await persistSuggestion(
+          env,
+          suggestion,
         );
       } catch (error) {
-        console.error("Unable to persist the suggestion in D1.", error);
+        console.error(
+          "Unable to persist the suggestion in D1.",
+          error,
+        );
 
         return jsonResponse(
           {
             error: "storage_failure",
-            message: "The suggestion could not be stored.",
+            message:
+              "The suggestion could not be stored.",
           },
           500,
           corsHeaders,
         );
       }
+
+      /*
+       * Then derive the simulated GitHub Issue.
+       *
+       * A formatting failure must not conceal the fact that the
+       * suggestion has already been stored successfully.
+       */
+      let issuePreview;
+
+      try {
+        issuePreview =
+          formatSuggestionAsGitHubIssue(
+            storedRecord,
+          );
+      } catch (error) {
+        console.error(
+          "Unable to format the GitHub Issue preview.",
+          error,
+        );
+
+        return jsonResponse(
+          {
+            error: "issue_formatting_failure",
+            message:
+              `The suggestion was stored with reference ${storedRecord.id}, ` +
+              "but its GitHub Issue preview could not be generated.",
+            persisted: true,
+            id: storedRecord.id,
+            status: storedRecord.status,
+            submittedAt:
+              storedRecord.submittedAt,
+            delivery: storedRecord.delivery,
+            issuePreview: null,
+          },
+          500,
+          corsHeaders,
+        );
+      }
+
+      return jsonResponse(
+        {
+          persisted: true,
+          id: storedRecord.id,
+          status: storedRecord.status,
+          submittedAt:
+            storedRecord.submittedAt,
+          delivery: storedRecord.delivery,
+          issuePreview,
+        },
+        201,
+        corsHeaders,
+      );
     }
 
-    if (url.pathname === "/api/suggestions") {
-      const methodHeaders = new Headers(corsHeaders);
+    /*
+     * Known endpoint, unsupported HTTP method.
+     */
+    if (
+      url.pathname === "/api/suggestions"
+    ) {
+      const methodHeaders =
+        new Headers(corsHeaders);
 
-      methodHeaders.set("Allow", "POST, OPTIONS");
+      methodHeaders.set(
+        "Allow",
+        "POST, OPTIONS",
+      );
 
       return jsonResponse(
         {
           error: "method_not_allowed",
-          message: "This endpoint only accepts POST requests.",
+          message:
+            "This endpoint only accepts POST requests.",
         },
         405,
         methodHeaders,
@@ -259,7 +403,8 @@ export default {
     return jsonResponse(
       {
         error: "not_found",
-        message: "The requested endpoint does not exist.",
+        message:
+          "The requested endpoint does not exist.",
       },
       404,
       corsHeaders,
