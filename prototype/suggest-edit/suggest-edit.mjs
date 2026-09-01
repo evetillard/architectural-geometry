@@ -1,4 +1,47 @@
-function initializeSuggestEdit() {
+function resolveSuggestionConfiguration() {
+  const runtimeConfiguration =
+    globalThis.architecturalGeometrySuggestions ?? {};
+
+  const isLocalSite =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  const suggestionsEnabled =
+    typeof runtimeConfiguration.suggestionsEnabled === "boolean"
+      ? runtimeConfiguration.suggestionsEnabled
+      : isLocalSite;
+
+  const configuredApiUrl =
+    typeof runtimeConfiguration.apiUrl === "string"
+      ? runtimeConfiguration.apiUrl.trim()
+      : "";
+
+  const apiUrl =
+    configuredApiUrl ||
+    (isLocalSite
+      ? "http://127.0.0.1:8788/api/suggestions"
+      : null);
+
+  return Object.freeze({
+    suggestionsEnabled,
+    apiUrl,
+  });
+}
+
+function isValidSuggestionApiUrl(value) {
+  if (typeof value !== "string" || value === "") {
+    return false;
+  }
+
+  try {
+    const url = new URL(value);
+
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+function initializeSuggestEdit(configuration) {
   "use strict";
 
   /* ======================================================================== */
@@ -32,11 +75,9 @@ function initializeSuggestEdit() {
   // Number of contextual characters retained on each side of the selection.
   const contextCharacterLimit = 160;
 
-  // Development API used while the public storage service is not deployed.
-  // Keeping this value in one place will make the production endpoint easy to
-  // substitute later without changing the form logic.
-  const suggestionSubmissionUrl =
-    "http://127.0.0.1:8787/api/suggestions";
+  // The endpoint is supplied by the runtime configuration. The form logic
+  // therefore remains independent from local, staging and production URLs.
+  const suggestionSubmissionUrl = configuration.apiUrl;
 
   /* ======================================================================== */
   /* PROTOTYPE STATE                                                          */
@@ -1862,25 +1903,48 @@ function initializeSuggestEdit() {
 /* ========================================================================== */
 
 function render({ el }) {
-  // Start the global suggestion interface when MyST mounts the site footer.
-  initializeSuggestEdit();
+  const configuration = resolveSuggestionConfiguration();
 
-  // Leave only an invisible diagnostic marker inside the widget itself.
   const marker = document.createElement("span");
   marker.hidden = true;
+
+  if (!configuration.suggestionsEnabled) {
+    window.suggestEditPrototype?.destroy?.();
+
+    marker.setAttribute("data-suggest-edit-loader", "disabled");
+    el.appendChild(marker);
+
+    console.info("[Suggest an edit] Interface disabled by configuration.");
+
+    return () => {};
+  }
+
+  if (!isValidSuggestionApiUrl(configuration.apiUrl)) {
+    window.suggestEditPrototype?.destroy?.();
+
+    marker.setAttribute("data-suggest-edit-loader", "configuration-error");
+    el.appendChild(marker);
+
+    console.error(
+      "[Suggest an edit] Interface enabled without a valid API URL.",
+    );
+
+    return () => {};
+  }
+
+  initializeSuggestEdit(configuration);
+
   marker.setAttribute("data-suggest-edit-loader", "active");
   el.appendChild(marker);
 
-  console.info("[Suggest an edit] Automatic MyST widget active.");
+  console.info(
+    `[Suggest an edit] Automatic MyST widget active: ${configuration.apiUrl}`,
+  );
 
-  // MyST calls this cleanup function when the widget is removed, for example
-  // during client-side navigation. A newly mounted widget will initialize a
-  // fresh interface for the next page.
   return () => {
     window.suggestEditPrototype?.destroy?.();
   };
 }
-
 export default {
   render,
 };

@@ -2,10 +2,49 @@ import validateSuggestion from "./generated/validate-suggestion.mjs";
 
 const JSON_CONTENT_TYPE = "application/json; charset=utf-8";
 
-function jsonResponse(payload, status = 200, additionalHeaders = {}) {
+function isAllowedOrigin(origin, env) {
+  if (!origin) {
+    return false;
+  }
+
+  // During local development, MyST may choose any available port.
+  if (
+    env.ENVIRONMENT === "local" &&
+    /^http:\/\/(?:localhost|127\.0\.0\.1):\d+$/.test(origin)
+  ) {
+    return true;
+  }
+
+  // Staging and production will provide one exact public origin.
+  const configuredOrigin =
+    typeof env.ALLOWED_ORIGIN === "string"
+      ? env.ALLOWED_ORIGIN.trim()
+      : "";
+
+  return configuredOrigin !== "" && origin === configuredOrigin;
+}
+
+function createCorsHeaders(origin) {
+  const headers = new Headers();
+
+  if (!origin) {
+    return headers;
+  }
+
+  headers.set("Access-Control-Allow-Origin", origin);
+  headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+  headers.set("Access-Control-Allow-Headers", "Content-Type");
+  headers.set("Access-Control-Max-Age", "86400");
+  headers.set("Vary", "Origin");
+
+  return headers;
+}
+
+function jsonResponse(payload, status = 200, additionalHeaders = undefined) {
   const headers = new Headers(additionalHeaders);
 
   headers.set("Content-Type", JSON_CONTENT_TYPE);
+  headers.set("Cache-Control", "no-store");
 
   return new Response(`${JSON.stringify(payload, null, 2)}\n`, {
     status,
@@ -75,14 +114,57 @@ async function persistSuggestion(env, suggestion) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const origin = request.headers.get("Origin");
+    const originIsAllowed = isAllowedOrigin(origin, env);
+    const corsHeaders = originIsAllowed
+      ? createCorsHeaders(origin)
+      : new Headers();
+
+    // Reject browser requests explicitly coming from another website.
+    // Requests without an Origin header remain available to PowerShell,
+    // curl, monitoring systems and server-to-server clients.
+    if (origin && !originIsAllowed) {
+      return jsonResponse(
+        {
+          error: "origin_forbidden",
+          message: "This origin is not allowed to use the suggestion API.",
+        },
+        403,
+      );
+    }
+
+    // Browser preflight preceding the JSON POST.
+    if (
+      request.method === "OPTIONS" &&
+      url.pathname === "/api/suggestions"
+    ) {
+      if (!origin) {
+        return jsonResponse(
+          {
+            error: "missing_origin",
+            message: "CORS preflight requests must provide an Origin header.",
+          },
+          403,
+        );
+      }
+
+      return new Response(null, {
+        status: 204,
+        headers: corsHeaders,
+      });
+    }
 
     if (request.method === "GET" && url.pathname === "/health") {
-      return jsonResponse({
-        status: "ok",
-        service: "architectural-geometry-suggestions",
-        environment: env.ENVIRONMENT,
-        storage: "d1",
-      });
+      return jsonResponse(
+        {
+          status: "ok",
+          service: "architectural-geometry-suggestions",
+          environment: env.ENVIRONMENT,
+          storage: "d1",
+        },
+        200,
+        corsHeaders,
+      );
     }
 
     if (
@@ -98,6 +180,7 @@ export default {
             message: "The request body must use application/json.",
           },
           415,
+          corsHeaders,
         );
       }
 
@@ -112,6 +195,7 @@ export default {
             message: "The request body is not valid JSON.",
           },
           400,
+          corsHeaders,
         );
       }
 
@@ -125,6 +209,7 @@ export default {
             details: formatValidationErrors(validateSuggestion.errors),
           },
           422,
+          corsHeaders,
         );
       }
 
@@ -140,6 +225,7 @@ export default {
             delivery: storedRecord.delivery,
           },
           201,
+          corsHeaders,
         );
       } catch (error) {
         console.error("Unable to persist the suggestion in D1.", error);
@@ -150,20 +236,23 @@ export default {
             message: "The suggestion could not be stored.",
           },
           500,
+          corsHeaders,
         );
       }
     }
 
     if (url.pathname === "/api/suggestions") {
+      const methodHeaders = new Headers(corsHeaders);
+
+      methodHeaders.set("Allow", "POST, OPTIONS");
+
       return jsonResponse(
         {
           error: "method_not_allowed",
           message: "This endpoint only accepts POST requests.",
         },
         405,
-        {
-          Allow: "POST",
-        },
+        methodHeaders,
       );
     }
 
@@ -173,6 +262,7 @@ export default {
         message: "The requested endpoint does not exist.",
       },
       404,
+      corsHeaders,
     );
   },
 };
