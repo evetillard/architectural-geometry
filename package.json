@@ -16,7 +16,8 @@
     "dev:github": "concurrently --kill-others-on-fail --names site,storage --prefix-colors cyan,magenta npm:start npm:start:storage:github",
     "retry:suggestions": "node scripts/retry-failed-suggestion.mjs",
     "test:retry-policy": "node scripts/check-suggestion-retry-policy.mjs",
-    "test:retry-service": "node scripts/check-suggestion-retry-service.mjs"
+    "test:retry-service": "node scripts/check-suggestion-retry-service.mjs",
+    "generate:worker-validator": "node scripts/generate-worker-suggestion-validator.mjs"
   },
   "devDependencies": {
     "ajv": "^8.20.0",

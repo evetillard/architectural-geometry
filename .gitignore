@@ -11,3 +11,6 @@ node_modules/
 
 # Local content suggestion storage
 .local-data/
+
+# Cloudflare local development state
+.wrangler/
