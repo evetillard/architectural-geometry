@@ -905,7 +905,7 @@ function initializeSuggestEdit(configuration) {
       return null;
     }
 
-    const currentRoute = normalizeRoutePath(window.location.pathname);
+    const currentRoute = getCurrentProjectRoute();
 
     for (const routeData of Object.values(loaderData)) {
       const page = routeData?.page;
@@ -965,8 +965,37 @@ function initializeSuggestEdit(configuration) {
     return routeCandidates.has(currentRoute);
   }
 
+  function getCurrentProjectRoute() {
+  const modulePathname =
+    new URL(import.meta.url).pathname;
+
+  const buildDirectoryMarker = "/build/";
+  const buildDirectoryIndex =
+    modulePathname.lastIndexOf(buildDirectoryMarker);
+
+  const siteBasePath =
+    buildDirectoryIndex >= 0
+      ? modulePathname.slice(0, buildDirectoryIndex)
+      : "";
+
+  let pagePathname = window.location.pathname;
+
+  if (
+    siteBasePath &&
+    (
+      pagePathname === siteBasePath ||
+      pagePathname.startsWith(`${siteBasePath}/`)
+    )
+  ) {
+    pagePathname =
+      pagePathname.slice(siteBasePath.length) || "/";
+  }
+
+  return normalizeRoutePath(pagePathname);
+}
+
   function resolveSourcePath() {
-    const currentRoute = normalizeRoutePath(window.location.pathname);
+    const currentRoute = getCurrentProjectRoute();
     const remixPage = getCurrentRemixPage();
 
     // Remix may retain the data of the page that originally loaded the app
@@ -1055,7 +1084,7 @@ function initializeSuggestEdit(configuration) {
    * application.
    */
   async function fetchCurrentRoutePage(sourcePath) {
-    const currentRoute = normalizeRoutePath(window.location.pathname);
+    const currentRoute = getCurrentProjectRoute();
     const routeIds =
       currentRoute === "/"
         ? ["routes/_index", "routes/$"]
