@@ -1909,6 +1909,7 @@ function initializeSuggestEdit(configuration) {
 /* MYST ANYWIDGET ENTRY POINT                                                 */
 /* ========================================================================== */
 
+
 function render({ el }) {
   const configuration = resolveSuggestionConfiguration();
 
@@ -1918,10 +1919,15 @@ function render({ el }) {
   if (!configuration.suggestionsEnabled) {
     window.suggestEditPrototype?.destroy?.();
 
-    marker.setAttribute("data-suggest-edit-loader", "disabled");
+    marker.setAttribute(
+      "data-suggest-edit-loader",
+      "disabled",
+    );
     el.appendChild(marker);
 
-    console.info("[Suggest an edit] Interface disabled by configuration.");
+    console.info(
+      "[Suggest an edit] Interface disabled by configuration.",
+    );
 
     return () => {};
   }
@@ -1929,7 +1935,10 @@ function render({ el }) {
   if (!isValidSuggestionApiUrl(configuration.apiUrl)) {
     window.suggestEditPrototype?.destroy?.();
 
-    marker.setAttribute("data-suggest-edit-loader", "configuration-error");
+    marker.setAttribute(
+      "data-suggest-edit-loader",
+      "configuration-error",
+    );
     el.appendChild(marker);
 
     console.error(
@@ -1941,7 +1950,15 @@ function render({ el }) {
 
   initializeSuggestEdit(configuration);
 
-  marker.setAttribute("data-suggest-edit-loader", "active");
+  // Retain the exact instance created by this widget rendering.
+  // An obsolete MyST cleanup must never destroy a newer instance.
+  const prototypeInstance =
+    window.suggestEditPrototype;
+
+  marker.setAttribute(
+    "data-suggest-edit-loader",
+    "active",
+  );
   el.appendChild(marker);
 
   console.info(
@@ -1949,9 +1966,15 @@ function render({ el }) {
   );
 
   return () => {
-    window.suggestEditPrototype?.destroy?.();
+    if (
+      window.suggestEditPrototype ===
+      prototypeInstance
+    ) {
+      prototypeInstance?.destroy?.();
+    }
   };
 }
+
 export default {
   render,
 };
