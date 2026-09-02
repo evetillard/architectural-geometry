@@ -2,14 +2,19 @@ function resolveSuggestionConfiguration() {
   const runtimeConfiguration =
     globalThis.architecturalGeometrySuggestions ?? {};
 
+  const hostname = window.location.hostname;
+
   const isLocalSite =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
+    hostname === "localhost" ||
+    hostname === "127.0.0.1";
+
+  const isForkStagingSite =
+    hostname === "evetillard.github.io";
 
   const suggestionsEnabled =
     typeof runtimeConfiguration.suggestionsEnabled === "boolean"
       ? runtimeConfiguration.suggestionsEnabled
-      : isLocalSite;
+      : isLocalSite || isForkStagingSite;
 
   const configuredApiUrl =
     typeof runtimeConfiguration.apiUrl === "string"
@@ -20,7 +25,9 @@ function resolveSuggestionConfiguration() {
     configuredApiUrl ||
     (isLocalSite
       ? "http://127.0.0.1:8788/api/suggestions"
-      : null);
+      : isForkStagingSite
+        ? "https://architectural-geometry-suggestions-staging.evetillard-ag-staging.workers.dev/api/suggestions"
+        : null);
 
   return Object.freeze({
     suggestionsEnabled,
