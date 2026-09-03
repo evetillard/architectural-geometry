@@ -1153,16 +1153,129 @@ function initializeSuggestEdit(configuration) {
    * application.
    */
   async function fetchCurrentRoutePage(sourcePath) {
+    /*
+     * GitHub Pages serves a completely static website. It does not provide
+     * Remix data endpoints, but every generated HTML page contains its MyST
+     * page information inside the initial __remixContext script.
+     *
+     * Reading that static document gives us the exact SHA-256 fingerprint
+     * even after Remix has removed its bootstrap data from window.
+     */
+    const staticPageUrl = new URL(window.location.href);
+
+    staticPageUrl.hash = "";
+    staticPageUrl.search = "";
+
+    try {
+      const response = await fetch(staticPageUrl, {
+        credentials: "same-origin",
+        cache: "no-store",
+        headers: {
+          Accept: "text/html",
+        },
+      });
+
+      if (response.ok) {
+        const html = await response.text();
+
+        const staticDocument = new DOMParser().parseFromString(
+          html,
+          "text/html",
+        );
+
+        const bootstrapScript = [...staticDocument.scripts].find(
+          (script) =>
+            script.textContent.includes(
+              "window.__remixContext",
+            ),
+        );
+
+        if (bootstrapScript) {
+          const scriptText =
+            bootstrapScript.textContent.trim();
+
+          const assignmentPrefix =
+            /^window\.__remixContext\s*=\s*/;
+
+          if (assignmentPrefix.test(scriptText)) {
+            let serializedContext = scriptText
+              .replace(assignmentPrefix, "")
+              .trim();
+
+            if (serializedContext.endsWith(";")) {
+              serializedContext =
+                serializedContext.slice(0, -1).trim();
+            }
+
+            try {
+              const remixContext =
+                JSON.parse(serializedContext);
+
+              const loaderData =
+                remixContext?.state?.loaderData;
+
+              if (
+                loaderData &&
+                typeof loaderData === "object"
+              ) {
+                for (
+                  const routeData of
+                  Object.values(loaderData)
+                ) {
+                  const pageCandidates = [
+                    routeData?.page,
+                    routeData?.data?.page,
+                  ];
+
+                  for (const page of pageCandidates) {
+                    if (
+                      pageMatchesSourcePath(
+                        page,
+                        sourcePath,
+                      )
+                    ) {
+                      return page;
+                    }
+                  }
+                }
+              }
+            } catch (error) {
+              console.warn(
+                "[Suggest an edit] Unable to read the static MyST page metadata.",
+                error,
+              );
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.warn(
+        "[Suggest an edit] Unable to retrieve the static page metadata.",
+        error,
+      );
+    }
+
+    /*
+     * Keep the Remix data request as a fallback for the local development
+     * server and for any future deployment that supports data endpoints.
+     */
     const currentRoute = getCurrentProjectRoute();
+
     const routeIds =
       currentRoute === "/"
         ? ["routes/_index", "routes/$"]
         : ["routes/$", "routes/_index"];
 
     for (const routeId of routeIds) {
-      const routeDataUrl = new URL(window.location.href);
+      const routeDataUrl = new URL(
+        window.location.href,
+      );
+
       routeDataUrl.hash = "";
-      routeDataUrl.searchParams.set("_data", routeId);
+      routeDataUrl.searchParams.set(
+        "_data",
+        routeId,
+      );
 
       let response;
 
@@ -1182,6 +1295,17 @@ function initializeSuggestEdit(configuration) {
         continue;
       }
 
+      const responseContentType =
+        response.headers.get("Content-Type") ?? "";
+
+      if (
+        !responseContentType
+          .toLowerCase()
+          .includes("application/json")
+      ) {
+        continue;
+      }
+
       let routeData;
 
       try {
@@ -1190,10 +1314,20 @@ function initializeSuggestEdit(configuration) {
         continue;
       }
 
-      const page = routeData?.page ?? routeData?.data?.page ?? null;
+      const pageCandidates = [
+        routeData?.page,
+        routeData?.data?.page,
+      ];
 
-      if (pageMatchesSourcePath(page, sourcePath)) {
-        return page;
+      for (const page of pageCandidates) {
+        if (
+          pageMatchesSourcePath(
+            page,
+            sourcePath,
+          )
+        ) {
+          return page;
+        }
       }
     }
 
