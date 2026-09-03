@@ -961,9 +961,24 @@ function initializeSuggestEdit(configuration) {
     }
   }
 
-  function routeMatchesCurrentPage(routeCandidates, currentRoute) {
-    return routeCandidates.has(currentRoute);
-  }
+  function normalizeRouteForComparison(route) {
+  return normalizeRoutePath(route)
+    .replaceAll("_", "-");
+}
+
+  function routeMatchesCurrentPage(
+    routeCandidates,
+    currentRoute,
+  ) {
+    const normalizedCurrentRoute =
+      normalizeRouteForComparison(currentRoute);
+
+    return [...routeCandidates].some(
+      (routeCandidate) =>
+        normalizeRouteForComparison(routeCandidate) ===
+        normalizedCurrentRoute,
+    );
+  } 
 
   function getCurrentProjectRoute() {
   const modulePathname =
