@@ -1009,7 +1009,61 @@ function initializeSuggestEdit(configuration) {
   return normalizeRoutePath(pagePathname);
 }
 
+  function getSourcePathFromEditLink() {
+    const editLink = document.querySelector(
+      'a.myst-fm-edit-link[href*="/edit/"]',
+    );
+
+    if (!editLink) {
+      return null;
+    }
+
+    try {
+      const editUrl = new URL(editLink.href);
+      const editMarker = "/edit/";
+      const editMarkerIndex =
+        editUrl.pathname.indexOf(editMarker);
+
+      if (editMarkerIndex < 0) {
+        return null;
+      }
+
+    // What follows /edit/ begins with the Git revision,
+    // usually "main", followed by the actual source path.
+      const revisionAndSourcePath =
+        editUrl.pathname.slice(
+          editMarkerIndex + editMarker.length,
+        );
+
+      const firstSlashIndex =
+        revisionAndSourcePath.indexOf("/");
+
+      if (firstSlashIndex < 0) {
+        return null;
+      }
+
+    const sourcePath = decodeURIComponent(
+        revisionAndSourcePath.slice(
+          firstSlashIndex + 1,
+        ),
+      );
+
+      if (!sourcePath.toLowerCase().endsWith(".md")) {
+        return null;
+      }
+
+      return normalizeSourceFilePath(sourcePath);
+    } catch {
+      return null;
+    }
+  }
+
   function resolveSourcePath() {
+    const sourcePathFromEditLink = getSourcePathFromEditLink();
+
+    if (sourcePathFromEditLink) {
+      return sourcePathFromEditLink;
+    }
     const currentRoute = getCurrentProjectRoute();
     const remixPage = getCurrentRemixPage();
 
