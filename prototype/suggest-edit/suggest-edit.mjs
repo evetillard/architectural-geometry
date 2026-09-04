@@ -2,19 +2,14 @@ function resolveSuggestionConfiguration() {
   const runtimeConfiguration =
     globalThis.architecturalGeometrySuggestions ?? {};
 
-  const hostname = window.location.hostname;
-
   const isLocalSite =
-    hostname === "localhost" ||
-    hostname === "127.0.0.1";
-
-  const isForkStagingSite =
-    hostname === "evetillard.github.io";
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
 
   const suggestionsEnabled =
     typeof runtimeConfiguration.suggestionsEnabled === "boolean"
       ? runtimeConfiguration.suggestionsEnabled
-      : isLocalSite || isForkStagingSite;
+      : isLocalSite;
 
   const configuredApiUrl =
     typeof runtimeConfiguration.apiUrl === "string"
@@ -25,9 +20,7 @@ function resolveSuggestionConfiguration() {
     configuredApiUrl ||
     (isLocalSite
       ? "http://127.0.0.1:8788/api/suggestions"
-      : isForkStagingSite
-        ? "https://architectural-geometry-suggestions-staging.evetillard-ag-staging.workers.dev/api/suggestions"
-        : null);
+      : null);
 
   return Object.freeze({
     suggestionsEnabled,
@@ -962,9 +955,9 @@ function initializeSuggestEdit(configuration) {
   }
 
   function normalizeRouteForComparison(route) {
-  return normalizeRoutePath(route)
-    .replaceAll("_", "-");
-}
+    return normalizeRoutePath(route)
+      .replaceAll("_", "-");
+  }
 
   function routeMatchesCurrentPage(
     routeCandidates,
@@ -978,36 +971,36 @@ function initializeSuggestEdit(configuration) {
         normalizeRouteForComparison(routeCandidate) ===
         normalizedCurrentRoute,
     );
-  } 
-
-  function getCurrentProjectRoute() {
-  const modulePathname =
-    new URL(import.meta.url).pathname;
-
-  const buildDirectoryMarker = "/build/";
-  const buildDirectoryIndex =
-    modulePathname.lastIndexOf(buildDirectoryMarker);
-
-  const siteBasePath =
-    buildDirectoryIndex >= 0
-      ? modulePathname.slice(0, buildDirectoryIndex)
-      : "";
-
-  let pagePathname = window.location.pathname;
-
-  if (
-    siteBasePath &&
-    (
-      pagePathname === siteBasePath ||
-      pagePathname.startsWith(`${siteBasePath}/`)
-    )
-  ) {
-    pagePathname =
-      pagePathname.slice(siteBasePath.length) || "/";
   }
 
-  return normalizeRoutePath(pagePathname);
-}
+  function getCurrentProjectRoute() {
+    const modulePathname =
+      new URL(import.meta.url).pathname;
+
+    const buildDirectoryMarker = "/build/";
+    const buildDirectoryIndex =
+      modulePathname.lastIndexOf(buildDirectoryMarker);
+
+    const siteBasePath =
+      buildDirectoryIndex >= 0
+        ? modulePathname.slice(0, buildDirectoryIndex)
+        : "";
+
+    let pagePathname = window.location.pathname;
+
+    if (
+      siteBasePath &&
+      (
+        pagePathname === siteBasePath ||
+        pagePathname.startsWith(`${siteBasePath}/`)
+      )
+    ) {
+      pagePathname =
+        pagePathname.slice(siteBasePath.length) || "/";
+    }
+
+    return normalizeRoutePath(pagePathname);
+  }
 
   function getSourcePathFromEditLink() {
     const editLink = document.querySelector(
@@ -1028,8 +1021,8 @@ function initializeSuggestEdit(configuration) {
         return null;
       }
 
-    // What follows /edit/ begins with the Git revision,
-    // usually "main", followed by the actual source path.
+      // What follows /edit/ begins with the Git revision,
+      // usually "main", followed by the actual source path.
       const revisionAndSourcePath =
         editUrl.pathname.slice(
           editMarkerIndex + editMarker.length,
@@ -1042,7 +1035,7 @@ function initializeSuggestEdit(configuration) {
         return null;
       }
 
-    const sourcePath = decodeURIComponent(
+      const sourcePath = decodeURIComponent(
         revisionAndSourcePath.slice(
           firstSlashIndex + 1,
         ),
@@ -1126,7 +1119,7 @@ function initializeSuggestEdit(configuration) {
     return (
       typeof page?.location === "string" &&
       normalizeSourceFilePath(page.location) ===
-        normalizeSourceFilePath(sourcePath)
+      normalizeSourceFilePath(sourcePath)
     );
   }
 
@@ -1939,7 +1932,7 @@ function initializeSuggestEdit(configuration) {
       if (!response.ok) {
         throw new Error(
           responseBody.message ||
-            `The storage server rejected the request (${response.status}).`,
+          `The storage server rejected the request (${response.status}).`,
         );
       }
 
@@ -2161,7 +2154,7 @@ function render({ el }) {
       "[Suggest an edit] Interface disabled by configuration.",
     );
 
-    return () => {};
+    return () => { };
   }
 
   if (!isValidSuggestionApiUrl(configuration.apiUrl)) {
@@ -2177,7 +2170,7 @@ function render({ el }) {
       "[Suggest an edit] Interface enabled without a valid API URL.",
     );
 
-    return () => {};
+    return () => { };
   }
 
   initializeSuggestEdit(configuration);

@@ -8,7 +8,7 @@ import {
   findExistingGitHubIssueBySuggestionId,
 } from "../lib/content-suggestions/github-issue-duplicates.mjs";
 
-const repository = "evetillard/architectural-geometry";
+const repository = "example-owner/architectural-geometry/architectural-geometry";
 const suggestionId = "11111111-1111-4111-8111-111111111111";
 const marker = createSuggestionIssueMarker(suggestionId);
 

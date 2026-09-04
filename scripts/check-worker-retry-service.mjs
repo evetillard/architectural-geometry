@@ -234,7 +234,7 @@ test("Only due failed records are selected", async () => {
     deliverIssue: async () => ({
       issueNumber: 21,
       issueUrl:
-        "https://github.com/evetillard/architectural-geometry/issues/21",
+        "https://github.com/example-owner/architectural-geometry/architectural-geometry/issues/21",
       reused: false,
     }),
   });
@@ -252,7 +252,7 @@ test("Successful retry is persisted", async () => {
     deliverIssue: async () => ({
       issueNumber: 22,
       issueUrl:
-        "https://github.com/evetillard/architectural-geometry/issues/22",
+        "https://github.com/example-owner/architectural-geometry/architectural-geometry/issues/22",
       reused: false,
     }),
   });
@@ -273,7 +273,7 @@ test("Existing Issue reuse is a successful delivery", async () => {
     deliverIssue: async () => ({
       issueNumber: 23,
       issueUrl:
-        "https://github.com/evetillard/architectural-geometry/issues/23",
+        "https://github.com/example-owner/architectural-geometry/architectural-geometry/issues/23",
       reused: true,
     }),
   });
@@ -339,7 +339,7 @@ test("One delivery failure does not stop later records", async () => {
       return {
         issueNumber: 24,
         issueUrl:
-          "https://github.com/evetillard/architectural-geometry/issues/24",
+          "https://github.com/example-owner/architectural-geometry/architectural-geometry/issues/24",
         reused: false,
       };
     },

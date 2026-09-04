@@ -12,7 +12,7 @@ import {
 
 const GITHUB_API_BASE_URL = "https://api.github.com";
 const GITHUB_API_VERSION = "2022-11-28";
-const STAGING_REPOSITORY = "evetillard/architectural-geometry";
+
 
 function requireText(value, name) {
   if (typeof value !== "string" || !value.trim()) {
@@ -23,18 +23,29 @@ function requireText(value, name) {
 }
 
 function getConfiguredRepository(env) {
-  const repository = `${requireText(
+  const owner = requireText(
     env.GITHUB_REPOSITORY_OWNER,
     "GITHUB_REPOSITORY_OWNER",
-  )}/${requireText(env.GITHUB_REPOSITORY_NAME, "GITHUB_REPOSITORY_NAME")}`;
+  );
 
-  if (repository.toLowerCase() !== STAGING_REPOSITORY.toLowerCase()) {
+  const repositoryName = requireText(
+    env.GITHUB_REPOSITORY_NAME,
+    "GITHUB_REPOSITORY_NAME",
+  );
+
+  const repositoryComponentPattern =
+    /^[A-Za-z0-9._-]+$/u;
+
+  if (
+    !repositoryComponentPattern.test(owner) ||
+    !repositoryComponentPattern.test(repositoryName)
+  ) {
     throw new Error(
-      `Staging delivery is restricted to ${STAGING_REPOSITORY}; received ${repository}.`,
+      "The configured GitHub repository contains invalid characters.",
     );
   }
 
-  return STAGING_REPOSITORY;
+  return `${owner}/${repositoryName}`;
 }
 
 function validateFormattedIssue(issue) {

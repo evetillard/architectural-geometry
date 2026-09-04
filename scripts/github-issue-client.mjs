@@ -17,7 +17,7 @@ import {
 } from "../lib/content-suggestions/github-issue-duplicates.mjs";
 
 export const developmentGitHubRepository =
-  "evetillard/architectural-geometry";
+  String(process.env.GH_REPOSITORY ?? "").trim();
 
 function normalizeRequiredText(value, fieldName) {
   if (typeof value !== "string" || !value.trim()) {
@@ -74,8 +74,14 @@ function validateIssue(issue) {
 }
 
 function validateRepository(repository) {
+  if (!developmentGitHubRepository) {
+    throw new Error(
+      "Refusing to contact GitHub because GH_REPOSITORY is not configured.",
+    );
+  }
+
   const normalizedRepository = normalizeRequiredText(
-    repository,
+    repository || developmentGitHubRepository,
     "repository",
   );
 

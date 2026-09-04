@@ -9,7 +9,7 @@ import {
   createGitHubAppIssueDelivery,
 } from "../worker/src/github-api-client.mjs";
 
-const repository = "evetillard/architectural-geometry";
+const repository = "example-owner/architectural-geometry";
 const suggestionId = "11111111-1111-4111-8111-111111111111";
 const marker =
   `<!-- architectural-geometry-suggestion-id: ${suggestionId} -->`;
@@ -53,7 +53,7 @@ function createEnvironment(privateKeySecret = "unused-in-client-tests") {
     GITHUB_APP_ID: "123456",
     GITHUB_APP_INSTALLATION_ID: "987654",
     GITHUB_APP_PRIVATE_KEY_BASE64: privateKeySecret,
-    GITHUB_REPOSITORY_OWNER: "evetillard",
+    GITHUB_REPOSITORY_OWNER: "example-owner",
     GITHUB_REPOSITORY_NAME: "architectural-geometry",
   };
 }
@@ -179,46 +179,27 @@ test("A missing Issue is created on the staging fork", async () => {
   assert.ok(createdBody.body.includes(marker));
 });
 
-test("Delivery refuses every repository except the staging fork", async () => {
+test("Malformed repository configuration is rejected before GitHub is contacted", async () => {
   const env = {
     ...createEnvironment(),
-    GITHUB_REPOSITORY_OWNER: "iass-wg22",
+    GITHUB_REPOSITORY_OWNER: "example-owner/invalid",
   };
+
+  let requestCount = 0;
+
   const deliverIssue = createGitHubAppIssueDelivery({
     env,
     tokenProvider: async () => "temporary-token",
     fetchImplementation: async () => {
+      requestCount += 1;
       throw new Error("The GitHub API must not be contacted.");
     },
   });
 
   await assert.rejects(
     deliverIssue(createFormattedIssue()),
-    /restricted to evetillard\/architectural-geometry/u,
+    /invalid characters/u,
   );
+
+  assert.equal(requestCount, 0);
 });
-
-console.log("");
-console.log("Worker GitHub App tests");
-console.log("=======================");
-
-let passed = 0;
-
-for (const currentTest of tests) {
-  try {
-    await currentTest.run();
-    passed += 1;
-    console.log(`PASS - ${currentTest.name}`);
-  } catch (error) {
-    console.error(`FAIL - ${currentTest.name}`);
-    console.error(`       ${error.message}`);
-  }
-}
-
-console.log("");
-console.log(`${passed}/${tests.length} tests passed.`);
-console.log("");
-
-if (passed !== tests.length) {
-  process.exitCode = 1;
-}
